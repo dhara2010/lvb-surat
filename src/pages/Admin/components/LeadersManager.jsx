@@ -7,7 +7,7 @@ export default function LeadersManager({ token }) {
 
   const [editingId, setEditingId] = useState(null);
 
-  const loadData = () => fetch('http://localhost:5000/api/leaders').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/leaders').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ export default function LeadersManager({ token }) {
       });
       setEditingId(null);
     } else {
-      await fetch('http://localhost:5000/api/leaders', {
+      await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/leaders', {
         method:'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
         body: JSON.stringify(form)
       });

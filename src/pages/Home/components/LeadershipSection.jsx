@@ -2,26 +2,24 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SlideUp } from '../../../components/animations/SlideUp';
 import { motion } from 'framer-motion';
+import { useFetch } from '../../../hooks/useFetch';
+import { getLeaders } from '../../../api/leadersApi';
 
 export default function LeadershipSection() {
-  const [leaders, setLeaders] = useState([]);
+  const { data: leadersData, loading, error } = useFetch(getLeaders);
+  const leaders = leadersData || [];
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const scrollTimeout = useRef(null);
+  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/leaders')
-      .then(res => res.json())
-      .then(data => setLeaders(data))
-      .catch(console.error);
   }, []);
 
   const handleNext = useCallback(() => {
@@ -177,7 +175,11 @@ export default function LeadershipSection() {
             onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
             onWheel={handleWheel}
           >
-            {leaders.length > 0 ? renderCards() : <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">LOADING LEADERS...</div>}
+            {loading && <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">LOADING LEADERS...</div>}
+            {error && <div className="absolute inset-0 flex items-center justify-center text-red-400 text-sm tracking-widest font-bold">FAILED TO LOAD LEADERS</div>}
+            {!loading && !error && leaders.length === 0 && <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">NO LEADERS AVAILABLE</div>}
+            
+            {leaders.length > 0 ? renderCards() : null}
           </div>
         </SlideUp>
         <SlideUp delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-white">

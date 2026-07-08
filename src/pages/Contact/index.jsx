@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
 import { faqs } from '../../data';
+import { submitContactForm } from '../../api/contactApi';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -20,19 +21,19 @@ export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
     try {
-      await fetch('http://localhost:5000/api/contacts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: `Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
-        })
+      await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: `Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
       });
       setSubmitted(true);
       setTimeout(() => {
@@ -41,6 +42,9 @@ export default function Contact() {
       }, 4000);
     } catch (err) {
       console.error(err);
+      setError(err.message || 'Failed to submit the form.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -268,12 +272,15 @@ export default function Contact() {
                     />
                   </div>
 
+                  {error && <div className="text-red-400 text-sm mt-2">{error}</div>}
+
                   <button
                     type="submit"
-                    className="btn-primary w-full group mt-2 py-4 text-base"
+                    disabled={isSubmitting}
+                    className={`btn-primary w-full group mt-2 py-4 text-base ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                     id="contact-submit"
                   >
-                    Send Message
+                    {isSubmitting ? 'Sending...' : 'Send Message'}
                     <ArrowRight
                       className="w-5 h-5 transition-transform group-hover:translate-x-1"
                       aria-hidden

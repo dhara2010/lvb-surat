@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useFetch } from '../../hooks/useFetch';
+import { getMembers } from '../../api/membersApi';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -21,14 +23,8 @@ const vacantCategories = [
 ];
 
 export default function MembersDirectory() {
-  const [platinumMembers, setPlatinumMembers] = React.useState([]);
-
-  React.useEffect(() => {
-    fetch('http://localhost:5000/api/members')
-      .then(res => res.json())
-      .then(data => setPlatinumMembers(data))
-      .catch(console.error);
-  }, []);
+  const { data: membersData, loading, error } = useFetch(getMembers);
+  const platinumMembers = membersData || [];
 
   return (
     <div className="w-full flex flex-col font-sans overflow-hidden bg-gray-50 pt-28">
@@ -99,7 +95,11 @@ export default function MembersDirectory() {
           <div className="w-24 h-1.5 bg-[#14B8A6] mx-auto rounded-full"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[300px]">
+          {loading && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#0B1F3A]/50 font-bold tracking-widest">LOADING MEMBERS...</div>}
+          {error && <div className="col-span-full py-20 flex flex-col items-center justify-center text-red-500 font-bold tracking-widest">FAILED TO LOAD MEMBERS</div>}
+          {!loading && !error && platinumMembers.length === 0 && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#0B1F3A]/50 font-bold tracking-widest">NO MEMBERS AVAILABLE</div>}
+
           {platinumMembers.map((m, i) => (
             <motion.div
               key={m.id || i}

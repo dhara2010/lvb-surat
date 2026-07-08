@@ -8,6 +8,8 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useFetch } from '../../hooks/useFetch';
+import { getEvents } from '../../api/eventsApi';
 
 const inView = (delay = 0) => ({
   initial:     { opacity: 0, y: 50 },
@@ -22,14 +24,8 @@ const meetingDetails = [
 ];
 
 export default function Meeting() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/events')
-      .then(res => res.json())
-      .then(data => setEvents(data))
-      .catch(console.error);
-  }, []);
+  const { data: eventsData, loading, error } = useFetch(getEvents);
+  const events = eventsData || [];
 
   return (
     <section id="meeting" className="section-white">
@@ -129,7 +125,11 @@ export default function Meeting() {
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 min-h-[300px]">
+            {loading && <div className="col-span-3 flex justify-center items-center text-gray-500 font-bold tracking-widest">LOADING EVENTS...</div>}
+            {error && <div className="col-span-3 flex justify-center items-center text-red-400 font-bold tracking-widest">FAILED TO LOAD EVENTS</div>}
+            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-gray-500 font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
+
             {events.map((ev, i) => (
               <motion.div
                 key={i}

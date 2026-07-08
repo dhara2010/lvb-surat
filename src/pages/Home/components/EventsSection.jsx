@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { SlideUp } from '../../../components/animations/SlideUp';
 import { Calendar, Target } from 'lucide-react';
+import { useFetch } from '../../../hooks/useFetch';
+import { getEvents } from '../../../api/eventsApi';
 
 export default function EventsSection() {
-  const [events, setEvents] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/api/events')
-      .then(res => res.json())
-      .then(data => setEvents(data))
-      .catch(err => console.error(err));
-  }, []);
+  const { data: eventsData, loading, error } = useFetch(getEvents);
+  const events = eventsData || [];
 
   return (
     <div className="py-24">
@@ -20,8 +16,11 @@ export default function EventsSection() {
             Upcoming <span className='text-teal-500'>Events</span>
           </h2>
         </SlideUp>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {events.map((e, i) => (
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 min-h-[300px]">
+          {loading && <div className="col-span-3 flex justify-center items-center text-white/50">Loading Events...</div>}
+          {error && <div className="col-span-3 flex justify-center items-center text-red-400">Failed to load events.</div>}
+          {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-white/50">No events available</div>}
+          {!loading && !error && events.map((e, i) => (
             <SlideUp delay={i * 0.15} key={i}>
               <div className="bg-white/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl border border-white/20 flex flex-col relative group h-full hover:border-[#14B8A6]/50 transition-colors duration-300">
                 {/* Top Image Banner */}

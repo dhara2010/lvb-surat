@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SlideUp } from '../../../components/animations/SlideUp';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useFetch } from '../../../hooks/useFetch';
+import { getGalleryImages } from '../../../api/galleryApi';
 
 export default function GallerySection() {
   const [gallery, setGallery] = useState([]);
@@ -12,15 +14,13 @@ export default function GallerySection() {
   const [touchStartX, setTouchStartX] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  const { data: galleryData, loading, error } = useFetch(getGalleryImages);
+  
   useEffect(() => {
-    fetch('http://localhost:5000/api/gallery')
-      .then(res => res.json())
-      .then(data => {
-        // Map objects { image_url } to array of strings
-        setGallery(data.map(item => item.image_url));
-      })
-      .catch(console.error);
-  }, []);
+    if (galleryData) {
+      setGallery(galleryData.map(item => item.image_url));
+    }
+  }, [galleryData]);
 
   // Responsive Items Per Page
   useEffect(() => {
@@ -136,9 +136,14 @@ export default function GallerySection() {
           </button>
 
           <div className="overflow-hidden mx-auto w-full max-w-[1400px] px-16 xl:px-32">
-            <div className="grid w-full">
-              <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                <motion.div
+            <div className="grid w-full min-h-[300px]">
+              {loading && <div className="absolute inset-0 flex items-center justify-center text-white/50 h-full w-full">Loading gallery...</div>}
+              {error && <div className="absolute inset-0 flex items-center justify-center text-red-400 h-full w-full">Failed to load gallery images.</div>}
+              {!loading && !error && gallery.length === 0 && <div className="absolute inset-0 flex items-center justify-center text-white/50 h-full w-full">No gallery images available</div>}
+              
+              {!loading && !error && gallery.length > 0 && (
+                <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                  <motion.div
                   key={activeIndex}
                   custom={direction}
                   variants={sliderVariants}
@@ -166,6 +171,7 @@ export default function GallerySection() {
                   ))}
                 </motion.div>
               </AnimatePresence>
+              )}
             </div>
           </div>
         </div>

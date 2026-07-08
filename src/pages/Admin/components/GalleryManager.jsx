@@ -7,7 +7,7 @@ export default function GalleryManager({ token }) {
   const [data, setData] = useState([]);
   const [file, setFile] = useState(null);
 
-  const loadData = () => fetch('http://localhost:5000/api/gallery').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/gallery').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleUpload = async (e) => {
@@ -15,7 +15,7 @@ export default function GalleryManager({ token }) {
     if(!file) return alert('Select file');
     const formData = new FormData();
     formData.append('image', file);
-    await fetch('http://localhost:5000/api/gallery', {
+    await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/gallery', {
       method:'POST', headers: {'Authorization': `Bearer ${token}`}, body: formData
     });
     setFile(null);

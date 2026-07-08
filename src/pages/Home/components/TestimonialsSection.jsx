@@ -2,13 +2,21 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { SlideUp } from '../../../components/animations/SlideUp';
 import { ChevronRight, ChevronLeft, Quote, Star } from 'lucide-react';
-import { testimonials } from '../../../data';
+import { useFetch } from '../../../hooks/useFetch';
+import { getTestimonials } from '../../../api/testimonialsApi';
 
 export default function TestimonialsSection() {
-  const [cards, setCards] = useState(testimonials.map((t, i) => ({ ...t, id: i })));
+  const { data: testimonialsData, loading, error } = useFetch(getTestimonials);
+  const [cards, setCards] = useState([]);
   const [moveDir, setMoveDir] = useState('next');
   const [isHovered, setIsHovered] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
+
+  useEffect(() => {
+    if (testimonialsData && testimonialsData.length > 0) {
+      setCards(testimonialsData.map((t, i) => ({ ...t, id: i })));
+    }
+  }, [testimonialsData]);
 
   const moveNext = useCallback(() => {
     setMoveDir('next');
@@ -112,6 +120,10 @@ export default function TestimonialsSection() {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
           >
+            {loading && <div className="absolute inset-0 flex items-center justify-center text-white/50 h-full w-full">Loading testimonials...</div>}
+            {error && <div className="absolute inset-0 flex items-center justify-center text-red-400 h-full w-full">Failed to load testimonials.</div>}
+            {!loading && !error && cards.length === 0 && <div className="absolute inset-0 flex items-center justify-center text-white/50 h-full w-full">No testimonials available</div>}
+            
             {cards.map((card, idx) => {
               const isTop = idx === 0;
               // Safe fallback if more than 4 items are somehow fed, though exactly 4 are guaranteed here
@@ -180,15 +192,15 @@ export default function TestimonialsSection() {
           
           <div className="tabular-nums font-bold text-white tracking-[0.2em] text-sm flex items-center justify-center min-w-[80px]">
             <motion.span
-              key={cards[0].id}
+              key={cards[0]?.id || 0}
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               className="inline-block"
             >
-              {String(cards[0].id + 1).padStart(2, '0')}
+              {cards.length > 0 ? String(cards[0].id + 1).padStart(2, '0') : '00'}
             </motion.span>
             <span className="opacity-40 mx-2">/</span> 
-            <span className="opacity-60">{String(testimonials.length).padStart(2, '0')}</span>
+            <span className="opacity-60">{String(cards.length).padStart(2, '0')}</span>
           </div>
 
           <button 

@@ -7,7 +7,7 @@ export default function EventsManager({ token }) {
 
   const [editingId, setEditingId] = useState(null);
 
-  const loadData = () => fetch('http://localhost:5000/api/events').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ export default function EventsManager({ token }) {
       });
       setEditingId(null);
     } else {
-      await fetch('http://localhost:5000/api/events', {
+      await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events', {
         method:'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
         body: JSON.stringify(form)
       });

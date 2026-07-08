@@ -6,7 +6,7 @@ export default function ContactsManager({ token }) {
   const [data, setData] = useState([]);
   
   useEffect(() => {
-    fetch('http://localhost:5000/api/contacts', { headers: {'Authorization': `Bearer ${token}`} })
+    fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/contacts', { headers: {'Authorization': `Bearer ${token}`} })
       .then(res=>res.json()).then(setData);
   }, [token]);
 

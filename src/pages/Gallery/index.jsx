@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
+import { useFetch } from '../../hooks/useFetch';
+import { getGalleryImages } from '../../api/galleryApi';
 
 export default function Showcase() {
   const [gallery, setGallery] = useState([]);
   const [lightbox, setLightbox] = useState(null);
 
+  const { data: galleryData, loading, error } = useFetch(getGalleryImages);
+
   useEffect(() => {
-    fetch('http://localhost:5000/api/gallery')
-      .then(res => res.json())
-      .then(data => setGallery(data.map(item => item.image_url)))
-      .catch(console.error);
-  }, []);
+    if (galleryData) {
+      setGallery(galleryData.map(item => item.image_url));
+    }
+  }, [galleryData]);
 
   return (
     <section id="showcase" className="section-light">
@@ -39,6 +42,10 @@ export default function Showcase() {
         </motion.div>
 
         {/* ─── Gallery Grid ─────────────────── */}
+        {loading && <div className="py-20 flex justify-center w-full text-gray-500 font-bold tracking-widest">LOADING GALLERY...</div>}
+        {error && <div className="py-20 flex justify-center w-full text-red-400 font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
+        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-gray-500 font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {gallery.map((src, i) => (
             <motion.div
