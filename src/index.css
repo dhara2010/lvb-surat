@@ -1,0 +1,656 @@
+@import "tailwindcss";
+
+/* ════════════════════════════════════════════════════════════
+   LVB SURAT PLATINUM — DESIGN SYSTEM
+   Single source of truth for ALL colors, typography,
+   spacing, shadows, and component styles.
+
+   Mirrors src/theme.js — never hardcode values in components.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   1. CSS CUSTOM PROPERTIES  (consumed by every
+      component via var(--token-name))
+────────────────────────────────────────────── */
+:root {
+  /* Core Brand */
+  --color-primary:        #0B1F3A;   /* Deep Navy            */
+  --color-primary-light:  #1a3a6b;   /* Navy hover           */
+  --color-primary-dark:   #06122A;   /* Navy pressed         */
+  --color-secondary:      #14b8a6;   /* Mint                 */
+  --color-secondary-dark: #0d9488;   /* Mint pressed         */
+  --color-secondary-light:#5eead4;   /* Light mint           */
+  --color-accent:         #5eead4;   /* Light mint           */
+
+  /* Backgrounds */
+  --color-bg:             #FFFFFF;   /* Page white           */
+  --color-bg-alt:         #FAF8F3;   /* Section cream        */
+  --color-bg-dark:        #0B1F3A;   /* Footer / dark CTA    */
+
+  /* Surface / Cards */
+  --color-surface:        #FFFFFF;
+  --color-surface-hover:  #FDF9F0;
+
+  /* Borders */
+  --color-border:         #99f6e4;   /* Light mint           */
+  --color-border-subtle:  #ccfbf1;   /* Very soft mint       */
+
+  /* Typography */
+  --color-heading:        #0B1F3A;   /* Dark navy headings   */
+  --color-body:           #4A5568;   /* Neutral gray body    */
+  --color-muted:          #9CA3AF;   /* Light gray muted     */
+  --color-on-primary:     #FFFFFF;   /* Text on navy         */
+  --color-on-secondary:   #FFFFFF;   /* Text on mint         */
+
+  /* Font Families */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Border Radii */
+  --radius-sm:   0.5rem;    /*  8px */
+  --radius-md:   0.75rem;   /* 12px */
+  --radius-lg:   1rem;      /* 16px */
+  --radius-xl:   1.5rem;    /* 24px */
+  --radius-2xl:  2rem;      /* 32px */
+
+  /* Shadows */
+  --shadow-card:      0 2px 16px 0 rgba(11, 31, 58, 0.06);
+  --shadow-card-hover:0 8px 32px 0 rgba(20, 184, 166, 0.18);
+  --shadow-navbar:    0 2px 20px 0 rgba(11, 31, 58, 0.08);
+  --shadow-btn:       0 4px 14px 0 rgba(20, 184, 166, 0.30);
+  --shadow-btn-hover: 0 6px 20px 0 rgba(20, 184, 166, 0.40);
+  --shadow-lg:        0 16px 48px 0 rgba(11, 31, 58, 0.12);
+}
+
+/* ─────────────────────────────────────────────
+   2. TAILWIND v4 THEME TOKEN MAPPING
+      Lets you use bg-primary, text-secondary, etc.
+      directly as Tailwind utility classes.
+────────────────────────────────────────────── */
+@theme {
+  /* Fonts */
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+
+  /* Brand Colors (accessible as bg-primary, text-primary, etc.) */
+  --color-primary:         #0B1F3A;
+  --color-primary-light:   #1a3a6b;
+  --color-primary-dark:    #06122A;
+  --color-secondary:       #14b8a6;
+  --color-secondary-dark:  #0d9488;
+  --color-secondary-light: #5eead4;
+  --color-accent:          #5eead4;
+
+  /* Backgrounds */
+  --color-bg:              #FFFFFF;
+  --color-bg-alt:          #FAF8F3;
+  --color-bg-dark:         #0B1F3A;
+
+  /* Surface */
+  --color-surface:         #FFFFFF;
+  --color-surface-hover:   #FDF9F0;
+
+  /* Borders */
+  --color-border:          #99f6e4;
+  --color-border-subtle:   #ccfbf1;
+
+  /* Typography */
+  --color-heading:         #0B1F3A;
+  --color-body:            #4A5568;
+  --color-muted:           #9CA3AF;
+  --color-on-primary:      #FFFFFF;
+  --color-on-secondary:    #FFFFFF;
+}
+
+/* ─────────────────────────────────────────────
+   3. BASE / RESET STYLES
+────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Heading defaults — font-family & color always from theme */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-heading);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* Links */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--color-secondary);
+}
+
+/* Focus ring — uses mint accent */
+*:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ─────────────────────────────────────────────
+   4. UTILITY CLASSES — BACKGROUND
+   Never hardcode. Use these class names.
+────────────────────────────────────────────── */
+.bg-primary        { background-color: var(--color-primary) !important; }
+.bg-secondary      { background-color: var(--color-secondary) !important; }
+.bg-accent         { background-color: var(--color-accent) !important; }
+.bg-surface        { background-color: var(--color-surface) !important; }
+.bg-surface-hover  { background-color: var(--color-surface-hover) !important; }
+
+/* Section background helpers */
+.section-white     { background-color: var(--color-bg); }
+.section-light     { background-color: var(--color-bg-alt); }
+.section-dark      { background-color: var(--color-bg-dark); }
+
+/* ─────────────────────────────────────────────
+   5. UTILITY CLASSES — TEXT
+────────────────────────────────────────────── */
+.text-primary      { color: var(--color-primary) !important; }
+.text-secondary    { color: var(--color-secondary) !important; }
+.text-accent       { color: var(--color-accent) !important; }
+.text-heading      { color: var(--color-heading); font-family: var(--font-display); }
+.text-body         { color: var(--color-body); }
+.text-muted        { color: var(--color-muted); }
+.text-on-primary   { color: var(--color-on-primary); }
+.text-on-secondary { color: var(--color-on-secondary); }
+
+.font-display      { font-family: var(--font-display); }
+.font-sans         { font-family: var(--font-sans); }
+
+/* ─────────────────────────────────────────────
+   6. UTILITY CLASSES — BORDERS
+────────────────────────────────────────────── */
+.border-primary    { border-color: var(--color-primary) !important; }
+.border-secondary  { border-color: var(--color-secondary) !important; }
+.border-accent     { border-color: var(--color-accent) !important; }
+.border-theme      { border-color: var(--color-border) !important; }
+.border-subtle     { border-color: var(--color-border-subtle) !important; }
+
+/* ─────────────────────────────────────────────
+   7. BUTTON SYSTEM
+   btn-primary  — Mint filled (hero/CTA)
+   btn-secondary — Navy outlined
+   btn-ghost    — Minimal, for subtle actions
+────────────────────────────────────────────── */
+.btn-primary,
+.btn-platinum {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.5rem;
+  font-family:     var(--font-sans);
+  font-weight:     600;
+  font-size:       0.875rem;
+  letter-spacing:  0.04em;
+  text-transform:  none;
+  padding:         0.75rem 2rem;
+  border-radius:   var(--radius-sm);
+  background-color:var(--color-secondary);
+  color:           var(--color-on-secondary);
+  border:          1.5px solid var(--color-secondary);
+  box-shadow:      var(--shadow-btn);
+  cursor:          pointer;
+  transition:      background-color 0.25s ease,
+                   border-color 0.25s ease,
+                   box-shadow 0.25s ease,
+                   transform 0.2s ease;
+  white-space:     nowrap;
+  text-decoration: none;
+  line-height:     1;
+  user-select:     none;
+}
+.btn-primary:hover,
+.btn-platinum:hover {
+  background-color: var(--color-secondary-dark);
+  border-color:     var(--color-secondary-dark);
+  box-shadow:       var(--shadow-btn-hover);
+  transform:        translateY(-1px);
+}
+.btn-primary:active,
+.btn-platinum:active {
+  transform:  translateY(0);
+  box-shadow: var(--shadow-btn);
+}
+
+.btn-secondary,
+.btn-platinum-outline {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.5rem;
+  font-family:     var(--font-sans);
+  font-weight:     600;
+  font-size:       0.875rem;
+  letter-spacing:  0.04em;
+  padding:         0.75rem 2rem;
+  border-radius:   var(--radius-sm);
+  background-color:transparent;
+  color:           var(--color-primary);
+  border:          1.5px solid var(--color-primary);
+  cursor:          pointer;
+  transition:      background-color 0.25s ease,
+                   border-color 0.25s ease,
+                   color 0.25s ease,
+                   box-shadow 0.25s ease,
+                   transform 0.2s ease;
+  white-space:     nowrap;
+  text-decoration: none;
+  line-height:     1;
+  user-select:     none;
+}
+.btn-secondary:hover,
+.btn-platinum-outline:hover {
+  background-color: var(--color-secondary);
+  border-color:     var(--color-secondary);
+  color:            var(--color-on-secondary);
+  transform:        translateY(-1px);
+  box-shadow:       var(--shadow-btn);
+}
+.btn-secondary:active,
+.btn-platinum-outline:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             0.5rem;
+  font-family:     var(--font-sans);
+  font-weight:     500;
+  font-size:       0.875rem;
+  letter-spacing:  0.03em;
+  padding:         0.625rem 1.25rem;
+  border-radius:   var(--radius-sm);
+  background-color:transparent;
+  color:           var(--color-body);
+  border:          1.5px solid var(--color-border);
+  cursor:          pointer;
+  transition:      all 0.2s ease;
+  text-decoration: none;
+  line-height:     1;
+}
+.btn-ghost:hover {
+  border-color:     var(--color-secondary);
+  color:            var(--color-secondary);
+  background-color: rgba(20, 184, 166, 0.05);
+}
+
+/* ─────────────────────────────────────────────
+   8. CARD SYSTEM
+   card-primary — Standard white card with mint border
+   card-dark    — Navy inverse card
+────────────────────────────────────────────── */
+.card-primary {
+  background-color: var(--color-surface);
+  border:           1px solid var(--color-border);
+  border-radius:    var(--radius-lg);
+  box-shadow:       var(--shadow-card);
+  transition:       box-shadow 0.3s ease,
+                    border-color 0.3s ease,
+                    transform 0.3s ease;
+}
+.card-primary:hover {
+  box-shadow:   var(--shadow-card-hover);
+  border-color: var(--color-secondary);
+  transform:    translateY(-3px);
+}
+
+.card-dark {
+  background-color: var(--color-primary);
+  border:           1px solid rgba(20, 184, 166, 0.2);
+  border-radius:    var(--radius-lg);
+  box-shadow:       var(--shadow-card);
+  transition:       box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-dark:hover {
+  border-color: rgba(20, 184, 166, 0.5);
+  box-shadow:   0 8px 32px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ─────────────────────────────────────────────
+   9. FORM INPUTS
+────────────────────────────────────────────── */
+.input-primary {
+  width:            100%;
+  background-color: var(--color-bg);
+  border:           1.5px solid var(--color-border);
+  border-radius:    var(--radius-sm);
+  padding:          0.75rem 1rem;
+  font-family:      var(--font-sans);
+  font-size:        0.875rem;
+  color:            var(--color-heading);
+  outline:          none;
+  transition:       border-color 0.2s ease, box-shadow 0.2s ease;
+  line-height:      1.5;
+}
+.input-primary::placeholder {
+  color: var(--color-muted);
+}
+.input-primary:focus {
+  border-color: var(--color-secondary);
+  box-shadow:   0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+.input-primary:hover:not(:focus) {
+  border-color: var(--color-border);
+}
+
+/* Select specific reset */
+select.input-primary {
+  appearance: none;
+  cursor:     pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:   no-repeat;
+  background-position: right 0.85rem center;
+  padding-right:       2.5rem;
+}
+
+/* ─────────────────────────────────────────────
+   10. NAVIGATON STYLES
+────────────────────────────────────────────── */
+.navbar {
+  background-color: var(--color-bg);
+  border-bottom:    1px solid var(--color-border-subtle);
+  transition:       box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.navbar.scrolled {
+  box-shadow:   var(--shadow-navbar);
+  border-color: transparent;
+}
+
+.nav-link {
+  position:       relative;
+  font-family:    var(--font-sans);
+  font-size:      0.875rem;
+  font-weight:    500;
+  color:          var(--color-primary);
+  text-decoration:none;
+  padding-bottom: 0.125rem;
+  transition:     color 0.2s ease;
+}
+.nav-link::after {
+  content:          '';
+  position:         absolute;
+  bottom:           -2px;
+  left:             0;
+  width:            0;
+  height:           1.5px;
+  background-color: var(--color-secondary);
+  border-radius:    9999px;
+  transition:       width 0.3s ease;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-secondary);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* ─────────────────────────────────────────────
+   11. TYPOGRAPHY HELPERS
+────────────────────────────────────────────── */
+/* Section eyebrow label */
+.section-label {
+  font-family:     var(--font-sans);
+  font-size:       0.7rem;
+  font-weight:     700;
+  letter-spacing:  0.2em;
+  text-transform:  uppercase;
+  color:           var(--color-secondary);
+}
+
+/* Thin mint divider bar */
+.divider-mint {
+  width:            3rem;
+  height:           2px;
+  background-color: var(--color-secondary);
+  border-radius:    9999px;
+  flex-shrink:      0;
+}
+
+/* Heading sizes — use in JSX className */
+.h-display {
+  font-family:  var(--font-display);
+  font-size:    clamp(2.5rem, 6vw, 5rem);
+  font-weight:  600;
+  line-height:  1.05;
+  color:        var(--color-heading);
+  letter-spacing: -0.02em;
+}
+.h-xl {
+  font-family:  var(--font-display);
+  font-size:    clamp(2rem, 5vw, 3.5rem);
+  font-weight:  600;
+  line-height:  1.1;
+  color:        var(--color-heading);
+}
+.h-lg {
+  font-family:  var(--font-display);
+  font-size:    clamp(1.5rem, 3vw, 2.5rem);
+  font-weight:  600;
+  line-height:  1.15;
+  color:        var(--color-heading);
+}
+.h-md {
+  font-family:  var(--font-display);
+  font-size:    1.25rem;
+  font-weight:  600;
+  color:        var(--color-heading);
+}
+
+/* Mint highlight text */
+.text-mint {
+  color: var(--color-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   12. TABLE SYSTEM
+────────────────────────────────────────────── */
+.table-primary {
+  width:           100%;
+  border-collapse: separate;
+  border-spacing:  0;
+  font-family:     var(--font-sans);
+  font-size:       0.875rem;
+  color:           var(--color-body);
+}
+.table-primary thead tr th {
+  background-color: var(--color-bg-alt);
+  color:            var(--color-heading);
+  font-weight:      600;
+  font-size:        0.75rem;
+  letter-spacing:   0.08em;
+  text-transform:   uppercase;
+  padding:          0.875rem 1rem;
+  border-bottom:    2px solid var(--color-border);
+  text-align:       left;
+}
+.table-primary tbody tr td {
+  padding:          0.875rem 1rem;
+  border-bottom:    1px solid var(--color-border-subtle);
+  transition:       background-color 0.15s ease;
+}
+.table-primary tbody tr:hover td {
+  background-color: var(--color-surface-hover);
+}
+.table-primary tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ─────────────────────────────────────────────
+   13. BADGE / TAG SYSTEM
+────────────────────────────────────────────── */
+.badge {
+  display:          inline-flex;
+  align-items:      center;
+  gap:              0.25rem;
+  font-size:        0.7rem;
+  font-weight:      600;
+  letter-spacing:   0.06em;
+  text-transform:   uppercase;
+  padding:          0.2rem 0.6rem;
+  border-radius:    9999px;
+  border:           1px solid var(--color-border);
+  background-color: var(--color-bg-alt);
+  color:            var(--color-secondary);
+}
+.badge-navy {
+  background-color: var(--color-primary);
+  color:            var(--color-on-primary);
+  border-color:     var(--color-primary);
+}
+.badge-mint {
+  background-color: var(--color-secondary);
+  color:            var(--color-on-secondary);
+  border-color:     var(--color-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   14. ICON HELPERS
+────────────────────────────────────────────── */
+.icon-box {
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  flex-shrink:      0;
+  border-radius:    var(--radius-md);
+  background-color: var(--color-bg-alt);
+  border:           1px solid var(--color-border);
+  color:            var(--color-secondary);
+  transition:       background-color 0.25s ease,
+                    border-color 0.25s ease,
+                    color 0.25s ease;
+}
+.icon-box:hover,
+.group:hover .icon-box {
+  background-color: var(--color-secondary);
+  border-color:     var(--color-secondary);
+  color:            var(--color-on-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   15. SECTION SPACING STANDARDS
+────────────────────────────────────────────── */
+.section-padding {
+  padding-top:    6rem;
+  padding-bottom: 6rem;
+}
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top:    8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+.container-xl {
+  max-width:    80rem;
+  margin-left:  auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right:1.5rem;
+}
+@media (min-width: 768px) {
+  .container-xl {
+    padding-left: 2.5rem;
+    padding-right:2.5rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   16. ANIMATIONS & TRANSITIONS
+────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes pulse-mint {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.mint-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-secondary) 0%,
+    var(--color-accent)    40%,
+    var(--color-secondary) 60%,
+    var(--color-secondary-dark) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ─────────────────────────────────────────────
+   17. SCROLLBAR STYLING (WebKit)
+────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-alt);
+}
+::-webkit-scrollbar-thumb {
+  background:    var(--color-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* ─────────────────────────────────────────────
+   18. SELECTION COLOR
+────────────────────────────────────────────── */
+::selection {
+  background-color: rgba(20, 184, 166, 0.2);
+  color:            var(--color-heading);
+}
+
+/* ─────────────────────────────────────────────
+   19. LEGACY COMPAT ALIASES
+────────────────────────────────────────────── */
+/* These aliases simply point to the new system.
+   Keep them so any old usage still works. */
+.btn-platinum         { /* inherits from .btn-primary above */ }
+.btn-platinum-outline { /* inherits from .btn-secondary above */ }
