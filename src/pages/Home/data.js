@@ -10,27 +10,22 @@ export const pillars = [
   {
     icon: ShieldCheck,
     title: 'Integrity',
-    desc: 'Doing the right thing, always. We hold ourselves to the highest ethical and professional standards.',
   },
   {
     icon: Users,
     title: 'People Development',
-    desc: 'A commitment to continuous learning and elevating our fellow members\' skills and businesses.',
   },
   {
     icon: Handshake,
     title: 'Trust',
-    desc: 'The bedrock of every referral. Built through transparency, reliability, and consistent value delivery.',
   },
   {
     icon: HeartHandshake,
     title: 'Generosity',
-    desc: 'Giving freely without the immediate expectation of return. Elevating the entire network together.',
   },
   {
     icon: Award,
     title: 'Loyalty',
-    desc: 'Standing by our chapter and members. Unwavering dedication to our shared business goals.',
   },
 ];
 

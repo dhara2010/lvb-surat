@@ -40,48 +40,9 @@ export const stats2 = [
   { icon: Award, value: '96%', label: 'Avg Attendance' }
 ];
 
-export const leaders = [
-  { name: 'Pragnesh Kotadiya', role: 'Chapter Director', img: '/pragnesh.jpg' },
-  { name: 'Jenish Vekariya', role: 'President', img: '/jenish.png' },
-  { name: 'Mayur Rakholiya', role: 'Vice President', img: '/mayur-1.png' },
-  { name: 'Rajvi Borad', role: 'Secretary Treasurer', img: '/rajvi.png' },
-  { name: 'Het Radadiya', role: 'Lead Visitor Host', img: '/het.jpeg' },
-];
 
-export const gallery = [
-  "/gallery/1-1.jpeg",
-  "/gallery/10-1.jpeg",
-  "/gallery/11-1.jpeg",
-  "/gallery/12-1.jpeg",
-  "/gallery/13-1.jpeg",
-  "/gallery/14-1.jpeg",
-  "/gallery/15-1.jpeg",
-  "/gallery/16-1.jpeg",
-  "/gallery/17-1.jpeg",
-  "/gallery/18-1-300x197.jpeg",
-  "/gallery/19-1.jpeg",
-  "/gallery/2-1.jpeg",
-  "/gallery/20-1.jpeg",
-  "/gallery/21-1.jpeg",
-  "/gallery/22-1.jpeg",
-  "/gallery/23-1.jpeg",
-  "/gallery/24-1-1024x672.jpeg",
-  "/gallery/25-1.jpeg",
-  "/gallery/26-1.jpeg",
-  "/gallery/27-1.jpeg",
-  "/gallery/28-1.jpeg",
-  "/gallery/29-1.jpeg",
-  "/gallery/3-1.jpeg",
-  "/gallery/30-1.jpeg",
-  "/gallery/31-1.jpeg",
-  "/gallery/4-1.jpeg",
-  "/gallery/5-1.jpeg",
-  "/gallery/6-1.jpeg",
-  "/gallery/7-1.jpeg",
-  "/gallery/8-1-768x504.jpeg",
-  "/gallery/9-1.jpeg",
-  "/gallery/KVS_3369-2048x1365.jpg"
-];
+
+
 
 export const testimonials = [
   {
@@ -102,11 +63,7 @@ export const testimonials = [
   }
 ];
 
-export const events = [
-  { date: '28', month: 'Jun', title: 'Referral & Speed Networking Forum' },
-  { date: '05', month: 'Jul', title: 'Surat Manufacturers Conclave' },
-  { date: '12', month: 'Jul', title: 'Platinum Leadership Seminar' }
-];
+
 
 export const faqs = [
   { q: 'Can anyone join a LVB ?', a: 'Any Businessman can join LVB.' },

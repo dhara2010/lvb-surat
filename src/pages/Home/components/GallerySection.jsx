@@ -3,14 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SlideUp } from '../../../components/animations/SlideUp';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { gallery } from '../../../data';
 
 export default function GallerySection() {
+  const [gallery, setGallery] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/gallery')
+      .then(res => res.json())
+      .then(data => {
+        // Map objects { image_url } to array of strings
+        setGallery(data.map(item => item.image_url));
+      })
+      .catch(console.error);
+  }, []);
 
   // Responsive Items Per Page
   useEffect(() => {
@@ -25,7 +35,7 @@ export default function GallerySection() {
   }, []);
 
   const totalPages = Math.ceil(gallery.length / itemsPerPage);
-  
+
   // Chunk the gallery into arrays of sizes matching itemsPerPage
   const chunkedGallery = [];
   for (let i = 0; i < gallery.length; i += itemsPerPage) {
@@ -93,16 +103,16 @@ export default function GallerySection() {
   };
 
   return (
-    <div className="bg-white py-24 overflow-hidden relative border-b border-gray-100">
+    <div className="py-24 overflow-hidden relative">
       <div className="flex flex-col items-center w-full relative">
         <SlideUp className="container-xl">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#0B1F3A] mb-8 relative text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-8 relative text-center drop-shadow-lg">
             Chapter <span className='text-teal-500'>Gallery</span>
           </h2>
         </SlideUp>
 
         {/* Carousel Area */}
-        <div 
+        <div
           className="w-full relative mt-6 mb-8 group"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
@@ -110,60 +120,60 @@ export default function GallerySection() {
           onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
         >
           {/* Navigation Arrows */}
-          <button 
-            onClick={handlePrev} 
+          <button
+            onClick={handlePrev}
             aria-label="Previous Slide"
             className="absolute left-2 md:left-6 xl:left-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/90 backdrop-blur flex items-center justify-center rounded-full shadow-lg border border-gray-100 hover:bg-gray-50 text-[#0B1F3A] transition hover:scale-105"
           >
-             <ChevronLeft className="w-6 h-6 ml-[-2px]" />
+            <ChevronLeft className="w-6 h-6 ml-[-2px]" />
           </button>
-          <button 
-            onClick={handleNext} 
+          <button
+            onClick={handleNext}
             aria-label="Next Slide"
             className="absolute right-2 md:right-6 xl:right-12 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/90 backdrop-blur flex items-center justify-center rounded-full shadow-lg border border-gray-100 hover:bg-gray-50 text-[#0B1F3A] transition hover:scale-105"
           >
-             <ChevronRight className="w-6 h-6 mr-[-2px]" />
+            <ChevronRight className="w-6 h-6 mr-[-2px]" />
           </button>
-          
+
           <div className="overflow-hidden mx-auto w-full max-w-[1400px] px-16 xl:px-32">
-             <div className="grid w-full">
-               <AnimatePresence initial={false} custom={direction} mode="popLayout">
-                 <motion.div
-                   key={activeIndex}
-                   custom={direction}
-                   variants={sliderVariants}
-                   initial="enter"
-                   animate="center"
-                   exit="exit"
-                   className="col-start-1 row-start-1 flex w-full"
-                 >
-                   {chunkedGallery[activeIndex]?.map((img, i) => (
-                     <div 
-                       key={i} 
-                       className="flex-shrink-0 px-3" 
-                       style={{ width: `${100 / itemsPerPage}%` }}
-                     >
-                        <div className="w-full aspect-video rounded-xl overflow-hidden shadow-sm border border-gray-100 relative group cursor-pointer">
-                           <img 
-                             src={img} 
-                             alt={`Gallery visual ${i + 1}`}
-                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-                             onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
-                           />
-                           <div className="absolute inset-0 bg-[#0B1F3A]/0 group-hover:bg-[#0B1F3A]/20 transition-all duration-300 pointer-events-none"></div>
-                        </div>
-                     </div>
-                   ))}
-                 </motion.div>
-               </AnimatePresence>
-             </div>
+            <div className="grid w-full">
+              <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                <motion.div
+                  key={activeIndex}
+                  custom={direction}
+                  variants={sliderVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="col-start-1 row-start-1 flex w-full"
+                >
+                  {chunkedGallery[activeIndex]?.map((img, i) => (
+                    <div
+                      key={i}
+                      className="flex-shrink-0 px-3"
+                      style={{ width: `${100 / itemsPerPage}%` }}
+                    >
+                      <div className="w-full aspect-video rounded-xl overflow-hidden shadow-sm border border-gray-100 relative group cursor-pointer">
+                        <img
+                          src={img}
+                          alt={`Gallery visual ${i + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+                        />
+                        <div className="absolute inset-0 bg-[#0B1F3A]/0 group-hover:bg-[#0B1F3A]/20 transition-all duration-300 pointer-events-none"></div>
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
         {/* Pagination Dots */}
         <div className="flex justify-center gap-2.5 mb-10 mt-2">
           {Array.from({ length: totalPages }).map((_, i) => (
-            <button 
+            <button
               key={i}
               onClick={() => handleDotClick(i)}
               aria-label={`Go to slide page ${i + 1}`}
@@ -176,7 +186,7 @@ export default function GallerySection() {
         <SlideUp delay={0.1}>
           <Link
             to="/gallery"
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-4 font-semibold text-white shadow-lg transition-all duration-500 hover:shadow-2xl"
+            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-4 font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:border-transparent"
           >
             <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#14b8a6] via-[#0B1F3A] to-[#14b8a6] transition-transform duration-700 group-hover:translate-x-0"></span>
             <span className="relative z-10">View Full Gallery</span>

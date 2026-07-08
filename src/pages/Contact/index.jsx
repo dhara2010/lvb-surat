@@ -1,9 +1,3 @@
-/**
- * ══════════════════════════════════════════
- *  CONTACT — FAQ Accordion + Contact Form
- *  All colors via CSS variable utilities.
- * ══════════════════════════════════════════
- */
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
@@ -25,17 +19,35 @@ const contactDetails = [
 export default function Contact() {
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    try {
+      await fetch('http://localhost:5000/api/contacts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          message: `Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
+        })
+      });
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
+      }, 4000);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <section id="contact" className="section-light">
       <div className="container-xl section-padding flex flex-col gap-20">
-        
+
         {/* ─── Contact Form Layout ──────────── */}
         <div
           className="grid grid-cols-1 lg:grid-cols-2 gap-14 rounded-2xl p-8 md:p-14 section-white"
@@ -46,9 +58,9 @@ export default function Contact() {
         >
           <motion.div {...inView(0)} className="relative flex flex-col justify-center rounded-2xl overflow-hidden p-8 md:p-10 shadow-inner">
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
-              <img 
-                src="/faq.webp" 
-                alt="Contact Background" 
+              <img
+                src="/faq.webp"
+                alt="Contact Background"
                 className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
@@ -141,6 +153,8 @@ export default function Contact() {
                         id="contact-name"
                         type="text"
                         required
+                        value={formData.name}
+                        onChange={(e) => setFormData({...formData, name: e.target.value})}
                         placeholder="Your name"
                         className="input-primary py-3.5"
                       />
@@ -156,6 +170,8 @@ export default function Contact() {
                         id="contact-company"
                         type="text"
                         required
+                        value={formData.company}
+                        onChange={(e) => setFormData({...formData, company: e.target.value})}
                         placeholder="Your company"
                         className="input-primary py-3.5"
                       />
@@ -174,6 +190,8 @@ export default function Contact() {
                         id="contact-phone"
                         type="tel"
                         required
+                        value={formData.phone}
+                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
                         placeholder="+91 XXXXX XXXXX"
                         className="input-primary py-3.5"
                       />
@@ -189,6 +207,8 @@ export default function Contact() {
                         id="contact-email"
                         type="email"
                         required
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
                         placeholder="hello@company.com"
                         className="input-primary py-3.5"
                       />
@@ -207,6 +227,8 @@ export default function Contact() {
                         id="contact-category"
                         type="text"
                         required
+                        value={formData.category}
+                        onChange={(e) => setFormData({...formData, category: e.target.value})}
                         placeholder="e.g. Textiles, Diamonds"
                         className="input-primary py-3.5"
                       />
@@ -221,6 +243,8 @@ export default function Contact() {
                       <input
                         id="contact-referral"
                         type="text"
+                        value={formData.referral}
+                        onChange={(e) => setFormData({...formData, referral: e.target.value})}
                         placeholder="Member Name"
                         className="input-primary py-3.5"
                       />
@@ -237,6 +261,8 @@ export default function Contact() {
                     <textarea
                       id="contact-message"
                       rows="6"
+                      value={formData.message}
+                      onChange={(e) => setFormData({...formData, message: e.target.value})}
                       placeholder="Tell us about your business and exactly what you're looking for from the LVB Surat Platinum chapter..."
                       className="input-primary resize-none p-4"
                     />
@@ -270,13 +296,13 @@ export default function Contact() {
               Find answers to the most common questions about joining our chapter and understanding our weekly referral mechanics.
             </p>
           </motion.div>
-          
+
           <div className="flex flex-col gap-4">
             {faqs.map((faq, i) => {
               const isOpen = openFaq === i;
               return (
-                <motion.div 
-                  key={i} 
+                <motion.div
+                  key={i}
                   {...inView(i * 0.05)}
                   className="rounded-2xl overflow-hidden bg-white"
                   style={{

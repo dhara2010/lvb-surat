@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
-import { gallery } from '../../data';
 
 export default function Showcase() {
+  const [gallery, setGallery] = useState([]);
   const [lightbox, setLightbox] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/gallery')
+      .then(res => res.json())
+      .then(data => setGallery(data.map(item => item.image_url)))
+      .catch(console.error);
+  }, []);
 
   return (
     <section id="showcase" className="section-light">

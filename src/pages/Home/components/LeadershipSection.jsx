@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { leaders } from '../../../data';
 import { SlideUp } from '../../../components/animations/SlideUp';
+import { motion } from 'framer-motion';
 
 export default function LeadershipSection() {
+  const [leaders, setLeaders] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const scrollTimeout = useRef(null);
-
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
@@ -18,13 +17,20 @@ export default function LeadershipSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    fetch('http://localhost:5000/api/leaders')
+      .then(res => res.json())
+      .then(data => setLeaders(data))
+      .catch(console.error);
+  }, []);
+
   const handleNext = useCallback(() => {
     setActiveIndex((prev) => (prev === leaders.length - 1 ? 0 : prev + 1));
-  }, []);
+  }, [leaders.length]);
 
   const handlePrev = useCallback(() => {
     setActiveIndex((prev) => (prev === 0 ? leaders.length - 1 : prev - 1));
-  }, []);
+  }, [leaders.length]);
 
   // Auto-scrolling feature
   useEffect(() => {
@@ -118,10 +124,10 @@ export default function LeadershipSection() {
           className={`cursor-pointer ${isActive ? 'group' : ''}`}
         >
           <div className={`
-            w-[240px] h-[350px] md:w-[320px] md:h-[430px] rounded-[28px] bg-white border border-[#E5E7EB]
-            flex flex-col p-6 transition-all duration-300
-            ${isActive ? 'group-hover:-translate-y-3 shadow-[0_12px_40px_rgba(0,0,0,0.08)] group-hover:shadow-[0_24px_50px_rgba(0,0,0,0.12)]' : 'shadow-sm grayscale filter'}
-          `}>
+              w-[240px] h-[350px] md:w-[320px] md:h-[430px] rounded-[28px] bg-[#0B1F3A]/40 backdrop-blur-md border border-white/20
+              flex flex-col p-6 transition-all duration-300
+              ${isActive ? 'group-hover:-translate-y-3 shadow-[0_12px_40px_rgba(0,0,0,0.2)] group-hover:shadow-[0_24px_50px_rgba(20,184,166,0.3)]' : 'shadow-sm grayscale filter'}
+            `}>
             <div className="w-full h-[55%] md:h-[60%] rounded-[20px] overflow-hidden mb-5">
               <img
                 src={leader.img}
@@ -131,10 +137,10 @@ export default function LeadershipSection() {
               />
             </div>
             <div className="flex flex-col items-center text-center mt-auto">
-              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-[#0B1F3A] group-hover:text-[#14B8A6]' : 'text-gray-400'}`}>
+              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-white group-hover:text-[#14B8A6]' : 'text-gray-400'}`}>
                 {leader.name}
               </h4>
-              <p className="text-gray-500 text-xs md:text-sm mt-1">{leader.role}</p>
+              <p className="text-gray-300 text-xs md:text-sm mt-1">{leader.role}</p>
               {/* Accent Line */}
               <div className={`h-[3px] bg-[#14B8A6] rounded-full transition-all duration-500 ease-out origin-center mt-5 ${isActive ? 'w-6 group-hover:w-16' : 'w-0'}`}></div>
             </div>
@@ -145,33 +151,20 @@ export default function LeadershipSection() {
   };
 
   return (
-    <section className="bg-[#FFFFFF] bg-gradient-to-b from-[#FAFAFA] to-white relative py-24 lg:py-32 overflow-hidden border-t border-gray-100">
-
-      {/* Background Decorators */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-blue-50/40 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[10%] right-[20%] w-[400px] h-[400px] bg-teal-50/40 rounded-full blur-[120px]" />
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      </div>
-
+    <section className="relative min-h-screen overflow-hidden">
       <div className="relative z-10 w-full flex flex-col items-center">
-
-        {/* Section Header */}
-        <div className="flex flex-col items-center text-center max-w-2xl px-6 mb-12 lg:mb-16">
+        <div className="flex flex-col items-center text-center max-w-2xl px-6 mb-12 lg:mb-16 mt-16">
           <SlideUp delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#0B1F3A] tracking-tight leading-[1.1] mb-5">
-              Meet Our Leadership <span className='text-teal-500'>Team</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
+              Meet Our Leadership <span className='text-[#14B8A6]'>Team</span>
             </h2>
           </SlideUp>
           <SlideUp delay={0.2}>
-            <p className="text-gray-500 text-base md:text-lg font-light leading-relaxed max-w-[80%] mx-auto">
+            <p className="text-gray-300 text-base md:text-lg font-light leading-relaxed max-w-[80%] mx-auto">
               Professional leaders committed to building a stronger, more connected business community.
             </p>
           </SlideUp>
         </div>
-
-        {/* Cover Flow Carousel */}
         <SlideUp delay={0.3} className="w-full">
           <div
             className="relative w-full h-[450px] md:h-[550px] flex justify-center items-center touch-pan-y select-none"
@@ -184,12 +177,10 @@ export default function LeadershipSection() {
             onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
             onWheel={handleWheel}
           >
-            {renderCards()}
+            {leaders.length > 0 ? renderCards() : <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">LOADING LEADERS...</div>}
           </div>
         </SlideUp>
-
-        {/* Bottom Navigation */}
-        <SlideUp delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-[#0B1F3A]">
+        <SlideUp delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-white">
           <button
             onClick={handlePrev}
             className={`flex items-center gap-2 font-semibold text-xs md:text-sm uppercase tracking-wider transition-opacity opacity-80 hover:opacity-100 hover:-translate-x-1 transition-all`}

@@ -4,20 +4,20 @@ import { Menu, X, ArrowRight } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 
 const NAV_LINKS = [
-  { label: 'Home',       path: '/'           },
-  { label: 'About Us',   path: '/about'      },
-  { label: 'Events',     path: '/events'     },
-  { label: 'Gallery',    path: '/gallery'    },
-  { label: 'Membership', path: '/membership' },
-  { label: 'Contact',    path: '/contact'    },
+  { label: 'Home', path: '/' },
+  { label: 'About Us', path: '/about' },
+  { label: 'Events', path: '/events' },
+  { label: 'Gallery', path: '/gallery' },
+  { label: 'Members', path: '/members' },
+  { label: 'Contact', path: '/contact' },
 ];
 
-const NAV_HEIGHT = 72; 
+const NAV_HEIGHT = 72;
 
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [mobileOpen,  setMobileOpen]  = useState(false);
-  const [logoError,   setLogoError]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   /* ── Scroll shadow ──────────────── */
@@ -34,7 +34,7 @@ export default function Navbar() {
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
-  
+
   /* ── Close mobile menu on route change ─── */
   useEffect(() => {
     setMobileOpen(false);
@@ -45,7 +45,7 @@ export default function Navbar() {
       <header
         style={{
           backgroundColor: 'var(--color-bg)',
-          boxShadow:  scrolled ? 'var(--shadow-navbar)' : 'none',
+          boxShadow: scrolled ? 'var(--shadow-navbar)' : 'none',
           borderBottom: scrolled ? '1px solid transparent' : '1px solid var(--color-border-subtle)',
           transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
         }}
@@ -138,14 +138,13 @@ export default function Navbar() {
           <div className="hidden md:block shrink-0">
             <Link
               to="/contact"
-              className="btn-primary group text-xs px-5 py-2.5"
-              id="navbar-cta"
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl px-6 py-2 font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:border-transparent"
             >
-              Let's Connect
-              <ArrowRight
-                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5"
-                aria-hidden
-              />
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#14b8a6] via-[#0B1F3A] to-[#14b8a6] transition-transform duration-700 group-hover:translate-x-0"></span>
+              <span className="relative z-10">Let's Connect</span>
+              <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-all duration-500 group-hover:translate-x-1 group-hover:bg-white group-hover:text-[#0B1F3A]">
+                <ArrowRight className="h-4 w-4" strokeWidth={3} />
+              </span>
             </Link>
           </div>
 
@@ -216,10 +215,13 @@ export default function Navbar() {
                 ))}
                 <Link
                   to="/contact"
-                  className="btn-primary w-full justify-center mt-4"
+                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl px-6 py-2 font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:border-transparent"
                 >
-                  Let's Connect
-                  <ArrowRight className="w-4 h-4" aria-hidden />
+                  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#14b8a6] via-[#0B1F3A] to-[#14b8a6] transition-transform duration-700 group-hover:translate-x-0"></span>
+                  <span className="relative z-10">Let's Connect</span>
+                  <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-all duration-500 group-hover:translate-x-1 group-hover:bg-white group-hover:text-[#0B1F3A]">
+                    <ArrowRight className="h-4 w-4" strokeWidth={3} />
+                  </span>
                 </Link>
               </div>
             </motion.div>

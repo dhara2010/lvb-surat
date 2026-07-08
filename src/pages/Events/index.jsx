@@ -4,7 +4,7 @@
  *  All colors via design-system utilities.
  * ══════════════════════════════════════════
  */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -16,30 +16,21 @@ const inView = (delay = 0) => ({
   transition:  { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-const events = [
-  {
-    date: '28', month: 'Jun', year: '2026',
-    title: 'Referral & Speed Networking Forum',
-    desc:  'Accelerated 1-to-1 matchmaking sessions for quick, high-quality category referrals.',
-  },
-  {
-    date: '05', month: 'Jul', year: '2026',
-    title: 'Surat Manufacturers Conclave',
-    desc:  'Panel discussions on automation, supply logistics, and export strategies.',
-  },
-  {
-    date: '12', month: 'Jul', year: '2026',
-    title: 'Platinum Leadership Seminar',
-    desc:  'Corporate scaling keynotes led by national industry directors and chapter veterans.',
-  },
-];
-
 const meetingDetails = [
   { icon: Calendar, label: 'Every Wednesday',      sub: '7:30 AM – 9:30 AM IST' },
   { icon: MapPin,   label: 'Premium Venue, Surat', sub: '5-Star Hotel, Grand Ballroom' },
 ];
 
 export default function Meeting() {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/events')
+      .then(res => res.json())
+      .then(data => setEvents(data))
+      .catch(console.error);
+  }, []);
+
   return (
     <section id="meeting" className="section-white">
       <div className="container-xl section-padding flex flex-col gap-20">

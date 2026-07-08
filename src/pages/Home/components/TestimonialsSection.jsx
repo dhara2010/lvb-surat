@@ -79,7 +79,7 @@ export default function TestimonialsSection() {
   });
 
   return (
-    <div className="bg-[#FAFAFA] relative py-24 lg:py-32 overflow-hidden border-y border-gray-100">
+    <div className="relative py-24 lg:py-32 overflow-hidden ">
       {/* Background Decorators */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-gradient-to-b from-[#14B8A6]/5 to-transparent rounded-full blur-[100px]" />
@@ -92,12 +92,12 @@ export default function TestimonialsSection() {
         {/* Header */}
         <div className="flex flex-col items-center text-center max-w-2xl mx-auto mb-16 px-4">
           <SlideUp delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-[#0B1F3A] tracking-tight leading-[1.1] mb-5">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-5 drop-shadow-md">
               What Our <span className="text-[#14B8A6]">Members</span> Say
             </h2>
           </SlideUp>
           <SlideUp delay={0.2}>
-            <p className="text-gray-500 text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed drop-shadow-sm">
               Real experiences from our trusted business community.
             </p>
           </SlideUp>
@@ -125,7 +125,7 @@ export default function TestimonialsSection() {
                   initial={false}
                   className="absolute top-0 left-0 w-full h-full p-4 md:p-0"
                 >
-                  <div className={`w-full h-full bg-white rounded-[30px] p-8 md:p-10 border border-gray-100 flex flex-col justify-between transition-all duration-300 ${isTop ? 'shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_50px_rgb(0,0,0,0.12)] hover:-translate-y-2 group cursor-grab active:cursor-grabbing' : 'shadow-sm pointer-events-none'}`}>
+                  <div className={`w-full h-full bg-[#0B1F3A]/40 backdrop-blur-xl rounded-[30px] p-8 md:p-10 border border-white/20 flex flex-col justify-between transition-all duration-300 ${isTop ? 'shadow-2xl hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] hover:bg-[#0B1F3A]/60 hover:border-[#14B8A6]/50 hover:-translate-y-2 group cursor-grab active:cursor-grabbing' : 'shadow-md pointer-events-none'}`}>
                     
                     {/* Top Row: Stars and Quote */}
                     <div className="flex justify-between items-start mb-6">
@@ -134,17 +134,17 @@ export default function TestimonialsSection() {
                           <Star key={s} className={`w-4 h-4 md:w-5 md:h-5 ${isTop ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
                         ))}
                       </div>
-                      <Quote className={`w-10 h-10 md:w-12 md:h-12 transition-colors duration-300 ${isTop ? 'text-gray-100 group-hover:text-[#14B8A6]/20' : 'text-gray-50'}`} />
+                      <Quote className={`w-10 h-10 md:w-12 md:h-12 transition-colors duration-300 ${isTop ? 'text-white/20 group-hover:text-[#14B8A6]/40' : 'text-white/5'}`} />
                     </div>
 
                     {/* Testimonial Text */}
-                    <p className={`text-base md:text-lg font-medium leading-relaxed italic flex-grow ${isTop ? 'text-gray-600' : 'text-gray-400 line-clamp-4 md:line-clamp-none'}`}>
+                    <p className={`text-base md:text-lg font-light leading-relaxed italic flex-grow ${isTop ? 'text-gray-200' : 'text-gray-500 line-clamp-4 md:line-clamp-none'}`}>
                       "{card.text}"
                     </p>
 
                     {/* Member Profile */}
                     <div className="flex items-center gap-4 mt-8">
-                      <div className={`relative overflow-hidden w-12 h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ? 'border-gray-100 group-hover:scale-110' : 'border-gray-50'}`}>
+                      <div className={`relative overflow-hidden w-12 h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ? 'border-white/40 group-hover:border-[#14B8A6] group-hover:scale-110' : 'border-transparent'}`}>
                         <img 
                           src={card.img} 
                           alt={card.name}
@@ -153,7 +153,7 @@ export default function TestimonialsSection() {
                         />
                       </div>
                       <div>
-                        <h4 className={`font-extrabold text-base md:text-lg ${isTop ? 'text-[#0B1F3A]' : 'text-gray-400'}`}>
+                        <h4 className={`font-extrabold text-base md:text-lg ${isTop ? 'text-white' : 'text-gray-500'}`}>
                           {card.name}
                         </h4>
                         <p className={`text-xs md:text-sm font-semibold ${isTop ? 'text-[#14B8A6]' : 'text-gray-400'}`}>
@@ -173,12 +173,12 @@ export default function TestimonialsSection() {
         <SlideUp delay={0.4} className="flex items-center justify-center gap-8 mt-12 md:mt-16 w-full max-w-[700px]">
           <button 
             onClick={movePrev} 
-            className="flex items-center gap-2 font-semibold text-gray-400 hover:text-[#0B1F3A] transition-colors md:text-sm text-xs uppercase tracking-wider"
+            className="flex items-center gap-2 font-semibold text-gray-300 hover:text-white transition-colors md:text-sm text-xs uppercase tracking-wider hover:-translate-x-1"
           >
             <ChevronLeft className="w-5 h-5"/> Previous
           </button>
           
-          <div className="tabular-nums font-bold text-[#0B1F3A] tracking-[0.2em] text-sm flex items-center justify-center min-w-[80px]">
+          <div className="tabular-nums font-bold text-white tracking-[0.2em] text-sm flex items-center justify-center min-w-[80px]">
             <motion.span
               key={cards[0].id}
               initial={{ y: 10, opacity: 0 }}
@@ -193,7 +193,7 @@ export default function TestimonialsSection() {
 
           <button 
             onClick={moveNext} 
-            className="flex items-center gap-2 font-semibold text-gray-400 hover:text-[#0B1F3A] transition-colors md:text-sm text-xs uppercase tracking-wider"
+            className="flex items-center gap-2 font-semibold text-gray-300 hover:text-white transition-colors md:text-sm text-xs uppercase tracking-wider hover:translate-x-1"
           >
             Next <ChevronRight className="w-5 h-5"/>
           </button>
