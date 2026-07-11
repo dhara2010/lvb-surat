@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ZoomIn } from 'lucide-react';
 import { useFetch } from '../../hooks/useFetch';
 import { getGalleryImages } from '../../api/galleryApi';
+import PageHeader from '../../components/ui/PageHeader';
 
 export default function Showcase() {
   const [gallery, setGallery] = useState([]);
@@ -18,33 +19,18 @@ export default function Showcase() {
 
   return (
     <section id="showcase" className="section-light">
-      <div className="container-xl section-padding pt-32">
-
-        {/* ─── Section Header ───────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-14"
-        >
-          <span className="section-label block mb-3">Chapter Gallery</span>
-          <h2
-            className="h-lg"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Moments From Our Meetings
-          </h2>
-          <p className="text-body text-sm max-w-xl mt-3">
-            A glimpse inside the premium weekly assemblies, conclaves, and
-            award ceremonies of the Surat Platinum Chapter.
-          </p>
-        </motion.div>
+      <PageHeader 
+        label="Chapter Gallery"
+        title="Moments From Our Meetings"
+        description="A glimpse inside the premium weekly assemblies, conclaves, and award ceremonies of the Surat Platinum Chapter."
+      />
+      
+      <div className="container-xl section-padding pt-0 md:pt-4">
 
         {/* ─── Gallery Grid ─────────────────── */}
-        {loading && <div className="py-20 flex justify-center w-full text-gray-500 font-bold tracking-widest">LOADING GALLERY...</div>}
+        {loading && <div className="py-20 flex justify-center w-full text-[#64748B] font-bold tracking-widest">LOADING GALLERY...</div>}
         {error && <div className="py-20 flex justify-center w-full text-red-400 font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
-        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-gray-500 font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
+        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-[#64748B] font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {gallery.map((src, i) => (

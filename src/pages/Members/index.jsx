@@ -4,6 +4,7 @@ import { Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, Cale
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getMembers } from '../../api/membersApi';
+import PageHeader from '../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -11,8 +12,6 @@ const inView = (delay = 0) => ({
   viewport: { once: true, amount: 0.1 },
   transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
 });
-
-
 
 const vacantCategories = [
   { icon: Diamond, title: 'Diamond Merchant' },
@@ -27,21 +26,22 @@ export default function MembersDirectory() {
   const platinumMembers = membersData || [];
 
   return (
-    <div className="w-full flex flex-col font-sans overflow-hidden bg-gray-50 pt-28">
+    <div className="w-full flex flex-col font-sans overflow-hidden bg-gray-50">
       
+      <PageHeader 
+        label="MEMBERS DIRECTORY"
+        title={<>Relationships That <span className="text-[#0EA5A8]">Grow Business</span></>}
+        description="Meet the elite 50+ professionals forming the core of the Surat Platinum Chapter."
+      />
+
       {/* ─── HERO SECTION ──────────────── */}
-      <section className="relative px-6">
-        <div className="max-w-6xl mx-auto flex flex-col items-center">
-          <motion.h1 
-            {...inView(0)} 
-            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0B1F3A] tracking-tight mb-10 text-center"
-          >
-            Relationships That <span className="text-[#14B8A6]">Grow Business</span>
-          </motion.h1>
+      <section className="relative mt-8 md:mt-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex flex-col items-center">
+
           
           <motion.div {...inView(0.1)} className="w-full rounded-[30px] overflow-hidden shadow-2xl relative">
             {/* Dark gradient overlay for extreme premium cinematic look */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F3A]/60 via-transparent to-transparent z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#044765]/60 via-transparent to-transparent z-10"></div>
             <img 
               src="/gallery/1-1.jpeg" 
               alt="Group Meet" 
@@ -53,31 +53,31 @@ export default function MembersDirectory() {
       </section>
 
       {/* ─── STATS BANNER ──────────────── */}
-      <section className="relative -mt-16 md:-mt-24 z-20 px-4">
-        <div className="max-w-5xl mx-auto">
+      <section className="relative -mt-16 md:-mt-24 z-20">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
           <motion.div 
             {...inView(0.2)} 
-            className="bg-[#0B1F3A] rounded-2xl md:rounded-full p-8 md:p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between text-white border border-white/10 backdrop-blur-xl"
+            className="bg-[#044765] rounded-2xl md:rounded-full p-8 md:p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between text-white border border-white/10 backdrop-blur-xl"
             style={{ backgroundImage: 'linear-gradient(135deg, rgba(20,184,166,0.1), transparent)' }}
           >
             <div className="flex-1 text-center md:text-left md:pl-10 mb-6 md:mb-0 border-b md:border-b-0 border-white/10 pb-6 md:pb-0">
               <h2 className="text-xl md:text-2xl font-bold tracking-tight">LVB Surat Platinum</h2>
-              <p className="text-[#14B8A6] uppercase tracking-widest text-xs font-black mt-1">Chapter</p>
+              <p className="text-[#0EA5A8] uppercase tracking-widest text-xs font-black mt-1">Chapter</p>
             </div>
             
             <div className="flex-1 flex flex-col md:flex-row items-center justify-around w-full border-l border-white/10 md:pl-6 divide-y md:divide-y-0 md:divide-x divide-white/10">
               <div className="flex flex-col items-center py-4 md:py-0 px-6 w-full group">
-                <Users className="text-[#14B8A6] mb-2 group-hover:scale-110 transition-transform" size={24}/>
+                <Users className="text-[#0EA5A8] mb-2 group-hover:scale-110 transition-transform" size={24}/>
                 <span className="text-2xl font-black">50+</span>
                 <span className="text-xs text-blue-200 tracking-wider">Professionals</span>
               </div>
               <div className="flex flex-col items-center py-4 md:py-0 px-6 w-full group">
-                <TrendingUp className="text-[#14B8A6] mb-2 group-hover:scale-110 transition-transform" size={24}/>
+                <TrendingUp className="text-[#0EA5A8] mb-2 group-hover:scale-110 transition-transform" size={24}/>
                 <span className="text-2xl font-black">₹500 Cr+</span>
                 <span className="text-xs text-blue-200 tracking-wider">Business Done</span>
               </div>
               <div className="flex flex-col items-center py-4 md:py-0 px-6 w-full group">
-                <MessageSquare className="text-[#14B8A6] mb-2 group-hover:scale-110 transition-transform" size={24}/>
+                <MessageSquare className="text-[#0EA5A8] mb-2 group-hover:scale-110 transition-transform" size={24}/>
                 <span className="text-2xl font-black">12+</span>
                 <span className="text-xs text-blue-200 tracking-wider">Testimonials</span>
               </div>
@@ -89,31 +89,31 @@ export default function MembersDirectory() {
       {/* ─── GRID SECTION ──────────────── */}
       <section className="py-24 px-6 md:px-10 max-w-7xl mx-auto w-full">
         <motion.div {...inView(0)} className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-[#0B1F3A] mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-black text-[#044765] mb-4 tracking-tight">
             Meet our Platinum Members
           </h2>
-          <div className="w-24 h-1.5 bg-[#14B8A6] mx-auto rounded-full"></div>
+          <div className="w-24 h-1.5 bg-[#0EA5A8] mx-auto rounded-full"></div>
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[300px]">
-          {loading && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#0B1F3A]/50 font-bold tracking-widest">LOADING MEMBERS...</div>}
+          {loading && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#044765]/50 font-bold tracking-widest">LOADING MEMBERS...</div>}
           {error && <div className="col-span-full py-20 flex flex-col items-center justify-center text-red-500 font-bold tracking-widest">FAILED TO LOAD MEMBERS</div>}
-          {!loading && !error && platinumMembers.length === 0 && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#0B1F3A]/50 font-bold tracking-widest">NO MEMBERS AVAILABLE</div>}
+          {!loading && !error && platinumMembers.length === 0 && <div className="col-span-full py-20 flex flex-col items-center justify-center text-[#044765]/50 font-bold tracking-widest">NO MEMBERS AVAILABLE</div>}
 
           {platinumMembers.map((m, i) => (
             <motion.div
               key={m.id || i}
               {...inView((i % 9) * 0.05)}
-              className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#14B8A6] shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
+              className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-[#0EA5A8] shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
             >
               <div className="flex justify-between items-start mb-6">
                 <img 
                   src={m.photoUrl} 
                   alt={m.name} 
-                  className="w-[72px] h-[72px] rounded-2xl object-cover shadow-sm bg-gray-100 group-hover:scale-105 transition-transform"
+                  className="w-[120px] h-[120px] rounded-2xl object-cover shadow-sm bg-gray-100 group-hover:scale-105 transition-transform"
                   onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${m.name}&backgroundColor=0B1F3A&textColor=fff`; }}
                 />
-                <div className="w-[72px] h-[72px] rounded-xl border border-gray-100 p-2 flex items-center justify-center bg-white shadow-sm overflow-hidden">
+                <div className="w-[120px] h-[120px] rounded-xl border border-gray-100 p-2 flex items-center justify-center bg-white shadow-sm overflow-hidden">
                   <img 
                     src={m.logoUrl} 
                     alt="Company Logo" 
@@ -123,17 +123,17 @@ export default function MembersDirectory() {
                 </div>
               </div>
               
-              <div className="flex flex-col mt-auto pb-2 border-b border-gray-100 group-hover:border-[#14B8A6]/30 transition-colors">
-                <h3 className="text-xl font-black text-[#0B1F3A] truncate">{m.name}</h3>
+              <div className="flex flex-col mt-auto pb-2 border-b border-gray-100 group-hover:border-[#0EA5A8]/30 transition-colors">
+                <h3 className="text-xl font-black text-[#044765] truncate">{m.name}</h3>
                 
                 <div className="mt-3 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#14B8A6]"></span>
-                  <span className="uppercase text-xs font-black tracking-widest text-[#14B8A6] truncate">{m.businessName}</span>
+                  <span className="w-1.5 h-1.5 shrink-0 rounded-full bg-[#0EA5A8]"></span>
+                  <span className="uppercase text-xs font-black tracking-widest text-[#0EA5A8] truncate">{m.businessName}</span>
                 </div>
               </div>
               
               <div className="pt-3">
-                <span className="inline-block bg-gray-100 text-gray-700 text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-md group-hover:bg-[#0B1F3A] group-hover:text-white transition-colors">
+                <span className="inline-block bg-gray-100 text-gray-700 text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-md group-hover:bg-[#044765] group-hover:text-white transition-colors">
                   {m.businessCategory}
                 </span>
               </div>
@@ -143,16 +143,16 @@ export default function MembersDirectory() {
       </section>
 
       {/* ─── VACANT CATEGORIES ──────────────── */}
-      <section className="bg-[#0B1F3A] py-20 px-6 mt-10 relative overflow-hidden">
+      <section className="bg-[#044765] py-20 mt-10 relative overflow-hidden">
         {/* Glow Effects */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#14B8A6] rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0EA5A8] rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
         
-        <div className="max-w-6xl mx-auto relative z-10 flex flex-col items-center">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 relative z-10 flex flex-col items-center">
           <motion.div {...inView(0)} className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
               Top Vacant Categories
             </h2>
-            <div className="w-24 h-1.5 bg-[#14B8A6] mx-auto rounded-full"></div>
+            <div className="w-24 h-1.5 bg-[#0EA5A8] mx-auto rounded-full"></div>
             <p className="text-blue-200 mt-6 max-w-lg mx-auto text-sm leading-relaxed">
               We exclusively allow one profession per category. Lock out your competition by filling one of our vacant seats today.
             </p>
@@ -171,7 +171,7 @@ export default function MembersDirectory() {
                   <div className="hidden md:block absolute right-0 top-[20%] bottom-[20%] w-[1px] bg-white/10"></div>
                 )}
                 
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-[#14B8A6] group-hover:bg-[#14B8A6] group-hover:text-white transition-all shadow-lg backdrop-blur-md group-hover:scale-110 group-hover:-translate-y-2">
+                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 text-[#0EA5A8] group-hover:bg-[#0EA5A8] group-hover:text-white transition-all shadow-lg backdrop-blur-md group-hover:scale-110 group-hover:-translate-y-2">
                   <v.icon size={26} strokeWidth={2}/>
                 </div>
                 <h4 className="text-white font-semibold text-center text-sm md:text-base leading-tight max-w-[120px]">
@@ -182,7 +182,7 @@ export default function MembersDirectory() {
           </div>
           
           <motion.div {...inView(0.4)} className="mt-16">
-            <Link to="/contact" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-3.5 font-semibold text-[#0B1F3A] bg-white shadow-[0_0_40px_rgba(20,184,166,0.3)] transition-all duration-300 hover:shadow-[0_0_60px_rgba(20,184,166,0.5)]">
+            <Link to="/contact" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full px-8 py-3.5 font-semibold text-[#044765] bg-white shadow-[0_0_40px_rgba(20,184,166,0.3)] transition-all duration-300 hover:shadow-[0_0_60px_rgba(20,184,166,0.5)]">
               <span className="relative z-10">Apply For A Seat</span>
             </Link>
           </motion.div>

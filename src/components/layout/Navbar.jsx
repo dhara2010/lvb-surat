@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { label: 'Contact', path: '/contact' },
 ];
 
-const NAV_HEIGHT = 72;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -53,20 +52,20 @@ export default function Navbar() {
         role="banner"
       >
         <div
-          className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-10"
-          style={{ height: `${NAV_HEIGHT}px` }}
+          className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10"
+          style={{ height: `100px` }}
         >
 
           {/* ── Logo ──────────────────────────── */}
           <Link
             to="/"
-            className="flex items-center gap-2.5 shrink-0 group"
+            className="flex items-center gap-2 shrink-0 group"
             aria-label="LVB Surat Platinum — Homepage"
           >
             {logoError ? (
               <div className="flex items-center gap-2">
                 <div
-                  className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-extrabold tracking-wider"
+                  className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-extrabold tracking-wider"
                   style={{
                     background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
                     color: 'var(--color-secondary)',
@@ -77,13 +76,13 @@ export default function Navbar() {
                 </div>
                 <div className="flex flex-col leading-none">
                   <span
-                    className="font-bold tracking-wider text-sm"
+                    className="font-bold tracking-wider text-xs md:text-sm"
                     style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-sans)' }}
                   >
                     LVB SURAT
                   </span>
                   <span
-                    className="text-[9px] tracking-[0.18em] uppercase mt-0.5"
+                    className="text-[8px] md:text-[9px] tracking-[0.1em] md:tracking-[0.18em] uppercase mt-0.5"
                     style={{ color: 'var(--color-secondary)', fontFamily: 'var(--font-sans)' }}
                   >
                     Platinum Chapter
@@ -94,7 +93,7 @@ export default function Navbar() {
               <img
                 src="/LVB_Platinum.png"
                 alt="LVB Surat Platinum"
-                className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                 onError={() => setLogoError(true)}
               />
             )}
@@ -102,7 +101,7 @@ export default function Navbar() {
 
           {/* ── Desktop Navigation ───────────── */}
           <nav
-            className="hidden md:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-2 xl:gap-4"
             aria-label="Primary navigation"
           >
             {NAV_LINKS.map((link) => (
@@ -110,7 +109,7 @@ export default function Navbar() {
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) => `
-                  relative px-3 py-2 rounded-sm text-sm font-medium tracking-wide transition-colors duration-200
+                  relative px-2 xl:px-3 py-2 rounded-sm text-sm xl:text-base font-semibold tracking-wide transition-colors duration-200
                   ${isActive ? 'active' : ''}
                 `}
                 style={({ isActive }) => ({
@@ -122,7 +121,7 @@ export default function Navbar() {
                     {link.label}
                     {/* Animated underline */}
                     <motion.span
-                      className="absolute -bottom-0.5 left-0 h-[1.5px] rounded-full"
+                      className="absolute -bottom-0.5 left-0 h-[2px] rounded-full"
                       style={{ backgroundColor: 'var(--color-secondary)' }}
                       initial={false}
                       animate={{ width: isActive ? '100%' : '0%' }}
@@ -135,23 +134,20 @@ export default function Navbar() {
           </nav>
 
           {/* ── Desktop CTA ──────────────────── */}
-          <div className="hidden md:block shrink-0">
+          <div className="hidden lg:block shrink-0">
             <Link
               to="/contact"
-              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl px-6 py-2 font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:border-transparent"
+              className="group relative inline-flex items-center gap-2 xl:gap-3 overflow-hidden rounded-full px-5 py-2.5 text-sm xl:text-base font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-xl hover:border-transparent"
             >
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#14b8a6] via-[#0B1F3A] to-[#14b8a6] transition-transform duration-700 group-hover:translate-x-0"></span>
-              <span className="relative z-10">Let's Connect</span>
-              <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-all duration-500 group-hover:translate-x-1 group-hover:bg-white group-hover:text-[#0B1F3A]">
-                <ArrowRight className="h-4 w-4" strokeWidth={3} />
-              </span>
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#0EA5A8] via-[#044765] to-[#0EA5A8] transition-transform duration-700 group-hover:translate-x-0"></span>
+              <span className="relative z-10 w-full text-center">Let's Connect</span>
             </Link>
           </div>
 
           {/* ── Mobile Hamburger ─────────────── */}
           <button
             onClick={() => setMobileOpen((o) => !o)}
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200"
+            className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200"
             style={{
               borderColor: mobileOpen ? 'var(--color-secondary)' : 'var(--color-border)',
               color: mobileOpen ? 'var(--color-secondary)' : 'var(--color-primary)',
@@ -187,14 +183,14 @@ export default function Navbar() {
                 borderTop: '1px solid var(--color-border-subtle)',
                 overflow: 'hidden',
               }}
-              className="md:hidden"
+              className="lg:hidden"
             >
-              <div className="px-6 pb-6 pt-4 flex flex-col gap-1">
+              <div className="px-5 pb-6 pt-2 flex flex-col gap-1 max-h-[75vh] overflow-y-auto">
                 {NAV_LINKS.map((link) => (
                   <NavLink
                     key={link.path}
                     to={link.path}
-                    className="flex items-center justify-between py-3 text-sm font-medium border-b transition-colors"
+                    className="flex items-center justify-between py-3 text-base sm:text-lg font-medium border-b transition-colors"
                     style={({ isActive }) => ({
                       color: isActive ? 'var(--color-secondary)' : 'var(--color-primary)',
                       borderColor: 'var(--color-border-subtle)',
@@ -213,15 +209,8 @@ export default function Navbar() {
                     )}
                   </NavLink>
                 ))}
-                <Link
-                  to="/contact"
-                  className="group relative inline-flex items-center gap-3 overflow-hidden rounded-xl px-6 py-2 font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-2xl hover:border-transparent"
-                >
-                  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#14b8a6] via-[#0B1F3A] to-[#14b8a6] transition-transform duration-700 group-hover:translate-x-0"></span>
-                  <span className="relative z-10">Let's Connect</span>
-                  <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition-all duration-500 group-hover:translate-x-1 group-hover:bg-white group-hover:text-[#0B1F3A]">
-                    <ArrowRight className="h-4 w-4" strokeWidth={3} />
-                  </span>
+                <Link to="/contact" className="mt-6 flex justify-center w-full max-w-[300px] mx-auto items-center overflow-hidden rounded-full px-4 py-3 font-semibold text-white bg-[#044765] shadow-lg transition-transform active:scale-95">
+                  <span className="text-white">Let's Connect</span>
                 </Link>
               </div>
             </motion.div>

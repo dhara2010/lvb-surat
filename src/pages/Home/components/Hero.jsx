@@ -5,21 +5,21 @@
 
   export default function Hero() {
     return (
-      <div className="relative w-full h-[100vh] min-h-[900px] flex items-center overflow-hidden bg-[#0a0f16]">
-        <motion.div
-          className="absolute inset-0"
-          initial={{ scale: 1.05 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 15, ease: "easeOut", repeat: Infinity, repeatType: "reverse" }}
-        >
-          <img
-            src="/KVS_3369-2048x1365.jpg"
-            alt="LVB Surat Platinum Background"
-            className="w-full h-full object-cover object-center"
-            onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+      <div className="relative w-full h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#061826]">
+        {/* Background Video */}
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            src="/hero_video.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center pointer-events-none"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#081321]/80 via-[#081321]/45 to-black/20"></div>
-        </motion.div>
+          {/* Dark Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#061826]/80 via-[#061826]/50 to-[#061826]/90"></div>
+        </div>
       </div>
     );
   }

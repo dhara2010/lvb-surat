@@ -14,33 +14,34 @@
 ────────────────────────────────────────────── */
 :root {
   /* Core Brand */
-  --color-primary:        #0B1F3A;   /* Deep Navy            */
-  --color-primary-light:  #1a3a6b;   /* Navy hover           */
-  --color-primary-dark:   #06122A;   /* Navy pressed         */
-  --color-secondary:      #14b8a6;   /* Mint                 */
-  --color-secondary-dark: #0d9488;   /* Mint pressed         */
-  --color-secondary-light:#5eead4;   /* Light mint           */
-  --color-accent:         #5eead4;   /* Light mint           */
+  --color-primary:        #044765;   /* Deep Ocean Blue      */
+  --color-primary-light:  #03627D;   /* Blue hover           */
+  --color-primary-dark:   #02354a;   /* Blue pressed         */
+  --color-secondary:      #0EA5A8;   /* Modern Teal          */
+  --color-secondary-dark: #087F83;   /* Teal pressed         */
+  --color-secondary-light:#52cdd0;   /* Light Teal           */
+  --color-accent:         #0EA5A8;   /* Modern Teal          */
+  --color-dark:           #061826;   /* Dark Theme           */
 
   /* Backgrounds */
   --color-bg:             #FFFFFF;   /* Page white           */
-  --color-bg-alt:         #FAF8F3;   /* Section cream        */
-  --color-bg-dark:        #0B1F3A;   /* Footer / dark CTA    */
+  --color-bg-alt:         #F4F8FA;   /* Light Background     */
+  --color-bg-dark:        #061826;   /* Navbar / Footer      */
 
   /* Surface / Cards */
   --color-surface:        #FFFFFF;
-  --color-surface-hover:  #FDF9F0;
+  --color-surface-hover:  #F4F8FA;
 
   /* Borders */
-  --color-border:         #99f6e4;   /* Light mint           */
-  --color-border-subtle:  #ccfbf1;   /* Very soft mint       */
+  --color-border:         #D9E6EC;   /* Subtle deviders      */
+  --color-border-subtle:  #eaf1f5;   /* Very soft border     */
 
   /* Typography */
-  --color-heading:        #0B1F3A;   /* Dark navy headings   */
-  --color-body:           #4A5568;   /* Neutral gray body    */
-  --color-muted:          #9CA3AF;   /* Light gray muted     */
-  --color-on-primary:     #FFFFFF;   /* Text on navy         */
-  --color-on-secondary:   #FFFFFF;   /* Text on mint         */
+  --color-heading:        #044765;   /* Deep blue headings   */
+  --color-body:           #1F2937;   /* Neutral body         */
+  --color-muted:          #64748B;   /* Secondary muted      */
+  --color-on-primary:     #FFFFFF;   /* Text on primary      */
+  --color-on-secondary:   #FFFFFF;   /* Text on teal         */
 
   /* Font Families */
   --font-display: 'Cormorant Garamond', Georgia, serif;
@@ -54,18 +55,16 @@
   --radius-2xl:  2rem;      /* 32px */
 
   /* Shadows */
-  --shadow-card:      0 2px 16px 0 rgba(11, 31, 58, 0.06);
-  --shadow-card-hover:0 8px 32px 0 rgba(20, 184, 166, 0.18);
-  --shadow-navbar:    0 2px 20px 0 rgba(11, 31, 58, 0.08);
-  --shadow-btn:       0 4px 14px 0 rgba(20, 184, 166, 0.30);
-  --shadow-btn-hover: 0 6px 20px 0 rgba(20, 184, 166, 0.40);
-  --shadow-lg:        0 16px 48px 0 rgba(11, 31, 58, 0.12);
+  --shadow-card:      0 2px 16px 0 rgba(4, 71, 101, 0.06);
+  --shadow-card-hover:0 8px 32px 0 rgba(4, 71, 101, 0.12);
+  --shadow-navbar:    0 2px 20px 0 rgba(6, 24, 38, 0.15);
+  --shadow-btn:       0 4px 14px 0 rgba(4, 71, 101, 0.25);
+  --shadow-btn-hover: 0 6px 20px 0 rgba(4, 71, 101, 0.35);
+  --shadow-lg:        0 16px 48px 0 rgba(6, 24, 38, 0.12);
 }
 
 /* ─────────────────────────────────────────────
    2. TAILWIND v4 THEME TOKEN MAPPING
-      Lets you use bg-primary, text-secondary, etc.
-      directly as Tailwind utility classes.
 ────────────────────────────────────────────── */
 @theme {
   /* Fonts */
@@ -73,32 +72,33 @@
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-serif:   'Cormorant Garamond', Georgia, serif;
 
-  /* Brand Colors (accessible as bg-primary, text-primary, etc.) */
-  --color-primary:         #0B1F3A;
-  --color-primary-light:   #1a3a6b;
-  --color-primary-dark:    #06122A;
-  --color-secondary:       #14b8a6;
-  --color-secondary-dark:  #0d9488;
-  --color-secondary-light: #5eead4;
-  --color-accent:          #5eead4;
+  /* Brand Colors */
+  --color-primary:         #044765;
+  --color-primary-light:   #03627D;
+  --color-primary-dark:    #02354a;
+  --color-secondary:       #0EA5A8;
+  --color-secondary-dark:  #087F83;
+  --color-secondary-light: #52cdd0;
+  --color-accent:          #0EA5A8;
+  --color-dark:            #061826;
 
   /* Backgrounds */
   --color-bg:              #FFFFFF;
-  --color-bg-alt:          #FAF8F3;
-  --color-bg-dark:         #0B1F3A;
+  --color-bg-alt:          #F4F8FA;
+  --color-bg-dark:         #061826;
 
   /* Surface */
   --color-surface:         #FFFFFF;
-  --color-surface-hover:   #FDF9F0;
+  --color-surface-hover:   #F4F8FA;
 
   /* Borders */
-  --color-border:          #99f6e4;
-  --color-border-subtle:   #ccfbf1;
+  --color-border:          #D9E6EC;
+  --color-border-subtle:   #eaf1f5;
 
   /* Typography */
-  --color-heading:         #0B1F3A;
-  --color-body:            #4A5568;
-  --color-muted:           #9CA3AF;
+  --color-heading:         #044765;
+  --color-body:            #1F2937;
+  --color-muted:           #64748B;
   --color-on-primary:      #FFFFFF;
   --color-on-secondary:    #FFFFFF;
 }
@@ -111,6 +111,7 @@
 }
 
 html {
+  font-size: 112.5%; /* Scales base 1rem from 16px to 18px */
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -196,87 +197,99 @@ img {
 
 /* ─────────────────────────────────────────────
    7. BUTTON SYSTEM
-   btn-primary  — Mint filled (hero/CTA)
-   btn-secondary — Navy outlined
+   btn-primary  — Main Ocean Blue Button
+   btn-secondary — Champagne Gold Button
    btn-ghost    — Minimal, for subtle actions
 ────────────────────────────────────────────── */
 .btn-primary,
-.btn-platinum {
-  display:         inline-flex;
-  align-items:     center;
+.btn-platinum,
+.btn-secondary,
+.btn-platinum-outline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  gap:             0.5rem;
-  font-family:     var(--font-sans);
-  font-weight:     600;
-  font-size:       0.875rem;
-  letter-spacing:  0.04em;
-  text-transform:  none;
-  padding:         0.75rem 2rem;
-  border-radius:   var(--radius-sm);
-  background-color:var(--color-secondary);
-  color:           var(--color-on-secondary);
-  border:          1.5px solid var(--color-secondary);
-  box-shadow:      var(--shadow-btn);
-  cursor:          pointer;
-  transition:      background-color 0.25s ease,
-                   border-color 0.25s ease,
-                   box-shadow 0.25s ease,
-                   transform 0.2s ease;
-  white-space:     nowrap;
+  gap: 0.75rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: 1rem 2rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 15px -3px rgba(4, 71, 101, 0.3);
+  transition: all 0.5s ease;
+  z-index: 1;
   text-decoration: none;
-  line-height:     1;
-  user-select:     none;
-}
-.btn-primary:hover,
-.btn-platinum:hover {
-  background-color: var(--color-secondary-dark);
-  border-color:     var(--color-secondary-dark);
-  box-shadow:       var(--shadow-btn-hover);
-  transform:        translateY(-1px);
-}
-.btn-primary:active,
-.btn-platinum:active {
-  transform:  translateY(0);
-  box-shadow: var(--shadow-btn);
+  cursor: pointer;
+  white-space: nowrap;
+  background-color: var(--color-primary);
 }
 
 .btn-secondary,
 .btn-platinum-outline {
-  display:         inline-flex;
-  align-items:     center;
-  justify-content: center;
-  gap:             0.5rem;
-  font-family:     var(--font-sans);
-  font-weight:     600;
-  font-size:       0.875rem;
-  letter-spacing:  0.04em;
-  padding:         0.75rem 2rem;
-  border-radius:   var(--radius-sm);
-  background-color:transparent;
-  color:           var(--color-primary);
-  border:          1.5px solid var(--color-primary);
-  cursor:          pointer;
-  transition:      background-color 0.25s ease,
-                   border-color 0.25s ease,
-                   color 0.25s ease,
-                   box-shadow 0.25s ease,
-                   transform 0.2s ease;
-  white-space:     nowrap;
-  text-decoration: none;
-  line-height:     1;
-  user-select:     none;
+  background-color: var(--color-secondary);
+  box-shadow: 0 10px 15px -3px rgba(14, 165, 168, 0.3);
 }
+
+.btn-primary:hover,
+.btn-platinum:hover,
 .btn-secondary:hover,
 .btn-platinum-outline:hover {
-  background-color: var(--color-secondary);
-  border-color:     var(--color-secondary);
-  color:            var(--color-on-secondary);
-  transform:        translateY(-1px);
-  box-shadow:       var(--shadow-btn);
+  box-shadow: 0 25px 50px -12px rgba(4, 71, 101, 0.5);
+  border-color: transparent;
 }
-.btn-secondary:active,
-.btn-platinum-outline:active {
-  transform: translateY(0);
+
+/* Sliding background */
+.btn-primary::before,
+.btn-platinum::before,
+.btn-secondary::before,
+.btn-platinum-outline::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to right, var(--color-secondary), var(--color-primary), var(--color-secondary));
+  transform: translateX(-100%);
+  transition: transform 0.7s ease;
+  z-index: -1;
+}
+
+.btn-primary:hover::before,
+.btn-platinum:hover::before,
+.btn-secondary:hover::before,
+.btn-platinum-outline:hover::before {
+  transform: translateX(0);
+}
+
+/* Arrow layout */
+.btn-primary::after,
+.btn-platinum::after,
+.btn-secondary::after,
+.btn-platinum-outline::after {
+  content: '';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  transition: all 0.5s ease;
+  flex-shrink: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+}
+
+.btn-primary:hover::after,
+.btn-platinum:hover::after,
+.btn-secondary:hover::after,
+.btn-platinum-outline:hover::after {
+  transform: translateX(4px);
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23044765' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
 }
 
 .btn-ghost {
@@ -306,34 +319,33 @@ img {
 
 /* ─────────────────────────────────────────────
    8. CARD SYSTEM
-   card-primary — Standard white card with mint border
-   card-dark    — Navy inverse card
+   card-primary — Standard white card with subtle border
+   card-dark    — Dark theme card
 ────────────────────────────────────────────── */
 .card-primary {
   background-color: var(--color-surface);
   border:           1px solid var(--color-border);
   border-radius:    var(--radius-lg);
   box-shadow:       var(--shadow-card);
-  transition:       box-shadow 0.3s ease,
-                    border-color 0.3s ease,
-                    transform 0.3s ease;
+  transition:       box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 .card-primary:hover {
   box-shadow:   var(--shadow-card-hover);
-  border-color: var(--color-secondary);
+  border-color: var(--color-primary);
   transform:    translateY(-3px);
 }
 
 .card-dark {
-  background-color: var(--color-primary);
-  border:           1px solid rgba(20, 184, 166, 0.2);
+  background-color: var(--color-dark);
+  border:           1px solid rgba(14, 165, 168, 0.2);
   border-radius:    var(--radius-lg);
   box-shadow:       var(--shadow-card);
+  color:            var(--color-on-dark);
   transition:       box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .card-dark:hover {
-  border-color: rgba(20, 184, 166, 0.5);
-  box-shadow:   0 8px 32px 0 rgba(0, 0, 0, 0.25);
+  border-color: rgba(14, 165, 168, 0.5);
+  box-shadow:   0 8px 32px 0 rgba(0, 0, 0, 0.3);
 }
 
 /* ─────────────────────────────────────────────
@@ -642,7 +654,7 @@ select.input-primary {
    18. SELECTION COLOR
 ────────────────────────────────────────────── */
 ::selection {
-  background-color: rgba(20, 184, 166, 0.2);
+  background-color: rgba(4, 71, 101, 0.2);
   color:            var(--color-heading);
 }
 

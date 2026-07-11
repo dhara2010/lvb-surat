@@ -6,50 +6,50 @@ import { getEvents } from '../../../api/eventsApi';
 
 export default function EventsSection() {
   const { data: eventsData, loading, error } = useFetch(getEvents);
-  const events = eventsData || [];
+  const events = eventsData ? [...eventsData].reverse().slice(0, 3) : [];
 
   return (
-    <div className="py-24">
-      <div className="container-xl">
+    <div className="py-16 md:py-20 lg:py-24">
+      <div className="container-xl px-4 mx-auto w-full max-w-[100vw] overflow-hidden">
         <SlideUp>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-16 text-center md:text-left relative inline-block drop-shadow-lg">
-            Upcoming <span className='text-teal-500'>Events</span>
+          <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 md:mb-12">
+            Upcoming <span className="text-[#0EA5A8]">Events</span>
           </h2>
         </SlideUp>
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 min-h-[300px]">
-          {loading && <div className="col-span-3 flex justify-center items-center text-white/50">Loading Events...</div>}
-          {error && <div className="col-span-3 flex justify-center items-center text-red-400">Failed to load events.</div>}
-          {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-white/50">No events available</div>}
+        <div className="mt-8 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 min-h-[300px] md:min-h-[400px]">
+          {loading && <div className="col-span-full flex justify-center items-center text-white/50 text-sm md:text-base">Loading Events...</div>}
+          {error && <div className="col-span-full flex justify-center items-center text-red-400 text-sm md:text-base">Failed to load events.</div>}
+          {!loading && !error && events.length === 0 && <div className="col-span-full flex justify-center items-center text-white/50 text-sm md:text-base">No events available</div>}
           {!loading && !error && events.map((e, i) => (
-            <SlideUp delay={i * 0.15} key={i}>
-              <div className="bg-white/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl border border-white/20 flex flex-col relative group h-full hover:border-[#14B8A6]/50 transition-colors duration-300">
+            <SlideUp delay={i * 0.15} key={i} className="h-full">
+              <div className="bg-white/40 backdrop-blur-xl rounded-2xl overflow-hidden shadow-xl md:shadow-2xl border border-white/20 flex flex-col relative group h-full hover:border-[#0EA5A8]/50 transition-colors duration-300">
                 {/* Top Image Banner */}
-                <div className="h-44 relative overflow-hidden flex-shrink-0">
+                <div className="h-[200px] sm:h-[240px] md:h-[220px] relative overflow-hidden flex-shrink-0">
                   <img src="/events.png" className="w-full h-full object-cover opacity-30 mix-blend-overlay group-hover:scale-105 transition-transform duration-700" alt="event" />
-                  <div className="absolute top-5 left-5 font-bold text-white tracking-widest text-[11px] uppercase bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/20">
+                  <div className="absolute top-4 left-4 md:top-5 md:left-5 font-bold text-white tracking-widest text-[10px] md:text-[11px] uppercase bg-black/40 px-3 py-1 rounded backdrop-blur-sm border border-white/20">
                     LVB Surat
                   </div>
                 </div>
                 {/* Content */}
-                <div className="flex p-6 relative flex-grow bg-white">
-                  <div className="flex flex-col items-center justify-center -mt-14 bg-[#1a3a6b] shadow-2xl rounded-xl w-16 h-16 border border-[#14B8A6]/40 shrink-0 relative z-10 transition-transform group-hover:-translate-y-1 group-hover:bg-[#14B8A6]">
-                    <span className="text-xl font-extrabold leading-none mb-0.5 text-white">{e.date}</span>
-                    <span className="text-[10px] font-bold uppercase text-teal-200 tracking-wider group-hover:text-white">{e.month}</span>
+                <div className="flex flex-col sm:flex-row p-5 md:p-6 relative flex-grow bg-white items-start sm:items-stretch">
+                  <div className="flex flex-col items-center justify-center -mt-12 sm:-mt-14 bg-[#1a3a6b] shadow-2xl rounded-xl w-14 h-14 sm:w-16 sm:h-16 border border-[#0EA5A8]/40 shrink-0 relative z-10 transition-transform sm:group-hover:-translate-y-1 group-hover:bg-[#0EA5A8] self-start sm:self-auto mb-4 sm:mb-0">
+                    <span className="text-lg sm:text-xl font-extrabold leading-none mb-0.5 text-white">{e.date}</span>
+                    <span className="text-[9px] sm:text-[10px] font-bold uppercase text-[#0EA5A8] tracking-wider group-hover:text-white line-clamp-1">{e.month}</span>
                   </div>
-                  <div className="ml-5 flex flex-col justify-center">
-                    <h3 className="font-extrabold text-lg mb-2.5 leading-snug">{e.title}</h3>
+                  <div className="sm:ml-5 flex flex-col justify-center w-full">
+                    <h3 className="font-extrabold text-base md:text-lg mb-2.5 leading-snug line-clamp-2 md:line-clamp-none">{e.title}</h3>
                     <div className="flex flex-col gap-1.5 mt-auto">
-                      <p className="text-xs font-semibold flex items-center gap-2">
-                        <Calendar className="w-3.5 h-3.5 text-[#14b8a6]" /> Every Wednesday
+                      <p className="text-[11px] md:text-xs font-semibold flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5 shrink-0 text-[#0EA5A8]" /> <span className="line-clamp-1">Every Wednesday</span>
                       </p>
-                      <p className="text-xs font-semibold flex items-center gap-2">
-                        <Target className="w-3.5 h-3.5 text-[#14b8a6]" /> Surat, Gujarat
+                      <p className="text-[11px] md:text-xs font-semibold flex items-center gap-2">
+                        <Target className="w-3.5 h-3.5 shrink-0 text-[#0EA5A8]" /> <span className="line-clamp-1">Surat, Gujarat</span>
                       </p>
                     </div>
                   </div>
                 </div>
                 {/* Hover line indicator */}
-                <div className="w-full h-[3px] bg-[#14b8a6] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                <div className="w-full h-[3px] bg-[#0EA5A8] scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300 mt-auto"></div>
               </div>
             </SlideUp>
           ))}

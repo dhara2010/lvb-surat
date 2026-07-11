@@ -1,11 +1,11 @@
 import React from 'react';
 
 const variants = {
-  primary: 'bg-[#0B1F3A] text-white hover:bg-opacity-90',
-  secondary: 'bg-[#14B8A6] text-white hover:bg-teal-400',
-  outline: 'border-2 border-[#0B1F3A] text-[#0B1F3A] hover:bg-[#0B1F3A] hover:text-white',
-  ghost: 'text-gray-600 hover:bg-gray-100 hover:text-[#0B1F3A]',
-  gradient: 'bg-gradient-to-r from-[#14B8A6] to-[#0B1F3A] text-white hover:shadow-lg'
+  primary: 'bg-[#044765] text-white hover:bg-opacity-90',
+  secondary: 'bg-[#0EA5A8] text-white hover:bg-[#0EA5A8]',
+  outline: 'border-2 border-[#044765] text-[#044765] hover:bg-[#044765] hover:text-white',
+  ghost: 'text-[#1F2937] hover:bg-gray-100 hover:text-[#044765]',
+  gradient: 'bg-gradient-to-r from-[#0EA5A8] to-[#044765] text-white hover:shadow-lg'
 };
 
 const sizes = {

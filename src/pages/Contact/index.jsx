@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
 import { faqs } from '../../data';
 import { submitContactForm } from '../../api/contactApi';
+import PageHeader from '../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -50,7 +51,12 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-light">
-      <div className="container-xl section-padding flex flex-col gap-20">
+      <PageHeader 
+        label="CONTACT US"
+        title="Get In Touch"
+        description="Whether you have questions about membership, upcoming events, or how we operate, our team is ready to answer all your questions."
+      />
+      <div className="container-xl section-padding flex flex-col gap-20 pt-0 md:pt-4">
 
         {/* ─── Contact Form Layout ──────────── */}
         <div
@@ -76,7 +82,7 @@ export default function Contact() {
                 <h2 className="text-white h-lg">Let's Connect</h2>
                 <div className="divider-mint mt-4" />
               </div>
-              <p className="text-teal-500 text-sm leading-relaxed">
+              <p className="text-[#0EA5A8] text-sm leading-relaxed">
                 Interested in joining or visiting our chapter? Fill in the form and
                 we'll confirm your category vacancy and arrange a guest pass within
                 24 hours.
@@ -99,7 +105,7 @@ export default function Contact() {
                         >
                           {d.label}
                         </p>
-                        <p className="text-teal-500 text-xs">{d.sub}</p>
+                        <p className="text-[#0EA5A8] text-xs">{d.sub}</p>
                       </div>
                     </div>
                   );

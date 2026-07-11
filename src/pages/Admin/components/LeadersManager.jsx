@@ -40,35 +40,37 @@ export default function LeadersManager({ token }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 text-white pb-20">
+    <div className="flex flex-col gap-6 pb-20">
       <SectionHeader title="Leadership Directory" desc="Manage active board members appearing in the 3D carousel." />
       
-      <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl">
-        <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 items-end">
-          <InputGroup label="Full Name" placeholder="John Doe" val={form.name} setVal={v => setForm({...form, name: v})} w="flex-1 min-w-[200px]" />
-          <InputGroup label="Position" placeholder="Vice President" val={form.role} setVal={v => setForm({...form, role: v})} w="flex-1 min-w-[150px]" />
-          <FileInputGroup label="Portrait Image URL" placeholder="/members/john.png" val={form.img} setVal={v => setForm({...form, img: v})} token={token} w="flex-1 min-w-[200px]" />
-          <SubmitButton editing={editingId !== null} />
-          {editingId && (
-            <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', role: '', img: '' }); }} className="h-[46px] ml-2 px-6 rounded-xl font-bold uppercase tracking-wider bg-white/10 text-white hover:bg-white/20 transition-all">
-              Cancel
-            </button>
-          )}
+      <div className="bg-white border border-[#D9E6EC] p-6 rounded-2xl shadow-sm">
+        <form onSubmit={handleSubmit} className="flex flex-col md:flex-row flex-wrap gap-4 items-end">
+          <InputGroup label="Full Name" placeholder="John Doe" val={form.name} setVal={v => setForm({...form, name: v})} w="flex-1 w-full" />
+          <InputGroup label="Position" placeholder="Vice President" val={form.role} setVal={v => setForm({...form, role: v})} w="flex-1 w-full" />
+          <FileInputGroup label="Portrait Image URL" placeholder="/members/john.png" val={form.img} setVal={v => setForm({...form, img: v})} token={token} w="flex-1 w-full" />
+          <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+            <SubmitButton editing={editingId !== null} />
+            {editingId && (
+              <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', role: '', img: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-[#64748B] hover:bg-gray-200 transition-all flex-1 md:flex-none">
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
       <PremiumTable 
         headers={['Portrait', 'Officer Details', 'Position', 'Action']}
         rows={data.map(d => (
-          <tr key={d.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-            <td className="p-5 w-24">
-              <div className="w-12 h-12 rounded-xl bg-gray-800 overflow-hidden border border-white/10 shadow-lg">
-                <img src={d.img} className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
+          <tr key={d.id} className="border-b border-[#D9E6EC] hover:bg-[#F4F8FA] transition-colors">
+            <td className="p-4 w-24">
+              <div className="w-12 h-12 rounded-xl bg-gray-100 overflow-hidden border border-[#D9E6EC] shadow-sm">
+                <img src={d.img} alt="leader portrait" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
               </div>
             </td>
-            <td className="p-5 font-bold text-white">{d.name}</td>
-            <td className="p-5 text-gray-400 font-semibold text-sm tracking-wide">{d.role}</td>
-            <td className="p-5 w-32 text-right">
+            <td className="p-4 font-extrabold text-[#1F2937]">{d.name}</td>
+            <td className="p-4 text-[#64748B] font-semibold text-sm tracking-wide">{d.role}</td>
+            <td className="p-4 w-32 text-right">
               <EditBtn onClick={()=>handleEdit(d)} />
               <DeleteBtn onClick={()=>handleDelete(d.id)} />
             </td>

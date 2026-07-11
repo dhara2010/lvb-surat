@@ -38,11 +38,12 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
   }, [pathname]);
 
   return (
     <div
+      className="overflow-x-hidden flex flex-col min-h-screen"
       style={{
         backgroundColor: 'var(--color-bg)',
         color: 'var(--color-body)',
@@ -51,7 +52,7 @@ export default function Layout() {
     >
       <ScrollProgress />
       <Navbar />
-      <main className="min-h-screen pt-[72px]">
+      <main className="flex-grow pt-[72px]">
         <Outlet />
       </main>
       <Footer />

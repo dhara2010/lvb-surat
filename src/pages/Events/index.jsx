@@ -10,6 +10,7 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvents } from '../../api/eventsApi';
+import PageHeader from '../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial:     { opacity: 0, y: 50 },
@@ -29,7 +30,13 @@ export default function Meeting() {
 
   return (
     <section id="meeting" className="section-white">
-      <div className="container-xl section-padding flex flex-col gap-20">
+      <PageHeader 
+        label="EVENTS & MEETINGS"
+        title="How & When We Meet"
+        description="Consistency builds credibility. Explore our structured meeting systems and upcoming chapter agendas."
+      />
+
+      <div className="container-xl section-padding flex flex-col gap-20 pt-0 md:pt-4">
 
         {/* ─── Chapter Profile ──────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
@@ -54,12 +61,11 @@ export default function Meeting() {
 
           {/* Text */}
           <motion.div {...inView(0)} className="flex flex-col gap-6">
-            <span className="section-label">Meeting Structure</span>
             <h2
-              className="h-xl"
+              className="h-lg"
               style={{ fontFamily: 'var(--font-display)' }}
             >
-              How &amp; When We Meet
+              Meeting Structure
             </h2>
             <div className="divider-mint" />
             <p className="text-body text-base leading-relaxed">
@@ -126,9 +132,9 @@ export default function Meeting() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 min-h-[300px]">
-            {loading && <div className="col-span-3 flex justify-center items-center text-gray-500 font-bold tracking-widest">LOADING EVENTS...</div>}
+            {loading && <div className="col-span-3 flex justify-center items-center text-[#64748B] font-bold tracking-widest">LOADING EVENTS...</div>}
             {error && <div className="col-span-3 flex justify-center items-center text-red-400 font-bold tracking-widest">FAILED TO LOAD EVENTS</div>}
-            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-gray-500 font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
+            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-[#64748B] font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
 
             {events.map((ev, i) => (
               <motion.div
@@ -168,11 +174,11 @@ export default function Meeting() {
                 </div>
 
                 <Link
-                  to="/contact"
+                  to={`/events/${ev.id || i}`}
                   className="btn-secondary text-sm py-2.5 w-full text-center"
                   id={`event-cta-${i}`}
                 >
-                  Reserve Seat
+                  View Event Details
                 </Link>
               </motion.div>
             ))}
