@@ -10,13 +10,13 @@ export default function LeadershipSection() {
   const leaders = leadersData || [];
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [winWidth, setWinWidth] = useState(window.innerWidth);
   const [touchStartX, setTouchStartX] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const scrollTimeout = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setWinWidth(window.innerWidth);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -82,19 +82,30 @@ export default function LeadershipSection() {
         diff += leaders.length;
       }
 
+      let cardWidth, cardHeight, gap, overlap;
+      if (winWidth <= 480) {
+        cardWidth = 270; cardHeight = 390; gap = 70; overlap = 90;
+      } else if (winWidth <= 767) {
+        cardWidth = 310; cardHeight = 440; gap = 100; overlap = 120;
+      } else if (winWidth <= 1024) {
+        cardWidth = 350; cardHeight = 480; gap = 180; overlap = 160;
+      } else if (winWidth <= 1366) {
+        cardWidth = 390; cardHeight = 540; gap = 280; overlap = 220;
+      } else {
+        cardWidth = 450; cardHeight = 600; gap = 380; overlap = 280;
+      }
+
       const absDiff = Math.abs(diff);
       const isActive = diff === 0;
       const scale = isActive ? 1 : 1 - absDiff * 0.15;
-      const gap = isMobile ? 100 : 450;
-      const overlap = isMobile ? 100 : 350;
 
       let xOffset = 0;
       if (diff < 0) xOffset = -(gap + (absDiff - 1) * overlap);
       if (diff > 0) xOffset = gap + (absDiff - 1) * overlap;
 
       const zOffset = isActive ? 0 : -absDiff * 80;
-      const rotateY = isActive ? 0 : diff < 0 ? -20 : 20;
-      const opacity = absDiff > 2 ? 0 : isActive ? 1 : 0.8;
+      const rotateY = isActive ? 0 : diff < 0 ? -15 : 15;
+      const opacity = absDiff > 2 ? 0 : isActive ? 1 : 0.85;
 
       const zIndex = 50 - absDiff;
 
@@ -121,11 +132,13 @@ export default function LeadershipSection() {
           }}
           className={`cursor-pointer ${isActive ? 'group' : ''}`}
         >
-          <div className={`w-[300px] h-[420px] md:w-[420px] md:h-[560px] lg:w-[450px] lg:h-[600px] rounded-[28px] bg-[#044765]/40 backdrop-blur-md border border-white/20
-              flex flex-col p-6 transition-all duration-300
+          <div className={`rounded-[28px] bg-[#044765]/40 backdrop-blur-md border border-white/20
+              flex flex-col p-5 md:p-6 transition-all duration-300
               ${isActive ? 'group-hover:-translate-y-3 shadow-[0_12px_40px_rgba(0,0,0,0.2)] group-hover:shadow-[0_24px_50px_rgba(20,184,166,0.3)]' : 'shadow-sm grayscale filter'}
-            `}>
-            <div className="w-full h-[65%] md:h-[80%] rounded-[20px] overflow-hidden mb-5">
+            `}
+            style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
+          >
+            <div className="w-full h-[65%] md:h-[75%] lg:h-[80%] rounded-[20px] overflow-hidden mb-4 md:mb-5">
               <img
                 src={leader.img}
                 alt={leader.name}
@@ -162,10 +175,10 @@ export default function LeadershipSection() {
             </p>
           </SlideUp>
         </div>
-        <SlideUp delay={0.3} className="w-full px-6">
+        <SlideUp delay={0.3} className="w-full px-2 md:px-6">
           <div
-            className="relative w-full max-w-[2200px] mx-auto h-[550px] md:h-[650px] lg:h-[700px] flex justify-center items-center touch-pan-y select-none"
-            style={{ perspective: "1500px" }}
+            className="relative w-full max-w-[2200px] mx-auto flex justify-center items-center touch-pan-y select-none"
+            style={{ perspective: "1500px", height: winWidth <= 480 ? '450px' : winWidth <= 767 ? '500px' : winWidth <= 1024 ? '580px' : '700px' }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
             onMouseDown={onTouchStart}

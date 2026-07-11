@@ -38,7 +38,11 @@ export default function Layout() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // Override browser history scroll lag with strict instant top navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      document.documentElement.scrollTop = 0;
+    }, 0);
   }, [pathname]);
 
   return (

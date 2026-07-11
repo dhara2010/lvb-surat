@@ -7,7 +7,7 @@ export default function PageHeader({ label, title, description, alignment = 'lef
   const textCenterClass = alignment === 'center' ? 'mx-auto' : '';
 
   return (
-    <div className="pt-24 md:pt-28 lg:pt-32 pb-12 md:pb-16 lg:pb-20 bg-transparent flex flex-col w-full relative z-10 overflow-hidden">
+    <div className="pt-24 md:pt-28 lg:pt-32 bg-transparent flex flex-col w-full relative z-10 overflow-hidden">
       <Container>
         <div className={`flex flex-col ${alignClass} w-full`}>
           {label && (

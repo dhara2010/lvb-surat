@@ -1,13 +1,11 @@
   import React from 'react';
   import { motion } from 'framer-motion';
-  import { Link } from 'react-router-dom';
-  import { ArrowRight } from 'lucide-react';
 
   export default function Hero() {
     return (
-      <div className="relative w-full h-[100dvh] min-h-[600px] flex items-center justify-center overflow-hidden bg-[#061826]">
+      <div className="relative w-full h-[50vh] md:h-[calc(100dvh-72px)] min-h-[300px] flex items-center justify-center overflow-hidden bg-[#061826]">
         {/* Background Video */}
-        <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center">
           <video
             src="/hero_video.mp4"
             autoPlay
@@ -15,10 +13,10 @@
             muted
             playsInline
             preload="auto"
-            className="absolute top-0 left-0 w-full h-full object-cover object-center pointer-events-none"
+            className="w-full h-full object-contain md:object-cover object-center pointer-events-none"
           />
-          {/* Dark Overlay for Text Readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#061826]/80 via-[#061826]/50 to-[#061826]/90"></div>
+          {/* Dark Overlay for Text Readability (If needed later) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#061826]/30 via-transparent to-[#061826]/30 pointer-events-none"></div>
         </div>
       </div>
     );

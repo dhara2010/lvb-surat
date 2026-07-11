@@ -78,11 +78,11 @@ export default function Contact() {
 
             <div className="relative z-10 flex flex-col gap-6">
               <div>
-                <span className="section-label block mb-3">Get In Touch</span>
-                <h2 className="text-white h-lg">Let's Connect</h2>
+                <span className="section-label block mb-3 !text-white">Get In Touch</span>
+                <h2 className="h-lg !text-white">Let's Connect</h2>
                 <div className="divider-mint mt-4" />
               </div>
-              <p className="text-[#0EA5A8] text-sm leading-relaxed">
+              <p className="!text-white text-sm leading-relaxed opacity-90">
                 Interested in joining or visiting our chapter? Fill in the form and
                 we'll confirm your category vacancy and arrange a guest pass within
                 24 hours.
