@@ -91,7 +91,7 @@ export default function Navbar() {
               </div>
             ) : (
               <img
-                src="/LVB_Platinum.png"
+                src="/LVB_Platinum.svg"
                 alt="LVB Surat Platinum"
                 className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
                 onError={() => setLogoError(true)}

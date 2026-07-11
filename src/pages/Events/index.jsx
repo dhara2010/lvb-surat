@@ -165,12 +165,12 @@ export default function Meeting() {
 
                 <div className="flex flex-col gap-2 flex-grow">
                   <h3
-                    className="h-md leading-snug"
+                    className="h-md leading-snug group-hover:text-[#0EA5A8] transition-colors line-clamp-2"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {ev.title}
                   </h3>
-                  <p className="text-body text-sm leading-relaxed">{ev.desc}</p>
+                  <p className="text-body text-sm leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>
                 </div>
 
                 <Link

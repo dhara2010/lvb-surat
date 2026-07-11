@@ -14,6 +14,7 @@ const inView = (delay = 0) => ({
 export default function EventDetail() {
   const { eventId } = useParams();
   const [ticketQuantities, setTicketQuantities] = useState({});
+  const [calendarOpen, setCalendarOpen] = useState(false);
   
   // Fetch event data
   const { data: event, loading, error } = useFetch(getEvent, eventId);
@@ -51,6 +52,13 @@ export default function EventDetail() {
   // Fallback defaults for missing fields to prevent rendering errors on legacy simple data
   const sessions = event.sessions || [];
   const tickets = event.tickets || [];
+
+  const calendarLinks = {
+      google: `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title || 'LVB Surat Event')}&details=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
+      outlookLive: `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title || 'LVB Surat Event')}&body=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
+      outlook365: `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title || 'LVB Surat Event')}&body=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
+      ics: `data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:${encodeURIComponent(event.title || 'LVB Surat Event')}%0ADESCRIPTION:${encodeURIComponent(event.desc || 'Join us for this premium event.')}%0ALOCATION:${encodeURIComponent(event.venue || 'Surat, Gujarat')}%0AEND:VEVENT%0AEND:VCALENDAR`
+  };
 
   return (
     <div className="section-white min-h-screen pt-24 pb-20">
@@ -95,8 +103,10 @@ export default function EventDetail() {
                 />
               </div>
               
-              <div className="flex flex-col gap-6 text-body text-lg leading-relaxed">
-                {event.descriptionPart1 ? (
+              <div className="flex flex-col gap-6 text-body text-lg leading-relaxed whitespace-pre-wrap">
+                {event.desc ? (
+                  <p>{event.desc}</p>
+                ) : event.descriptionPart1 ? (
                    <p dangerouslySetInnerHTML={{ __html: event.descriptionPart1 }}></p>
                 ) : (
                   <p>
@@ -138,12 +148,32 @@ export default function EventDetail() {
               </motion.div>
             )}
 
-            <motion.div {...inView(0.4)} className="pt-2">
-                <button className="btn-secondary group flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Add to calendar
-                  <ChevronDown className="w-4 h-4 opacity-70 group-hover:translate-y-0.5 transition-transform" />
+            <motion.div {...inView(0.4)} className="pt-2 relative z-20">
+                <button 
+                  onClick={() => setCalendarOpen(!calendarOpen)}
+                  className="btn-secondary group flex items-center gap-2 bg-surface hover:bg-surface-hover transition-colors"
+                >
+                  <Calendar className="w-4 h-4 text-secondary" />
+                  <span className="text-primary font-medium">Add to calendar</span>
+                  <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${calendarOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`} />
                 </button>
+
+                {calendarOpen && (
+                  <div className="absolute top-14 left-0 w-64 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden py-1 z-50">
+                    <a href={calendarLinks.google} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                      Google Calendar
+                    </a>
+                    <a href={calendarLinks.ics} download="event.ics" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                      iCalendar
+                    </a>
+                    <a href={calendarLinks.outlook365} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                      Outlook 365
+                    </a>
+                    <a href={calendarLinks.outlookLive} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                      Outlook Live
+                    </a>
+                  </div>
+                )}
             </motion.div>
 
             {/* Tickets */}
