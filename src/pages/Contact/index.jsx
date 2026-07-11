@@ -51,7 +51,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section-light">
-      <PageHeader 
+      <PageHeader
         label="CONTACT US"
         title="Get In Touch"
         description="Whether you have questions about membership, upcoming events, or how we operate, our team is ready to answer all your questions."
@@ -164,7 +164,7 @@ export default function Contact() {
                         type="text"
                         required
                         value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Your name"
                         className="input-primary py-3.5"
                       />
@@ -181,7 +181,7 @@ export default function Contact() {
                         type="text"
                         required
                         value={formData.company}
-                        onChange={(e) => setFormData({...formData, company: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         placeholder="Your company"
                         className="input-primary py-3.5"
                       />
@@ -201,7 +201,7 @@ export default function Contact() {
                         type="tel"
                         required
                         value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+91 XXXXX XXXXX"
                         className="input-primary py-3.5"
                       />
@@ -218,7 +218,7 @@ export default function Contact() {
                         type="email"
                         required
                         value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="hello@company.com"
                         className="input-primary py-3.5"
                       />
@@ -238,7 +238,7 @@ export default function Contact() {
                         type="text"
                         required
                         value={formData.category}
-                        onChange={(e) => setFormData({...formData, category: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                         placeholder="e.g. Textiles, Diamonds"
                         className="input-primary py-3.5"
                       />
@@ -254,7 +254,7 @@ export default function Contact() {
                         id="contact-referral"
                         type="text"
                         value={formData.referral}
-                        onChange={(e) => setFormData({...formData, referral: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
                         placeholder="Member Name"
                         className="input-primary py-3.5"
                       />
@@ -272,7 +272,7 @@ export default function Contact() {
                       id="contact-message"
                       rows="6"
                       value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell us about your business and exactly what you're looking for from the LVB Surat Platinum chapter..."
                       className="input-primary resize-none p-4"
                     />
