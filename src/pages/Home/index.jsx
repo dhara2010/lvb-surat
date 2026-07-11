@@ -14,13 +14,13 @@ import FAQSection from './components/FAQSection';
 
 export default function Home() {
   return (
-    <div className="w-full flex flex-col font-sans overflow-hidden bg-[#061826]">
+    <div className="w-full flex flex-col font-sans overflow-hidden bg-dark">
       {/* Minor Dark Video Background */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <video autoPlay muted loop playsInline preload="auto" className="w-full h-full object-cover opacity-60">
           <source src="/video.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-[#061826]/45 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-dark/45 backdrop-blur-[2px]"></div>
       </div>
       
       <div className="relative z-10 w-full">

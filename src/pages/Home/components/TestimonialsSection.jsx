@@ -102,8 +102,8 @@ export default function TestimonialsSection() {
     <div className="relative py-16 md:py-20 lg:py-32 overflow-hidden w-full max-w-[100vw]">
       {/* Background Decorators */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-gradient-to-b from-[#0EA5A8]/5 to-transparent rounded-full blur-[100px]" />
-        <div className="absolute top-[20%] left-[10%] w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-[#044765]/5 rounded-full blur-[80px]" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-gradient-to-b from-secondary/5 to-transparent rounded-full blur-[100px]" />
+        <div className="absolute top-[20%] left-[10%] w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-primary/5 rounded-full blur-[80px]" />
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#044765 1.5px, transparent 1.5px)', backgroundSize: '36px 36px' }} />
       </div>
 
@@ -113,7 +113,7 @@ export default function TestimonialsSection() {
         <div className="flex flex-col items-center text-center max-w-[90%] md:max-w-2xl mx-auto mb-10 md:mb-16">
           <SlideUp delay={0.1}>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] lg:leading-[1.1] mb-3 md:mb-5 drop-shadow-md">
-              What Our <span className="text-[#0EA5A8]">Members</span> Say
+              What Our <span className="text-secondary">Members</span> Say
             </h2>
           </SlideUp>
           <SlideUp delay={0.2}>
@@ -145,7 +145,7 @@ export default function TestimonialsSection() {
                   initial={false}
                   className={`w-full ${isTop ? 'relative z-10' : 'hidden md:block absolute top-0 left-0 h-full'}`}
                 >
-                  <div className={`w-full h-full overflow-hidden bg-[#044765]/40 backdrop-blur-xl rounded-[24px] md:rounded-[30px] p-6 sm:p-8 md:p-10 border border-white/20 flex flex-col justify-between transition-all duration-300 ${isTop ? 'shadow-2xl md:hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] md:hover:bg-[#044765]/60 md:hover:border-[#0EA5A8]/50 md:hover:-translate-y-2 group cursor-grab active:cursor-grabbing' : 'shadow-md pointer-events-none'}`}>
+                  <div className={`w-full h-full overflow-hidden bg-primary/40 backdrop-blur-xl rounded-[24px] md:rounded-[30px] p-6 sm:p-8 md:p-10 border border-white/20 flex flex-col justify-between transition-all duration-300 ${isTop ? 'shadow-2xl md:hover:shadow-[0_20px_50px_rgba(20,184,166,0.25)] md:hover:bg-primary/60 md:hover:border-secondary/50 md:hover:-translate-y-2 group cursor-grab active:cursor-grabbing' : 'shadow-md pointer-events-none'}`}>
 
                     {/* Top Row: Stars and Quote */}
                     <div className="flex justify-between items-start mb-4 md:mb-6">
@@ -154,29 +154,28 @@ export default function TestimonialsSection() {
                           <Star key={s} className={`w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 ${isTop ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300 fill-gray-300'}`} />
                         ))}
                       </div>
-                      <Quote className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-colors duration-300 ${isTop ? 'text-white/20 group-hover:text-[#0EA5A8]/40' : 'text-white/5'}`} />
+                      <Quote className={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-colors duration-300 ${isTop ? 'text-white/20 group-hover:text-secondary/40' : 'text-white/5'}`} />
                     </div>
 
                     {/* Testimonial Text */}
-                    <p className={`text-sm sm:text-base md:text-lg font-light leading-relaxed italic flex-grow ${isTop ? 'text-gray-200' : 'text-[#64748B] line-clamp-4 md:line-clamp-none'}`}>
+                    <p className={`text-sm sm:text-base md:text-lg font-light leading-relaxed italic flex-grow ${isTop ? 'text-gray-200' : 'text-muted line-clamp-4 md:line-clamp-none'}`}>
                       "{card.text}"
                     </p>
 
                     {/* Member Profile */}
                     <div className="flex items-center gap-3 sm:gap-4 mt-6 md:mt-8">
-                      <div className={`relative overflow-hidden w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ? 'border-white/40 group-hover:border-[#0EA5A8] group-hover:scale-110' : 'border-transparent'}`}>
-                        <img
-                          src={card.img}
+                      <div className={`relative overflow-hidden w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ? 'border-white/40 group-hover:border-secondary group-hover:scale-110' : 'border-transparent'}`}>
+                        <img loading="lazy" decoding="async" src={card.img}
                           alt={card.name}
                           className={`w-full h-full object-cover ${isTop ? '' : 'grayscale opacity-70'}`}
                           onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${card.name}&backgroundColor=0B1F3A&textColor=fff`; }}
                         />
                       </div>
                       <div>
-                        <h4 className={`font-extrabold text-base md:text-lg ${isTop ? 'text-white' : 'text-[#64748B]'}`}>
+                        <h4 className={`font-extrabold text-base md:text-lg ${isTop ? 'text-white' : 'text-muted'}`}>
                           {card.name}
                         </h4>
-                        <p className={`text-xs md:text-sm font-semibold ${isTop ? 'text-[#0EA5A8]' : 'text-[#64748B]'}`}>
+                        <p className={`text-xs md:text-sm font-semibold ${isTop ? 'text-secondary' : 'text-muted'}`}>
                           {card.role}
                         </p>
                       </div>

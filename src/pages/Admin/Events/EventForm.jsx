@@ -67,17 +67,17 @@ export default function EventForm({ initialData = null, onSubmit, token, onCance
   };
 
   return (
-    <div className="bg-white border border-[#D9E6EC] p-6 rounded-2xl shadow-sm">
+    <div className="bg-white border border-border p-6 rounded-2xl shadow-sm">
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-        <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm border-b border-[#D9E6EC] pb-2">Basic Info</h3>
+        <h3 className="text-secondary font-bold uppercase tracking-wider text-sm border-b border-border pb-2">Basic Info</h3>
         <div className="flex flex-col md:flex-row gap-4 items-end">
           <InputGroup label="Title" placeholder="Event Title" val={form.title||''} setVal={v => setForm({...form, title: v})} w="flex-1 w-full" />
           <InputGroup label="Organizer" placeholder="LVB Surat" val={form.organizer||''} setVal={v => setForm({...form, organizer: v})} w="md:w-1/3 w-full" req={false} />
           <div className="flex flex-col gap-1.5 flex-1 w-full">
-            <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Event Image</label>
+            <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Event Image</label>
             <div className="flex items-center gap-2">
-              <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.jpeg" className="flex-1 bg-[#F4F8FA] border border-[#D9E6EC] p-3 rounded-xl text-[#1F2937] outline-none focus:border-[#0EA5A8] focus:bg-white transition-all font-medium text-sm" />
-              <label className="cursor-pointer bg-[#044765]/10 text-[#044765] hover:bg-[#044765]/20 px-4 py-3 rounded-xl transition-all font-bold text-xs flex items-center justify-center whitespace-nowrap h-[46px]">
+              <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.webp" className="flex-1 bg-bg-alt border border-border p-3 rounded-xl text-body outline-none focus:border-secondary focus:bg-white transition-all font-medium text-sm" />
+              <label className="cursor-pointer bg-primary/10 text-primary hover:bg-primary/20 px-4 py-3 rounded-xl transition-all font-bold text-xs flex items-center justify-center whitespace-nowrap h-[46px]">
                 Upload
                 <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
               </label>
@@ -102,18 +102,18 @@ export default function EventForm({ initialData = null, onSubmit, token, onCance
         
         {/* SESSIONS SECTION */}
         <div className="mt-2">
-          <div className="flex items-center justify-between border-b border-[#D9E6EC] pb-2 mb-4">
-            <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
-            <button type="button" onClick={addSession} className="text-xs font-bold uppercase tracking-wider bg-[#F4F8FA] text-[#044765] hover:bg-[#E2E8F0] px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Session</button>
+          <div className="flex items-center justify-between border-b border-border pb-2 mb-4">
+            <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
+            <button type="button" onClick={addSession} className="text-xs font-bold uppercase tracking-wider bg-bg-alt text-primary hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Session</button>
           </div>
           <div className="flex flex-col gap-4">
             {form.sessions.map((s, i) => (
-              <div key={i} className="bg-[#F4F8FA] p-5 rounded-xl border border-[#D9E6EC] relative shadow-sm">
+              <div key={i} className="bg-bg-alt p-5 rounded-xl border border-border relative shadow-sm">
                 <button type="button" onClick={() => rmSession(i)} className="absolute top-4 right-4 text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wider transition-colors">X Remove</button>
                 <div className="flex flex-wrap gap-4 mt-6">
                    <div className="flex flex-col gap-1.5 w-[140px]">
-                      <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Icon Type</label>
-                      <select value={s.iconType} onChange={e => updateSession(i, 'iconType', e.target.value)} className="w-full bg-white border border-[#D9E6EC] p-3 rounded-xl text-[#1F2937] outline-none focus:border-[#0EA5A8] font-medium text-sm">
+                      <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Icon Type</label>
+                      <select value={s.iconType} onChange={e => updateSession(i, 'iconType', e.target.value)} className="w-full bg-white border border-border p-3 rounded-xl text-body outline-none focus:border-secondary font-medium text-sm">
                          <option value="mic">Mic (Speaker)</option>
                          <option value="briefcase">Briefcase (Business)</option>
                          <option value="users">Users (Team)</option>
@@ -135,13 +135,13 @@ export default function EventForm({ initialData = null, onSubmit, token, onCance
 
         {/* TICKETS SECTION */}
         <div className="mt-2">
-          <div className="flex items-center justify-between border-b border-[#D9E6EC] pb-2 mb-4">
-            <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm">Tickets</h3>
-            <button type="button" onClick={addTicket} className="text-xs font-bold uppercase tracking-wider bg-[#F4F8FA] text-[#044765] hover:bg-[#E2E8F0] px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Ticket</button>
+          <div className="flex items-center justify-between border-b border-border pb-2 mb-4">
+            <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Tickets</h3>
+            <button type="button" onClick={addTicket} className="text-xs font-bold uppercase tracking-wider bg-bg-alt text-primary hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Ticket</button>
           </div>
           <div className="flex flex-col gap-4">
             {form.tickets.map((t, i) => (
-              <div key={i} className="flex flex-col md:flex-row gap-4 items-start bg-[#F4F8FA] p-5 rounded-xl border border-[#D9E6EC] relative">
+              <div key={i} className="flex flex-col md:flex-row gap-4 items-start bg-bg-alt p-5 rounded-xl border border-border relative">
                 <InputGroup label="Category Name" placeholder="Meeting Fees for Visitors" val={t.category} setVal={v => updateTicket(i, 'category', v)} w="flex-1 w-full" req={false} />
                 <InputGroup label="Price" placeholder="2500" val={t.price} setVal={v => updateTicket(i, 'price', v)} w="w-full md:w-[120px]" req={false} />
                 <InputGroup label="Info Description" placeholder="Includes breakfast..." val={t.description} setVal={v => updateTicket(i, 'description', v)} w="w-full md:w-[45%]" req={false} />
@@ -151,9 +151,9 @@ export default function EventForm({ initialData = null, onSubmit, token, onCance
           </div>
         </div>
 
-        <div className="flex items-center gap-3 pt-6 border-t border-[#D9E6EC] mt-2">
+        <div className="flex items-center gap-3 pt-6 border-t border-border mt-2">
           <SubmitButton editing={!!initialData} />
-          <button type="button" onClick={onCancel} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-[#F4F8FA] text-[#64748B] hover:bg-[#E2E8F0] transition-all">
+          <button type="button" onClick={onCancel} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-bg-alt text-muted hover:bg-slate-200 transition-all">
             Cancel
           </button>
         </div>

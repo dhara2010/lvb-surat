@@ -139,7 +139,7 @@ export default function Navbar() {
               to="/contact"
               className="group relative inline-flex items-center gap-2 xl:gap-3 overflow-hidden rounded-full px-5 py-2.5 text-sm xl:text-base font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-xl hover:border-transparent"
             >
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-[#0EA5A8] via-[#044765] to-[#0EA5A8] transition-transform duration-700 group-hover:translate-x-0"></span>
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-secondary via-primary to-secondary transition-transform duration-700 group-hover:translate-x-0"></span>
               <span className="relative z-10 w-full text-center">Let's Connect</span>
             </Link>
           </div>
@@ -209,7 +209,7 @@ export default function Navbar() {
                     )}
                   </NavLink>
                 ))}
-                <Link to="/contact" className="mt-6 flex justify-center w-full max-w-[300px] mx-auto items-center overflow-hidden rounded-full px-4 py-3 font-semibold text-white bg-[#044765] shadow-lg transition-transform active:scale-95">
+                <Link to="/contact" className="mt-6 flex justify-center w-full max-w-[300px] mx-auto items-center overflow-hidden rounded-full px-4 py-3 font-semibold text-white bg-primary shadow-lg transition-transform active:scale-95">
                   <span className="text-white">Let's Connect</span>
                 </Link>
               </div>

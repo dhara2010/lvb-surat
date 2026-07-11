@@ -50,11 +50,10 @@ export default function Meeting() {
                 boxShadow: 'var(--shadow-card)',
               }}
             >
-              <img
-                src="/12-1.jpeg"
+              <img loading="lazy" decoding="async" src="/12-1.webp"
                 alt="LVB Platinum Chapter weekly meeting"
                 className="w-full aspect-[4/3] object-cover"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
               />
             </div>
           </motion.div>
@@ -132,9 +131,9 @@ export default function Meeting() {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 min-h-[300px]">
-            {loading && <div className="col-span-3 flex justify-center items-center text-[#64748B] font-bold tracking-widest">LOADING EVENTS...</div>}
+            {loading && <div className="col-span-3 flex justify-center items-center text-muted font-bold tracking-widest">LOADING EVENTS...</div>}
             {error && <div className="col-span-3 flex justify-center items-center text-red-400 font-bold tracking-widest">FAILED TO LOAD EVENTS</div>}
-            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-[#64748B] font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
+            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-muted font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
 
             {events.map((ev, i) => (
               <motion.div
@@ -165,7 +164,7 @@ export default function Meeting() {
 
                 <div className="flex flex-col gap-2 flex-grow">
                   <h3
-                    className="h-md leading-snug group-hover:text-[#0EA5A8] transition-colors line-clamp-2"
+                    className="h-md leading-snug group-hover:text-secondary transition-colors line-clamp-2"
                     style={{ fontFamily: 'var(--font-display)' }}
                   >
                     {ev.title}

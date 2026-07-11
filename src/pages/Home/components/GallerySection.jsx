@@ -126,7 +126,7 @@ export default function GallerySection() {
 
         <SlideUp>
           <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 md:mb-12">
-            Chapter <span className="text-[#0EA5A8]">Gallery</span>
+            Chapter <span className="text-secondary">Gallery</span>
           </h2>
         </SlideUp>
 
@@ -140,7 +140,7 @@ export default function GallerySection() {
           {/* Previous */}
           <button
             onClick={handlePrev}
-            className="absolute -left-2 sm:-left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white text-[#044765] hover:bg-[#0EA5A8] hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -left-2 sm:-left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -148,7 +148,7 @@ export default function GallerySection() {
           {/* Next */}
           <button
             onClick={handleNext}
-            className="absolute -right-2 sm:-right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white text-[#044765] hover:bg-[#0EA5A8] hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -right-2 sm:-right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -189,12 +189,11 @@ export default function GallerySection() {
                       key={index}
                       className="overflow-hidden rounded-xl shadow-lg border border-white/10"
                     >
-                      <img
-                        src={img}
+                      <img loading="lazy" decoding="async" src={img}
                         alt=""
                         className="w-full aspect-[4/3] object-cover hover:scale-105 transition duration-700"
                         onError={(e) => {
-                          e.target.src = "/KVS_3369-scaled.jpg";
+                          e.target.src = "/KVS_3369-scaled.webp";
                         }}
                       />
                     </div>
@@ -214,7 +213,7 @@ export default function GallerySection() {
               className={`transition-all duration-300 rounded-full
               ${
                 activeIndex === index
-                  ? "w-6 h-2 md:w-8 md:h-2.5 bg-[#0EA5A8]"
+                  ? "w-6 h-2 md:w-8 md:h-2.5 bg-secondary"
                   : "w-2 h-2 md:w-2.5 md:h-2.5 bg-gray-400/50 hover:bg-gray-400"
               }`}
             />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const SlideUp = ({ children, delay = 0, className = '' }) => {
+export const SlideUp = React.memo(({ children, delay = 0, className = '' }) => {
   return (
     <motion.div
       initial={{ y: 50, opacity: 0 }}
@@ -13,18 +13,18 @@ export const SlideUp = ({ children, delay = 0, className = '' }) => {
       {children}
     </motion.div>
   );
-};
+});
 
-export const FadeIn = ({ children, delay = 0, className = '' }) => {
+export const FadeIn = React.memo(({ children, delay = 0, className = '' }) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, delay: delay }}
       className={className}
     >
       {children}
     </motion.div>
   );
-};
+});

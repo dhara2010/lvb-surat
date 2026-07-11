@@ -43,7 +43,7 @@ export default function MembersManager({ token }) {
     <div className="flex flex-col gap-6 pb-20">
       <SectionHeader title="Members Directory" desc="Manage active general members on the full grid." />
       
-      <div className="bg-white border border-[#D9E6EC] p-6 rounded-2xl shadow-sm">
+      <div className="bg-white border border-border p-6 rounded-2xl shadow-sm">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col md:flex-row gap-4 items-end">
             <InputGroup label="Full Name" placeholder="e.g. Amit Rajodiya" val={form.name} setVal={v => setForm({...form, name: v})} w="flex-1 w-full" />
@@ -51,13 +51,13 @@ export default function MembersManager({ token }) {
             <InputGroup label="Category" placeholder="e.g. Insurance Services" val={form.businessCategory} setVal={v => setForm({...form, businessCategory: v})} w="flex-1 w-full" />
           </div>
           <div className="flex flex-col md:flex-row gap-4 items-end">
-            <FileInputGroup label="Photo URL" placeholder="/members/amit.png" val={form.photoUrl} setVal={v => setForm({...form, photoUrl: v})} token={token} w="flex-1 w-full" />
+            <FileInputGroup label="Photo URL" placeholder="/members/amit.webp" val={form.photoUrl} setVal={v => setForm({...form, photoUrl: v})} token={token} w="flex-1 w-full" />
             <FileInputGroup label="Logo URL" placeholder="/members/OM-SHIV.png" val={form.logoUrl} setVal={v => setForm({...form, logoUrl: v})} token={token} w="flex-1 w-full" />
             
             <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
               <SubmitButton editing={editingId !== null} />
               {editingId && (
-                <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', businessName: '', businessCategory: '', photoUrl: '', logoUrl: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-[#64748B] hover:bg-gray-200 transition-all flex-1 md:flex-none">
+                <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', businessName: '', businessCategory: '', photoUrl: '', logoUrl: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-muted hover:bg-gray-200 transition-all flex-1 md:flex-none">
                   Cancel
                 </button>
               )}
@@ -69,20 +69,20 @@ export default function MembersManager({ token }) {
       <PremiumTable 
         headers={['Assets', 'Member', 'Business / Category', 'Action']}
         rows={data.map(d => (
-          <tr key={d.id} className="border-b border-[#D9E6EC] hover:bg-[#F4F8FA] transition-colors">
+          <tr key={d.id} className="border-b border-border hover:bg-bg-alt transition-colors">
             <td className="p-4 w-32">
               <div className="flex gap-2">
-                <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden border border-[#D9E6EC]">
-                  <img src={d.photoUrl} alt="member" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
+                <div className="w-10 h-10 rounded-xl bg-gray-100 overflow-hidden border border-border">
+                  <img loading="lazy" decoding="async" src={d.photoUrl} alt="member" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
                 </div>
-                <div className="w-10 h-10 rounded-xl bg-white p-1 overflow-hidden border border-[#D9E6EC]">
-                  <img src={d.logoUrl} alt="logo" className="w-full h-full object-contain filter grayscale" onError={(e)=>e.target.style.display='none'} />
+                <div className="w-10 h-10 rounded-xl bg-white p-1 overflow-hidden border border-border">
+                  <img loading="lazy" decoding="async" src={d.logoUrl} alt="logo" className="w-full h-full object-contain filter grayscale" onError={(e)=>e.target.style.display='none'} />
                 </div>
               </div>
             </td>
-            <td className="p-4 font-extrabold text-[#1F2937] max-w-[150px] truncate">{d.name}</td>
-            <td className="p-4 text-[#64748B] text-sm">
-              <div className="font-bold text-[#374151] truncate">{d.businessName}</div>
+            <td className="p-4 font-extrabold text-body max-w-[150px] truncate">{d.name}</td>
+            <td className="p-4 text-muted text-sm">
+              <div className="font-bold text-gray-700 truncate">{d.businessName}</div>
               <div className="text-xs mt-1 truncate">{d.businessCategory}</div>
             </td>
             <td className="p-4 w-32 text-right">

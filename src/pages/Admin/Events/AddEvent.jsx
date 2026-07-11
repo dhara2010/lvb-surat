@@ -27,19 +27,19 @@ export default function AddEvent() {
 
   return (
     <div className="flex flex-col gap-6 pb-20">
-      <div className="flex items-start gap-4 border-b border-[#D9E6EC] pb-6">
+      <div className="flex items-start gap-4 border-b border-border pb-6">
         <button 
           onClick={() => navigate('/admin/events')}
-          className="text-[#64748B] hover:text-[#044765] font-bold text-sm tracking-wider uppercase transition-colors mt-2"
+          className="text-muted hover:text-primary font-bold text-sm tracking-wider uppercase transition-colors mt-2"
         >
           ← Back
         </button>
         <div>
-          <div className="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2 flex items-center gap-2">
-            <span>Admin</span> <span>/</span> <span>Events</span> <span>/</span> <span className="text-[#0EA5A8]">Add New</span>
+          <div className="text-xs font-bold uppercase tracking-wider text-muted mb-2 flex items-center gap-2">
+            <span>Admin</span> <span>/</span> <span>Events</span> <span>/</span> <span className="text-secondary">Add New</span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold mb-1 text-[#1F2937]">Add New Event</h1>
-          <p className="text-[#64748B] text-sm font-medium">Create a new event record in the database.</p>
+          <h1 className="text-2xl md:text-3xl font-extrabold mb-1 text-body">Add New Event</h1>
+          <p className="text-muted text-sm font-medium">Create a new event record in the database.</p>
         </div>
       </div>
       <EventForm token={token} onSubmit={handleAdd} onCancel={() => navigate('/admin/events')} />

@@ -95,11 +95,10 @@ export default function EventDetail() {
                 className="w-full rounded-2xl overflow-hidden mb-8"
                style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}
               >
-                <img
-                  src={event.image || '/12-1.jpeg'}
+                <img loading="lazy" decoding="async" src={event.image || '/12-1.webp'}
                   alt={event.title}
                   className="w-full h-auto object-cover"
-                  onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+                  onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
                 />
               </div>
               

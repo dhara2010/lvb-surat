@@ -68,8 +68,7 @@ export default function Contact() {
         >
           <motion.div {...inView(0)} className="relative flex flex-col justify-center rounded-2xl overflow-hidden p-8 md:p-10 shadow-inner">
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
-              <img
-                src="/faq.webp"
+              <img loading="lazy" decoding="async" src="/faq.webp"
                 alt="Contact Background"
                 className="w-full h-full object-cover object-center"
               />
@@ -105,7 +104,7 @@ export default function Contact() {
                         >
                           {d.label}
                         </p>
-                        <p className="text-[#0EA5A8] text-xs">{d.sub}</p>
+                        <p className="text-secondary text-xs">{d.sub}</p>
                       </div>
                     </div>
                   );

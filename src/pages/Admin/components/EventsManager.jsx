@@ -10,9 +10,9 @@ const initialForm = {
 // Textarea component mapping similar to InputGroup
 const TextareaGroup = ({ label, placeholder, val, setVal, w="w-full", req=false }) => (
   <div className={`flex flex-col gap-1.5 ${w}`}>
-    <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">{label}</label>
+    <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">{label}</label>
     <textarea required={req} value={val||''} onChange={e=>setVal(e.target.value)} placeholder={placeholder} rows="3"
-      className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-[#0EA5A8] focus:bg-black/30 transition-all font-medium text-sm" 
+      className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" 
     />
   </div>
 );
@@ -128,15 +128,15 @@ export default function EventsManager({ token }) {
       <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
-          <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-2">Basic Info</h3>
+          <h3 className="text-secondary font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-2">Basic Info</h3>
           <div className="flex flex-wrap gap-4 items-end">
             <InputGroup label="Title" placeholder="Event Title" val={form.title||''} setVal={v => setForm({...form, title: v})} w="w-[40%]" />
             <InputGroup label="Organizer" placeholder="LVB Surat" val={form.organizer||''} setVal={v => setForm({...form, organizer: v})} w="w-1/3" req={false} />
             <div className="flex flex-col gap-1.5 flex-1">
-              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Event Image</label>
+              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Event Image</label>
               <div className="flex items-center gap-2">
-                <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.jpeg" className="flex-1 bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-[#0EA5A8] focus:bg-black/30 transition-all font-medium text-sm" />
-                <label className="cursor-pointer bg-[#0EA5A8]/20 text-[#0EA5A8] hover:bg-[#0EA5A8]/30 px-3 py-3.5 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
+                <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.webp" className="flex-1 bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" />
+                <label className="cursor-pointer bg-secondary/20 text-secondary hover:bg-secondary/30 px-3 py-3.5 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
                   Upload
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                 </label>
@@ -162,7 +162,7 @@ export default function EventsManager({ token }) {
           {/* SESSIONS SECTION */}
           <div className="mt-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-4">
-              <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
+              <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
               <button type="button" onClick={addSession} className="text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Session</button>
             </div>
             <div className="flex flex-col gap-4">
@@ -171,8 +171,8 @@ export default function EventsManager({ token }) {
                   <button type="button" onClick={() => rmSession(i)} className="absolute top-4 right-4 text-red-400 hover:bg-red-400/20 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wider transition-colors">X Remove</button>
                   <div className="flex flex-wrap gap-3 mt-6">
                      <div className="flex flex-col gap-1.5 w-[140px]">
-                        <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Icon Type</label>
-                        <select value={s.iconType} onChange={e => updateSession(i, 'iconType', e.target.value)} className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-[#0EA5A8] font-medium text-sm">
+                        <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Icon Type</label>
+                        <select value={s.iconType} onChange={e => updateSession(i, 'iconType', e.target.value)} className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary font-medium text-sm">
                            <option value="mic">Mic (Speaker)</option>
                            <option value="briefcase">Briefcase (Business)</option>
                            <option value="users">Users (Team)</option>
@@ -195,7 +195,7 @@ export default function EventsManager({ token }) {
           {/* TICKETS SECTION */}
           <div className="mt-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-4">
-              <h3 className="text-[#0EA5A8] font-bold uppercase tracking-wider text-sm">Tickets</h3>
+              <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Tickets</h3>
               <button type="button" onClick={addTicket} className="text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Ticket</button>
             </div>
             <div className="flex flex-col gap-4">
@@ -226,7 +226,7 @@ export default function EventsManager({ token }) {
         rows={data.map(d => (
           <tr key={d.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
             <td className="p-5 font-black text-lg text-white w-40">
-              <span className="text-[#0EA5A8]">{d.date||'--'}</span> <span className="opacity-70 text-sm uppercase">{d.month||'TBD'}</span>
+              <span className="text-secondary">{d.date||'--'}</span> <span className="opacity-70 text-sm uppercase">{d.month||'TBD'}</span>
             </td>
             <td className="p-5 font-medium text-gray-200">
               <div className="font-bold">{d.title}</div>

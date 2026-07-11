@@ -43,7 +43,7 @@ export default function LeadersManager({ token }) {
     <div className="flex flex-col gap-6 pb-20">
       <SectionHeader title="Leadership Directory" desc="Manage active board members appearing in the 3D carousel." />
       
-      <div className="bg-white border border-[#D9E6EC] p-6 rounded-2xl shadow-sm">
+      <div className="bg-white border border-border p-6 rounded-2xl shadow-sm">
         <form onSubmit={handleSubmit} className="flex flex-col md:flex-row flex-wrap gap-4 items-end">
           <InputGroup label="Full Name" placeholder="John Doe" val={form.name} setVal={v => setForm({...form, name: v})} w="flex-1 w-full" />
           <InputGroup label="Position" placeholder="Vice President" val={form.role} setVal={v => setForm({...form, role: v})} w="flex-1 w-full" />
@@ -51,7 +51,7 @@ export default function LeadersManager({ token }) {
           <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
             <SubmitButton editing={editingId !== null} />
             {editingId && (
-              <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', role: '', img: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-[#64748B] hover:bg-gray-200 transition-all flex-1 md:flex-none">
+              <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', role: '', img: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-muted hover:bg-gray-200 transition-all flex-1 md:flex-none">
                 Cancel
               </button>
             )}
@@ -62,14 +62,14 @@ export default function LeadersManager({ token }) {
       <PremiumTable 
         headers={['Portrait', 'Officer Details', 'Position', 'Action']}
         rows={data.map(d => (
-          <tr key={d.id} className="border-b border-[#D9E6EC] hover:bg-[#F4F8FA] transition-colors">
+          <tr key={d.id} className="border-b border-border hover:bg-bg-alt transition-colors">
             <td className="p-4 w-24">
-              <div className="w-12 h-12 rounded-xl bg-gray-100 overflow-hidden border border-[#D9E6EC] shadow-sm">
-                <img src={d.img} alt="leader portrait" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
+              <div className="w-12 h-12 rounded-xl bg-gray-100 overflow-hidden border border-border shadow-sm">
+                <img loading="lazy" decoding="async" src={d.img} alt="leader portrait" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
               </div>
             </td>
-            <td className="p-4 font-extrabold text-[#1F2937]">{d.name}</td>
-            <td className="p-4 text-[#64748B] font-semibold text-sm tracking-wide">{d.role}</td>
+            <td className="p-4 font-extrabold text-body">{d.name}</td>
+            <td className="p-4 text-muted font-semibold text-sm tracking-wide">{d.role}</td>
             <td className="p-4 w-32 text-right">
               <EditBtn onClick={()=>handleEdit(d)} />
               <DeleteBtn onClick={()=>handleDelete(d.id)} />

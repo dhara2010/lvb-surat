@@ -68,40 +68,40 @@ export default function AdminDashboard() {
   // --- Login Screen ---
   if (!token) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F4F8FA] relative overflow-hidden font-sans">
+      <div className="min-h-screen flex items-center justify-center bg-bg-alt relative overflow-hidden font-sans">
         {/* Subtle Background Patterns */}
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#0EA5A8]/10 blur-[120px] pointer-events-none"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#044765]/10 blur-[150px] pointer-events-none"></div>
+        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-secondary/10 blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary/10 blur-[150px] pointer-events-none"></div>
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative z-10 w-full max-w-md p-10 rounded-[28px] shadow-2xl bg-white border border-[#D9E6EC]"
+          className="relative z-10 w-full max-w-md p-10 rounded-[28px] shadow-2xl bg-white border border-border"
         >
           <div className="flex flex-col items-center mb-10 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-[#044765] flex items-center justify-center shadow-lg shadow-[#044765]/30 mb-5">
+            <div className="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30 mb-5">
               <ShieldCheck size={32} className="text-white" />
             </div>
-            <h2 className="text-3xl font-extrabold text-[#1F2937] tracking-tight">Admin <span className="text-[#0EA5A8]">Portal</span></h2>
-            <p className="text-xs text-[#64748B] mt-2 tracking-widest font-semibold uppercase">LVB Surat Platinum</p>
+            <h2 className="text-3xl font-extrabold text-body tracking-tight">Admin <span className="text-secondary">Portal</span></h2>
+            <p className="text-xs text-muted mt-2 tracking-widest font-semibold uppercase">LVB Surat Platinum</p>
           </div>
           
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Username</label>
+              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Username</label>
               <input required type="text" value={username} onChange={e=>setUsername(e.target.value)} 
-                className="w-full bg-[#F4F8FA] border border-[#D9E6EC] p-4 rounded-xl text-[#1F2937] outline-none focus:border-[#0EA5A8] focus:bg-white transition-all font-medium" 
+                className="w-full bg-bg-alt border border-border p-4 rounded-xl text-body outline-none focus:border-secondary focus:bg-white transition-all font-medium" 
                 placeholder="Enter admin username"
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-[#64748B]">Password</label>
+              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Password</label>
               <input required type="password" value={password} onChange={e=>setPassword(e.target.value)} 
-                className="w-full bg-[#F4F8FA] border border-[#D9E6EC] p-4 rounded-xl text-[#1F2937] outline-none focus:border-[#0EA5A8] focus:bg-white transition-all font-medium" 
+                className="w-full bg-bg-alt border border-border p-4 rounded-xl text-body outline-none focus:border-secondary focus:bg-white transition-all font-medium" 
                 placeholder="••••••••"
               />
             </div>
-            <button type="submit" className="w-full mt-4 bg-[#044765] text-white p-4 rounded-xl font-bold tracking-widest uppercase hover:bg-[#03627D] hover:shadow-lg transition-all">
+            <button type="submit" className="w-full mt-4 bg-primary text-white p-4 rounded-xl font-bold tracking-widest uppercase hover:bg-primary-light hover:shadow-lg transition-all">
               Secure Login
             </button>
           </form>
@@ -133,12 +133,12 @@ export default function AdminDashboard() {
     <>
       <div className="p-6 flex items-center justify-between border-b border-white/10 shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-[#0EA5A8]">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-secondary">
             <ShieldCheck size={20} className="text-white" />
           </div>
           <div className="flex flex-col">
             <span className="font-extrabold text-sm tracking-widest text-white leading-none">LVB ADMIN</span>
-            <span className="text-[10px] text-[#0EA5A8] uppercase tracking-widest mt-1 font-bold">Workspace</span>
+            <span className="text-[10px] text-secondary uppercase tracking-widest mt-1 font-bold">Workspace</span>
           </div>
         </div>
         {isMobile && (
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
       </div>
 
       <div className="flex flex-col p-4 gap-2 overflow-y-auto flex-grow">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-[#64748B] mb-2 pl-3">Menu Controls</div>
+        <div className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2 pl-3">Menu Controls</div>
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -158,10 +158,10 @@ export default function AdminDashboard() {
               key={item.id}
               onClick={() => handleNavClick(item.id)}
               className={`flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all duration-300 w-full text-left group
-                ${isActive ? 'bg-[#0EA5A8]/10 text-[#0EA5A8]' : 'text-white/70 hover:bg-white/5 hover:text-white'}
+                ${isActive ? 'bg-secondary/10 text-secondary' : 'text-white/70 hover:bg-white/5 hover:text-white'}
               `}
             >
-              <Icon size={18} className={isActive ? 'text-[#0EA5A8]' : 'text-white/50 group-hover:text-white'} strokeWidth={isActive ? 2.5 : 2} />
+              <Icon size={18} className={isActive ? 'text-secondary' : 'text-white/50 group-hover:text-white'} strokeWidth={isActive ? 2.5 : 2} />
               <span className="font-semibold text-sm">{item.label}</span>
             </button>
           )
@@ -177,10 +177,10 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="min-h-screen flex bg-[#F4F8FA] font-sans overflow-hidden">
+    <div className="min-h-screen flex bg-bg-alt font-sans overflow-hidden">
       
       {/* ─── DESKTOP SIDEBAR ───────────────── */}
-      <div className="hidden lg:flex w-[260px] h-screen shrink-0 flex-col bg-[#061826] shadow-xl relative z-20">
+      <div className="hidden lg:flex w-[260px] h-screen shrink-0 flex-col bg-dark shadow-xl relative z-20">
         <SidebarContent />
       </div>
 
@@ -191,12 +191,12 @@ export default function AdminDashboard() {
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 bg-[#061826]/60 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-dark/60 backdrop-blur-sm z-40 lg:hidden"
             />
             <motion.div
               initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 left-0 w-[260px] bg-[#061826] shadow-2xl z-50 flex flex-col lg:hidden"
+              className="fixed inset-y-0 left-0 w-[260px] bg-dark shadow-2xl z-50 flex flex-col lg:hidden"
             >
               <SidebarContent />
             </motion.div>
@@ -207,25 +207,25 @@ export default function AdminDashboard() {
       {/* ─── MAIN CONTENT ───────────────── */}
       <div className="flex-1 h-screen flex flex-col relative z-10 min-w-0">
         {/* Top Navbar */}
-        <header className="bg-white border-b border-[#D9E6EC] px-6 py-4 flex items-center justify-between shrink-0 shadow-sm">
+        <header className="bg-white border-b border-border px-6 py-4 flex items-center justify-between shrink-0 shadow-sm">
           <div className="flex items-center gap-4">
-            <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden p-2 text-[#044765] hover:bg-[#F4F8FA] rounded-md">
+            <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden p-2 text-primary hover:bg-bg-alt rounded-md">
               <Menu size={24} />
             </button>
-            <h1 className="text-xl font-bold text-[#1F2937] tracking-tight">
+            <h1 className="text-xl font-bold text-body tracking-tight">
               {NAV_ITEMS.find(i => i.id === activeTab)?.label}
             </h1>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#044765]/10 flex items-center justify-center text-[#044765] border border-[#0EA5A8]/20">
+            <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-secondary/20">
               <ShieldCheck size={18} />
             </div>
-            <span className="hidden sm:block text-sm font-semibold text-[#1F2937]">Admin Session</span>
+            <span className="hidden sm:block text-sm font-semibold text-body">Admin Session</span>
           </div>
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-[#F4F8FA] scroll-smooth">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 bg-bg-alt scroll-smooth">
           <div className="max-w-7xl mx-auto w-full">
             <AnimatePresence mode="wait">
               {isEventsRoute ? (
@@ -290,9 +290,9 @@ function DashboardHome({ token, setTab }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="bg-white rounded-[24px] p-6 shadow-sm border border-[#D9E6EC]">
-        <h2 className="text-lg font-bold text-[#1F2937] mb-2">Welcome Back, Admin.</h2>
-        <p className="text-[#64748B] text-sm">Here is the current overview of the LVB Platform.</p>
+      <div className="bg-white rounded-[24px] p-6 shadow-sm border border-border">
+        <h2 className="text-lg font-bold text-body mb-2">Welcome Back, Admin.</h2>
+        <p className="text-muted text-sm">Here is the current overview of the LVB Platform.</p>
       </div>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -302,16 +302,16 @@ function DashboardHome({ token, setTab }) {
             <div 
               key={i} 
               onClick={() => setTab(stat.tab)}
-              className="bg-white p-6 rounded-[24px] border border-[#D9E6EC] shadow-sm hover:shadow-md cursor-pointer group transition-all"
+              className="bg-white p-6 rounded-[24px] border border-border shadow-sm hover:shadow-md cursor-pointer group transition-all"
             >
               <div className="flex justify-between items-start mb-4">
-                <div className="w-12 h-12 rounded-xl bg-[#F4F8FA] text-[#044765] flex items-center justify-center group-hover:bg-[#0EA5A8] group-hover:text-white transition-colors">
+                <div className="w-12 h-12 rounded-xl bg-bg-alt text-primary flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-colors">
                   <Icon size={24} />
                 </div>
               </div>
               <div>
-                <div className="text-3xl font-black text-[#1F2937]">{stat.count}</div>
-                <div className="text-sm font-semibold text-[#64748B] mt-1">{stat.label}</div>
+                <div className="text-3xl font-black text-body">{stat.count}</div>
+                <div className="text-sm font-semibold text-muted mt-1">{stat.label}</div>
               </div>
             </div>
           )

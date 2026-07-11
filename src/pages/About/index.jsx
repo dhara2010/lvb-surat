@@ -11,14 +11,14 @@ import { Quote } from 'lucide-react';
 
 export default function About() {
   return (
-    <div className="bg-[#FAFAFA] min-h-screen pb-16 md:pb-24 overflow-x-hidden">
+    <div className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       
       <PageHeader
         label="ABOUT US"
         title={
           <>
             {aboutHero.title} <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5A8] to-teal-400">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-teal-400">
               {aboutHero.highlight}
             </span>
           </>
@@ -29,32 +29,31 @@ export default function About() {
       <Container className="relative z-10 mb-16 md:mb-24 px-4 sm:px-6 lg:px-8 mt-10">
         <FadeIn delay={0.3}>
           <div className="relative w-full max-w-full aspect-[16/9] md:aspect-[21/9] rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl border border-white">
-             <img
-              src="/about/KVS_3369-2048x1365.jpg"
+             <img loading="lazy" decoding="async" src="/about/KVS_3369-2048x1365.webp"
               alt="LVB Surat Community"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
               onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80'; }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#044765]/40 to-transparent mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent mix-blend-overlay"></div>
           </div>
         </FadeIn>
       </Container>
 
       <Container className="mb-24 md:mb-32 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-[#0EA5A8]/30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-secondary/30 rounded-full blur-[100px] pointer-events-none -z-10"></div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {coreValues.map((item, i) => (
             <SlideUp delay={i * 0.15} key={i}>
-              <Card hover={true} className="h-full flex flex-col items-start border-t-4 border-t-[#0EA5A8]">
-                <div className="w-16 h-16 rounded-2xl bg-[#0EA5A8] flex items-center justify-center text-white mb-8">
+              <Card hover={true} className="h-full flex flex-col items-start border-t-4 border-t-secondary">
+                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-white mb-8">
                   <item.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-xl md:text-2xl font-bold text-[#044765] mb-4">
+                <h3 className="text-xl md:text-2xl font-bold text-primary mb-4">
                   {item.title}
                 </h3>
 
-                <p className="text-[#475569] leading-relaxed font-medium">
+                <p className="text-slate-600 leading-relaxed font-medium">
                   {item.desc}
                 </p>
               </Card>
@@ -76,16 +75,15 @@ export default function About() {
               <SlideUp delay={0.2 + (i * 0.2)} key={i}>
                 <div className="group relative rounded-[30px] overflow-hidden bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="aspect-[4/5] w-full overflow-hidden bg-gray-200">
-                    <img
-                      src={founder.img}
+                    <img loading="lazy" decoding="async" src={founder.img}
                       alt={founder.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${founder.name}&backgroundColor=0B1F3A&textColor=fff`; }}
                     />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white to-white/90 pt-10">
-                    <h4 className="text-2xl font-extrabold text-[#044765]">{founder.name}</h4>
-                    <p className="text-[#0EA5A8] font-bold text-sm tracking-widest uppercase mt-1">{founder.role}</p>
+                    <h4 className="text-2xl font-extrabold text-primary">{founder.name}</h4>
+                    <p className="text-secondary font-bold text-sm tracking-widest uppercase mt-1">{founder.role}</p>
                   </div>
                 </div>
               </SlideUp>
@@ -93,13 +91,13 @@ export default function About() {
           </div>
 
           <SlideUp delay={0.4} className="max-w-4xl mx-auto text-center">
-            <div className="relative p-10 md:p-14 bg-gradient-to-br from-[#044765] to-[#0A1729] rounded-[40px] text-white shadow-2xl overflow-hidden">
+            <div className="relative p-10 md:p-14 bg-gradient-to-br from-primary to-dark rounded-[40px] text-white shadow-2xl overflow-hidden">
               {/* Pattern overlay */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#0EA5A8]/20 rounded-full blur-[80px]"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-[80px]"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]"></div>
 
-              <Quote className="w-16 h-16 text-[#0EA5A8]/30 absolute top-8 left-8 -scale-x-100" />
-              <Quote className="w-16 h-16 text-[#0EA5A8]/30 absolute bottom-8 right-8" />
+              <Quote className="w-16 h-16 text-secondary/30 absolute top-8 left-8 -scale-x-100" />
+              <Quote className="w-16 h-16 text-secondary/30 absolute bottom-8 right-8" />
 
               <p className="relative z-10 text-lg md:text-xl/relaxed text-blue-50 italic font-light">
                 {founderMessage}

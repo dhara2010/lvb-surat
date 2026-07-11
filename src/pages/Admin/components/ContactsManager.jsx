@@ -19,25 +19,25 @@ export default function ContactsManager({ token }) {
           <motion.div 
             initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay: i*0.05 }}
             key={d.id} 
-            className="bg-white border border-[#D9E6EC] p-6 rounded-2xl shadow-sm flex flex-col gap-5 hover:shadow-md transition-shadow"
+            className="bg-white border border-border p-6 rounded-2xl shadow-sm flex flex-col gap-5 hover:shadow-md transition-shadow"
           >
-            <div className="flex justify-between items-start pt-1 pb-5 border-b border-[#D9E6EC]">
+            <div className="flex justify-between items-start pt-1 pb-5 border-b border-border">
               <div className="flex flex-col gap-2">
-                <h4 className="font-extrabold text-xl text-[#0EA5A8]">{d.name}</h4>
-                <div className="flex flex-wrap gap-2 text-xs font-bold tracking-wider text-[#64748B]">
-                  <span className="bg-[#F4F8FA] border border-[#D9E6EC] px-3 py-1.5 rounded-lg text-[#374151]">{d.email}</span>
-                  <span className="bg-[#F4F8FA] border border-[#D9E6EC] px-3 py-1.5 rounded-lg text-[#374151]">{d.phone}</span>
+                <h4 className="font-extrabold text-xl text-secondary">{d.name}</h4>
+                <div className="flex flex-wrap gap-2 text-xs font-bold tracking-wider text-muted">
+                  <span className="bg-bg-alt border border-border px-3 py-1.5 rounded-lg text-gray-700">{d.email}</span>
+                  <span className="bg-bg-alt border border-border px-3 py-1.5 rounded-lg text-gray-700">{d.phone}</span>
                 </div>
               </div>
-              <span className="text-[10px] uppercase tracking-widest text-[#64748B] mt-1 font-bold shrink-0 text-right">
+              <span className="text-[10px] uppercase tracking-widest text-muted mt-1 font-bold shrink-0 text-right">
                 {new Date(d.created_at).toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'})}
               </span>
             </div>
-            <p className="text-[#374151] text-sm leading-relaxed whitespace-pre-wrap px-1 font-medium">{d.message}</p>
+            <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap px-1 font-medium">{d.message}</p>
           </motion.div>
         ))}
       </div>
-      {data.length === 0 && <p className="text-[#64748B] p-10 text-center border border-dashed border-[#D9E6EC] rounded-2xl bg-white shadow-sm mt-4 font-semibold">Inbox is clean.</p>}
+      {data.length === 0 && <p className="text-muted p-10 text-center border border-dashed border-border rounded-2xl bg-white shadow-sm mt-4 font-semibold">Inbox is clean.</p>}
     </div>
   );
 }

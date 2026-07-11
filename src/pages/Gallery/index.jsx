@@ -28,9 +28,9 @@ export default function Showcase() {
       <div className="container-xl section-padding pt-0 md:pt-4">
 
         {/* ─── Gallery Grid ─────────────────── */}
-        {loading && <div className="py-20 flex justify-center w-full text-[#64748B] font-bold tracking-widest">LOADING GALLERY...</div>}
+        {loading && <div className="py-20 flex justify-center w-full text-muted font-bold tracking-widest">LOADING GALLERY...</div>}
         {error && <div className="py-20 flex justify-center w-full text-red-400 font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
-        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-[#64748B] font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
+        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-muted font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {gallery.map((src, i) => (
@@ -53,11 +53,10 @@ export default function Showcase() {
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && setLightbox(src)}
             >
-              <img
-                src={src}
+              <img loading="lazy" decoding="async" src={src}
                 alt={`Gallery image ${i + 1}`}
                 className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
               />
 
               {/* Hover overlay */}
@@ -114,11 +113,10 @@ export default function Showcase() {
               >
                 <X className="w-4 h-4" />
               </button>
-              <img
-                src={lightbox}
+              <img loading="lazy" decoding="async" src={lightbox}
                 alt="Expanded Gallery Image"
                 className="w-full max-h-[85vh] object-contain bg-black/5"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.jpg'; }}
+                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
               />
             </motion.div>
           </motion.div>

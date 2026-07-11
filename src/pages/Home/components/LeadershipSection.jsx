@@ -132,27 +132,26 @@ export default function LeadershipSection() {
           }}
           className={`cursor-pointer ${isActive ? 'group' : ''}`}
         >
-          <div className={`rounded-[28px] bg-[#044765]/40 backdrop-blur-md border border-white/20
+          <div className={`rounded-[28px] bg-primary/40 backdrop-blur-md border border-white/20
               flex flex-col p-5 md:p-6 transition-all duration-300
               ${isActive ? 'group-hover:-translate-y-3 shadow-[0_12px_40px_rgba(0,0,0,0.2)] group-hover:shadow-[0_24px_50px_rgba(20,184,166,0.3)]' : 'shadow-sm grayscale filter'}
             `}
             style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
           >
             <div className="w-full h-[65%] md:h-[75%] lg:h-[80%] rounded-[20px] overflow-hidden mb-4 md:mb-5">
-              <img
-                src={leader.img}
+              <img loading="lazy" decoding="async" src={leader.img}
                 alt={leader.name}
                 className={`w-full h-full object-cover transition-transform duration-500 rounded-[20px] ${isActive ? 'group-hover:scale-105' : ''}`}
                 onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=0B1F3A&textColor=fff`; }}
               />
             </div>
             <div className="flex flex-col items-center text-center mt-auto">
-              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-white group-hover:text-[#0EA5A8]' : 'text-[#64748B]'}`}>
+              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-white group-hover:text-secondary' : 'text-muted'}`}>
                 {leader.name}
               </h4>
               <p className="text-gray-300 text-xs md:text-sm mt-1">{leader.role}</p>
               {/* Accent Line */}
-              <div className={`h-[3px] bg-[#0EA5A8] rounded-full transition-all duration-500 ease-out origin-center mt-5 ${isActive ? 'w-6 group-hover:w-16' : 'w-0'}`}></div>
+              <div className={`h-[3px] bg-secondary rounded-full transition-all duration-500 ease-out origin-center mt-5 ${isActive ? 'w-6 group-hover:w-16' : 'w-0'}`}></div>
             </div>
           </div>
         </motion.div>
@@ -166,7 +165,7 @@ export default function LeadershipSection() {
         <div className="flex flex-col items-center text-center max-w-2xl mt-16">
           <SlideUp delay={0.1}>
             <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
-              Meet Our Leadership <span className='text-[#0EA5A8]'>Team</span>
+              Meet Our Leadership <span className='text-secondary'>Team</span>
             </h2>
           </SlideUp>
           <SlideUp delay={0.2}>
