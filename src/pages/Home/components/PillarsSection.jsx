@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { SlideUp } from '../../../components/animations/SlideUp';
+import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
 import { pillars } from '../../../data';
 
 
@@ -12,16 +12,16 @@ export default function PillarsSection() {
 
         {/* Header Section */}
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 md:mb-20">
-          <SlideUp delay={0.1}>
-            <h2 className="text-3xl md:text-4xl lg:text-[3.2rem] font-extrabold text-white tracking-tight leading-[1.2] lg:leading-[1.1] mb-4 md:mb-6 drop-shadow-lg">
+          <ScrollReveal3D delay={0.1}>
+            <h2 className="text-3xl md:text-4xl lg:text-[3.2rem] font-extrabold text-heading tracking-tight leading-[1.2] lg:leading-[1.1] mb-4 md:mb-6">
               The Foundation of Our <span className="text-secondary">Community </span>
             </h2>
-          </SlideUp>
-          <SlideUp delay={0.2}>
+          </ScrollReveal3D>
+          <ScrollReveal3D delay={0.2}>
             <p className="text-gray-300 text-sm md:text-lg lg:text-xl font-light mx-auto max-w-[600px] leading-relaxed drop-shadow px-2">
               Every connection we build is anchored by these five fundamental principles, ensuring our professional network remains exceptional.
             </p>
-          </SlideUp>
+          </ScrollReveal3D>
         </div>
 
         {/* Single Row Grid */}
@@ -47,7 +47,7 @@ export default function PillarsSection() {
 
               {/* Text Content */}
               <div className="relative z-10 flex flex-col sm:items-center sm:mt-2 text-left sm:text-center w-full">
-                <h3 className="text-lg sm:text-xl font-bold text-white mb-1 sm:mb-2 transition-colors duration-300 group-hover:text-secondary">
+                <h3 className="text-lg sm:text-xl font-bold text-heading mb-1 sm:mb-2 transition-colors duration-300 group-hover:text-secondary">
                   {pillar.title}
                 </h3>
 

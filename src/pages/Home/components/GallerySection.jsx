@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { SlideUp } from "../../../components/animations/SlideUp";
+import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import { useFetch } from "../../../hooks/useFetch";
 import { getGalleryImages } from "../../../api/galleryApi";
+
+import { TiltCard } from '../../../components/animations/TiltCard';
 
 export default function GallerySection() {
   const [gallery, setGallery] = useState([]);
@@ -103,17 +105,26 @@ export default function GallerySection() {
     enter: (dir) => ({
       x: dir > 0 ? "100%" : "-100%",
       opacity: 0,
+      rotateY: dir > 0 ? 15 : -15,
+      z: -50
     }),
     center: {
       x: 0,
       opacity: 1,
+      rotateY: 0,
+      z: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.6,
+        type: 'spring',
+        stiffness: 150,
+        damping: 20
       },
     },
     exit: (dir) => ({
       x: dir > 0 ? "-100%" : "100%",
       opacity: 0,
+      rotateY: dir > 0 ? -15 : 15,
+      z: -50,
       transition: {
         duration: 0.5,
       },
@@ -124,11 +135,11 @@ export default function GallerySection() {
     <section className="py-16 md:py-20 lg:py-24 overflow-hidden w-full max-w-[100vw]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 relative">
 
-        <SlideUp>
-          <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-8 md:mb-12">
+        <ScrollReveal3D>
+          <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-heading mb-8 md:mb-12">
             Chapter <span className="text-secondary">Gallery</span>
           </h2>
-        </SlideUp>
+        </ScrollReveal3D>
 
         <div
           className="relative mt-8 md:mt-10"
@@ -140,7 +151,7 @@ export default function GallerySection() {
           {/* Previous */}
           <button
             onClick={handlePrev}
-            className="absolute -left-2 sm:-left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -left-2 sm:-left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-[0_4px_20px_rgba(9,71,95,0.1)] p-1.5 sm:p-2 md:p-3 transition-colors"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
@@ -148,20 +159,20 @@ export default function GallerySection() {
           {/* Next */}
           <button
             onClick={handleNext}
-            className="absolute -right-2 sm:-right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-lg p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -right-2 sm:-right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-[0_4px_20px_rgba(9,71,95,0.1)] p-1.5 sm:p-2 md:p-3 transition-colors"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
-          <div className="overflow-hidden px-1">
+          <div className="overflow-visible px-1 py-8">
             {loading && (
-              <div className="h-[200px] sm:h-80 flex items-center justify-center text-white/50 text-sm md:text-base">
+              <div className="h-[200px] sm:h-80 flex items-center justify-center text-muted text-sm md:text-base">
                 Loading...
               </div>
             )}
 
             {error && (
-              <div className="h-[200px] sm:h-80 flex items-center justify-center text-red-400 text-sm md:text-base">
+              <div className="h-[200px] sm:h-80 flex items-center justify-center text-red-500 text-sm md:text-base">
                 Failed to load gallery
               </div>
             )}
@@ -175,7 +186,8 @@ export default function GallerySection() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className={`grid gap-4 sm:gap-5
+                  style={{ transformStyle: 'preserve-3d', perspective: '1200px' }}
+                  className={`grid gap-6 sm:gap-8
                     ${
                       itemsPerPage === 1
                         ? "grid-cols-1"
@@ -185,18 +197,19 @@ export default function GallerySection() {
                     }`}
                 >
                   {chunkedGallery[activeIndex].map((img, index) => (
-                    <div
-                      key={index}
-                      className="overflow-hidden rounded-xl shadow-lg border border-white/10"
-                    >
-                      <img loading="lazy" decoding="async" src={img}
-                        alt=""
-                        className="w-full aspect-[4/3] object-cover hover:scale-105 transition duration-700"
-                        onError={(e) => {
-                          e.target.src = "/KVS_3369-scaled.webp";
-                        }}
-                      />
-                    </div>
+                    <TiltCard key={index} tiltMax={12} scaleMax={1.03}>
+                      <div
+                        className="overflow-hidden rounded-xl h-full border border-primary/5 shadow-lg bg-white"
+                      >
+                        <img loading="lazy" decoding="async" src={img}
+                          alt=""
+                          className="w-full aspect-[4/3] object-cover hover:scale-105 transition duration-700"
+                          onError={(e) => {
+                            e.target.src = "/KVS_3369-scaled.webp";
+                          }}
+                        />
+                      </div>
+                    </TiltCard>
                   ))}
                 </motion.div>
               </AnimatePresence>
@@ -221,7 +234,7 @@ export default function GallerySection() {
         </div>
 
         {/* Button */}
-        <SlideUp delay={0.1}>
+        <ScrollReveal3D delay={0.1}>
           <div className="flex justify-center mt-8 md:mt-10">
             <Link
               to="/gallery"
@@ -230,7 +243,7 @@ export default function GallerySection() {
               View Full Gallery
             </Link>
           </div>
-        </SlideUp>
+        </ScrollReveal3D>
 
       </div>
     </section>

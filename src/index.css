@@ -14,13 +14,13 @@
 ────────────────────────────────────────────── */
 :root {
   /* Core Brand */
-  --color-primary:        #044765;   /* Deep Ocean Blue      */
-  --color-primary-light:  #03627D;   /* Blue hover           */
-  --color-primary-dark:   #02354a;   /* Blue pressed         */
-  --color-secondary:      #0EA5A8;   /* Modern Teal          */
-  --color-secondary-dark: #087F83;   /* Teal pressed         */
-  --color-secondary-light:#52cdd0;   /* Light Teal           */
-  --color-accent:         #0EA5A8;   /* Modern Teal          */
+  --color-primary:        #09475f;   /* Deep Ocean Blue      */
+  --color-primary-light:  #09475f;   /* Blue hover           */
+  --color-primary-dark:   #09475f;   /* Blue pressed         */
+  --color-secondary:      #09475f;   /* Modern Teal          */
+  --color-secondary-dark: #09475f;   /* Teal pressed         */
+  --color-secondary-light:#09475f;   /* Light Teal           */
+  --color-accent:         #09475f;   /* Modern Teal          */
   --color-dark:           #061826;   /* Dark Theme           */
 
   /* Backgrounds */
@@ -37,15 +37,15 @@
   --color-border-subtle:  #eaf1f5;   /* Very soft border     */
 
   /* Typography */
-  --color-heading:        #044765;   /* Deep blue headings   */
-  --color-body:           #1F2937;   /* Neutral body         */
-  --color-muted:          #64748B;   /* Secondary muted      */
+  --color-heading:        #000000;   /* Deep blue headings   */
+  --color-body:           #000000;   /* Neutral body         */
+  --color-muted:          #000000;   /* Secondary muted      */
   --color-on-primary:     #FFFFFF;   /* Text on primary      */
   --color-on-secondary:   #FFFFFF;   /* Text on teal         */
 
   /* Font Families */
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Montserrat', sans-serif;
+  --font-sans:    'Montserrat', sans-serif;
 
   /* Border Radii */
   --radius-sm:   0.5rem;    /*  8px */
@@ -55,11 +55,11 @@
   --radius-2xl:  2rem;      /* 32px */
 
   /* Shadows */
-  --shadow-card:      0 2px 16px 0 rgba(4, 71, 101, 0.06);
-  --shadow-card-hover:0 8px 32px 0 rgba(4, 71, 101, 0.12);
+  --shadow-card:      0 2px 16px 0 rgba(9, 71, 95, 0.06);
+  --shadow-card-hover:0 8px 32px 0 rgba(9, 71, 95, 0.12);
   --shadow-navbar:    0 2px 20px 0 rgba(6, 24, 38, 0.15);
-  --shadow-btn:       0 4px 14px 0 rgba(4, 71, 101, 0.25);
-  --shadow-btn-hover: 0 6px 20px 0 rgba(4, 71, 101, 0.35);
+  --shadow-btn:       0 4px 14px 0 rgba(9, 71, 95, 0.25);
+  --shadow-btn-hover: 0 6px 20px 0 rgba(9, 71, 95, 0.35);
   --shadow-lg:        0 16px 48px 0 rgba(6, 24, 38, 0.12);
 }
 
@@ -68,18 +68,18 @@
 ────────────────────────────────────────────── */
 @theme {
   /* Fonts */
-  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-serif:   'Cormorant Garamond', Georgia, serif;
+  --font-sans:    'Montserrat', sans-serif;
+  --font-display: 'Montserrat', sans-serif;
+  --font-serif:   'Montserrat', sans-serif;
 
   /* Brand Colors */
-  --color-primary:         #044765;
-  --color-primary-light:   #03627D;
-  --color-primary-dark:    #02354a;
-  --color-secondary:       #0EA5A8;
-  --color-secondary-dark:  #087F83;
-  --color-secondary-light: #52cdd0;
-  --color-accent:          #0EA5A8;
+  --color-primary:         #09475f;
+  --color-primary-light:   #09475f;
+  --color-primary-dark:    #09475f;
+  --color-secondary:       #09475f;
+  --color-secondary-dark:  #09475f;
+  --color-secondary-light: #09475f;
+  --color-accent:          #09475f;
   --color-dark:            #061826;
 
   /* Backgrounds */
@@ -96,9 +96,9 @@
   --color-border-subtle:   #eaf1f5;
 
   /* Typography */
-  --color-heading:         #044765;
-  --color-body:            #1F2937;
-  --color-muted:           #64748B;
+  --color-heading:         #000000;
+  --color-body:            #000000;
+  --color-muted:           #000000;
   --color-on-primary:      #FFFFFF;
   --color-on-secondary:    #FFFFFF;
 }
@@ -119,18 +119,28 @@ html {
 
 body {
   background-color: var(--color-bg);
-  color: var(--color-body);
-  font-family: var(--font-sans);
-  font-size: 1rem;
+  color: #000000;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
   line-height: 1.65;
   margin: 0;
 }
 
+p, .text-body, .description, .subtitle, .content {
+  font-family: "Montserrat", sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 1.65;
+}
+
 /* Heading defaults — font-family & color always from theme */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.15;
+  font-family: "Montserrat", sans-serif !important;
+  font-weight: 600 !important;
+  font-size: clamp(32px, 5vw, 55px) !important;
+  color: #000000 !important;
+  line-height: 1.25 !important;
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -289,7 +299,7 @@ img {
 .btn-platinum-outline:hover::after {
   transform: translateX(4px);
   background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23044765' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2309475f' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
 }
 
 .btn-ghost {
@@ -451,33 +461,13 @@ select.input-primary {
 }
 
 /* Heading sizes — use in JSX className */
-.h-display {
-  font-family:  var(--font-display);
-  font-size:    clamp(2.5rem, 6vw, 5rem);
-  font-weight:  600;
-  line-height:  1.05;
-  color:        var(--color-heading);
-  letter-spacing: -0.02em;
-}
-.h-xl {
-  font-family:  var(--font-display);
-  font-size:    clamp(2rem, 5vw, 3.5rem);
-  font-weight:  600;
-  line-height:  1.1;
-  color:        var(--color-heading);
-}
-.h-lg {
-  font-family:  var(--font-display);
-  font-size:    clamp(1.5rem, 3vw, 2.5rem);
-  font-weight:  600;
-  line-height:  1.15;
-  color:        var(--color-heading);
-}
-.h-md {
-  font-family:  var(--font-display);
-  font-size:    1.25rem;
-  font-weight:  600;
-  color:        var(--color-heading);
+.h-display, .h-xl, .h-lg, .h-md {
+  font-family:  "Montserrat", sans-serif !important;
+  font-size:    clamp(32px, 5vw, 55px) !important;
+  font-weight:  600 !important;
+  line-height:  1.25 !important;
+  color:        #000000 !important;
+  letter-spacing: -0.01em;
 }
 
 /* Mint highlight text */
@@ -604,6 +594,10 @@ select.input-primary {
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0);   }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 @keyframes shimmer {
   0%   { background-position: -200% center; }

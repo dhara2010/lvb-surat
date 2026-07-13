@@ -109,7 +109,7 @@ export default function MembersDirectory() {
                 <img loading="lazy" decoding="async" src={m.photoUrl} 
                   alt={m.name} 
                   className="w-[120px] h-[120px] rounded-2xl object-cover shadow-sm bg-gray-100 group-hover:scale-105 transition-transform"
-                  onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${m.name}&backgroundColor=0B1F3A&textColor=fff`; }}
+                  onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${m.name}&backgroundColor=09475f&textColor=fff`; }}
                 />
                 <div className="w-[120px] h-[120px] rounded-xl border border-gray-100 p-2 flex items-center justify-center bg-white shadow-sm overflow-hidden">
                   <img loading="lazy" decoding="async" src={m.logoUrl} 

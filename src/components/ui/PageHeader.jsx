@@ -1,5 +1,5 @@
 import React from 'react';
-import { SlideUp } from '../animations/SlideUp';
+import { ScrollReveal3D } from '../animations/ScrollReveal3D';
 import Container from '../layout/Container';
 
 export default function PageHeader({ label, title, description, alignment = 'left' }) {
@@ -11,25 +11,25 @@ export default function PageHeader({ label, title, description, alignment = 'lef
       <Container>
         <div className={`flex flex-col ${alignClass} w-full`}>
           {label && (
-            <SlideUp>
+            <ScrollReveal3D>
               <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-4 md:mb-5">
                 {label}
               </span>
-            </SlideUp>
+            </ScrollReveal3D>
           )}
           {title && (
-            <SlideUp delay={0.1}>
+            <ScrollReveal3D delay={0.1}>
               <h1 className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-primary leading-tight max-w-3xl ${textCenterClass} mb-5 md:mb-6`}>
                 {title}
               </h1>
-            </SlideUp>
+            </ScrollReveal3D>
           )}
           {description && (
-            <SlideUp delay={0.2}>
+            <ScrollReveal3D delay={0.2}>
               <p className={`text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl ${textCenterClass}`}>
                 {description}
               </p>
-            </SlideUp>
+            </ScrollReveal3D>
           )}
         </div>
       </Container>

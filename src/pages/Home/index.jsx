@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Import split sections
 import Hero from './components/Hero';
@@ -11,29 +11,51 @@ import GallerySection from './components/GallerySection';
 import TestimonialsSection from './components/TestimonialsSection';
 import EventsSection from './components/EventsSection';
 import FAQSection from './components/FAQSection';
+import { ParallaxSection } from '../../components/animations/ParallaxSection';
+import { AnimatedBackground } from '../../components/animations/AnimatedBackground';
+import SmoothScroll from '../../components/animations/SmoothScroll';
+import CustomCursor from '../../components/ui/CustomCursor';
+import Preloader from '../../components/ui/Preloader';
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+
   return (
-    <div className="w-full flex flex-col font-sans overflow-hidden bg-dark">
-      {/* Minor Dark Video Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <video autoPlay muted loop playsInline preload="auto" className="w-full h-full object-cover opacity-60">
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-dark/45 backdrop-blur-[2px]"></div>
-      </div>
+    <SmoothScroll>
+      <CustomCursor />
       
-      <div className="relative z-10 w-full">
+      <AnimatePresence mode="wait">
+        {loading && <Preloader onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+
+    <div className={`w-full flex flex-col font-sans overflow-hidden bg-white transition-opacity duration-1000 ease-[0.16,1,0.3,1] ${loading ? 'opacity-0 h-screen' : 'opacity-100'}`}>
+      {/* 3D Animated Background replaces video layer fully */}
+      <AnimatedBackground />
+      
+      <div className="relative z-10 w-full" style={{ transformStyle: 'preserve-3d' }}>
         <Hero />
-        <AboutSection />
-        <PillarsSection />
-        <ChapterSection />
-        <LeadershipSection />
-        <GallerySection />
-        <TestimonialsSection />
-        <EventsSection />
-        <FAQSection />
+        
+        <ParallaxSection speed={0.15}>
+          <AboutSection />
+          <PillarsSection />
+        </ParallaxSection>
+
+        <ParallaxSection speed={0.25}>
+          <ChapterSection />
+          <LeadershipSection />
+        </ParallaxSection>
+
+        <ParallaxSection speed={0.2}>
+          <GallerySection />
+          <TestimonialsSection />
+        </ParallaxSection>
+
+        <ParallaxSection speed={0.1}>
+          <EventsSection />
+          <FAQSection />
+        </ParallaxSection>
       </div>
     </div>
+    </SmoothScroll>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { SlideUp } from '../../../components/animations/SlideUp';
+import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
 import { motion } from 'framer-motion';
 import { useFetch } from '../../../hooks/useFetch';
 import { getLeaders } from '../../../api/leadersApi';
@@ -139,14 +139,14 @@ export default function LeadershipSection() {
             style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
           >
             <div className="w-full h-[65%] md:h-[75%] lg:h-[80%] rounded-[20px] overflow-hidden mb-4 md:mb-5">
-              <img loading="lazy" decoding="async" src={leader.img}
+              <img src={leader.img}
                 alt={leader.name}
                 className={`w-full h-full object-cover transition-transform duration-500 rounded-[20px] ${isActive ? 'group-hover:scale-105' : ''}`}
-                onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=0B1F3A&textColor=fff`; }}
+                onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=09475f&textColor=fff`; }}
               />
             </div>
             <div className="flex flex-col items-center text-center mt-auto">
-              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-white group-hover:text-secondary' : 'text-muted'}`}>
+              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-primary group-hover:text-secondary' : 'text-muted'}`}>
                 {leader.name}
               </h4>
               <p className="text-gray-300 text-xs md:text-sm mt-1">{leader.role}</p>
@@ -163,18 +163,18 @@ export default function LeadershipSection() {
     <section className="relative min-h-screen overflow-hidden ">
       <div className="relative z-10 w-full flex flex-col items-center">
         <div className="flex flex-col items-center text-center max-w-2xl mt-16">
-          <SlideUp delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.1] mb-5">
+          <ScrollReveal3D delay={0.1}>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-heading tracking-tight leading-[1.1] mb-5">
               Meet Our Leadership <span className='text-secondary'>Team</span>
             </h2>
-          </SlideUp>
-          <SlideUp delay={0.2}>
+          </ScrollReveal3D>
+          <ScrollReveal3D delay={0.2}>
             <p className="text-gray-300 text-base md:text-lg font-light leading-relaxed max-w-[80%] mx-auto">
               Professional leaders committed to building a stronger, more connected business community.
             </p>
-          </SlideUp>
+          </ScrollReveal3D>
         </div>
-        <SlideUp delay={0.3} className="w-full px-2 md:px-6">
+        <ScrollReveal3D delay={0.3} className="w-full px-2 md:px-6">
           <div
             className="relative w-full max-w-[2200px] mx-auto flex justify-center items-center touch-pan-y select-none"
             style={{ perspective: "1500px", height: winWidth <= 480 ? '450px' : winWidth <= 767 ? '500px' : winWidth <= 1024 ? '580px' : '700px' }}
@@ -186,14 +186,14 @@ export default function LeadershipSection() {
             onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
             onWheel={handleWheel}
           >
-            {loading && <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">LOADING LEADERS...</div>}
-            {error && <div className="absolute inset-0 flex items-center justify-center text-red-400 text-sm tracking-widest font-bold">FAILED TO LOAD LEADERS</div>}
-            {!loading && !error && leaders.length === 0 && <div className="absolute inset-0 flex items-center justify-center text-white/50 text-sm tracking-widest font-bold">NO LEADERS AVAILABLE</div>}
+            {loading && <div className="absolute inset-0 flex items-center justify-center text-muted text-sm tracking-widest font-bold">LOADING LEADERS...</div>}
+            {error && <div className="absolute inset-0 flex items-center justify-center text-red-500 text-sm tracking-widest font-bold">FAILED TO LOAD</div>}
+            {!loading && !error && leaders.length === 0 && <div className="absolute inset-0 flex items-center justify-center text-muted text-sm tracking-widest font-bold">NO LEADERS AVAILABLE</div>}
 
             {leaders.length > 0 ? renderCards() : null}
           </div>
-        </SlideUp>
-        <SlideUp delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-white">
+        </ScrollReveal3D>
+        <ScrollReveal3D delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-body">
           <button
             onClick={handlePrev}
             className={`flex items-center gap-2 font-semibold text-xs md:text-sm uppercase tracking-wider transition-opacity opacity-80 hover:opacity-100 hover:-translate-x-1 transition-all`}
@@ -223,7 +223,7 @@ export default function LeadershipSection() {
           >
             Next <ChevronRight className="w-5 h-5" />
           </button>
-        </SlideUp>
+        </ScrollReveal3D>
 
       </div>
     </section>

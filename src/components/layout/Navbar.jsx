@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import Magnetic from '../animations/Magnetic';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
@@ -43,23 +44,25 @@ export default function Navbar() {
     <>
       <header
         style={{
-          backgroundColor: 'var(--color-bg)',
-          boxShadow: scrolled ? 'var(--shadow-navbar)' : 'none',
-          borderBottom: scrolled ? '1px solid transparent' : '1px solid var(--color-border-subtle)',
-          transition: 'box-shadow 0.3s ease, border-color 0.3s ease',
+          backgroundColor: scrolled ? 'rgba(255, 255, 255, 0.75)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          boxShadow: scrolled ? '0 10px 40px -10px rgba(0,0,0,0.08)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(9, 71, 95, 0.05)' : '1px solid transparent',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         role="banner"
       >
         <div
-          className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10"
-          style={{ height: `100px` }}
+          className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-10 transition-all duration-500"
+          style={{ height: scrolled ? '80px' : '100px' }}
         >
 
           {/* ── Logo ──────────────────────────── */}
           <Link
             to="/"
-            className="flex items-center gap-2 shrink-0 group"
+            className="flex items-center gap-2 shrink-0 group cursor-pointer"
             aria-label="LVB Surat Platinum — Homepage"
           >
             {logoError ? (
@@ -101,47 +104,49 @@ export default function Navbar() {
 
           {/* ── Desktop Navigation ───────────── */}
           <nav
-            className="hidden lg:flex items-center gap-2 xl:gap-4"
+            className="hidden lg:flex items-center gap-4 xl:gap-8"
             aria-label="Primary navigation"
           >
             {NAV_LINKS.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) => `
-                  relative px-2 xl:px-3 py-2 rounded-sm text-sm xl:text-base font-semibold tracking-wide transition-colors duration-200
-                  ${isActive ? 'active' : ''}
-                `}
-                style={({ isActive }) => ({
-                  color: isActive ? 'var(--color-secondary)' : 'var(--color-primary)',
-                })}
-              >
-                {({ isActive }) => (
-                  <>
-                    {link.label}
-                    {/* Animated underline */}
-                    <motion.span
-                      className="absolute -bottom-0.5 left-0 h-[2px] rounded-full"
-                      style={{ backgroundColor: 'var(--color-secondary)' }}
-                      initial={false}
-                      animate={{ width: isActive ? '100%' : '0%' }}
-                      transition={{ duration: 0.25, ease: 'easeInOut' }}
-                    />
-                  </>
-                )}
-              </NavLink>
+              <Magnetic strength={0.3} key={link.path}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) => `
+                    relative px-1 py-2 text-sm xl:text-base font-bold tracking-widest uppercase transition-colors duration-300 cursor-pointer
+                    ${isActive ? 'active' : 'opacity-80 hover:opacity-100'}
+                  `}
+                  style={({ isActive }) => ({
+                    color: isActive ? 'var(--color-primary)' : 'var(--color-primary)',
+                  })}
+                >
+                  {({ isActive }) => (
+                    <>
+                      {link.label}
+                      <motion.span
+                        className="absolute -bottom-1 left-0 h-[3px] rounded-full"
+                        style={{ backgroundColor: 'var(--color-secondary)' }}
+                        initial={false}
+                        animate={{ width: isActive ? '100%' : '0%' }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              </Magnetic>
             ))}
           </nav>
 
           {/* ── Desktop CTA ──────────────────── */}
           <div className="hidden lg:block shrink-0">
-            <Link
-              to="/contact"
-              className="group relative inline-flex items-center gap-2 xl:gap-3 overflow-hidden rounded-full px-5 py-2.5 text-sm xl:text-base font-semibold text-white bg-white/50 backdrop-blur-md border border-white/20 shadow-lg transition-all duration-500 hover:shadow-xl hover:border-transparent"
-            >
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-secondary via-primary to-secondary transition-transform duration-700 group-hover:translate-x-0"></span>
-              <span className="relative z-10 w-full text-center">Let's Connect</span>
-            </Link>
+            <Magnetic strength={0.4}>
+              <Link
+                to="/contact"
+                className="group relative inline-flex items-center justify-center gap-2 xl:gap-3 overflow-hidden rounded-full px-8 py-3 text-sm xl:text-base font-bold tracking-widest uppercase text-white bg-primary shadow-lg transition-all duration-700 hover:shadow-[0_10px_30px_rgba(9,71,95,0.4)] cursor-pointer"
+              >
+                <span className="absolute inset-0 w-full h-full bg-secondary scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-[0.16,1,0.3,1]"></span>
+                <span className="relative z-10 w-full text-center">Let's Connect</span>
+              </Link>
+            </Magnetic>
           </div>
 
           {/* ── Mobile Hamburger ─────────────── */}
