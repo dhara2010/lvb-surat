@@ -47,9 +47,8 @@ export default function Layout() {
 
   return (
     <div
-      className="overflow-x-hidden flex flex-col min-h-screen"
+      className="overflow-x-hidden flex flex-col min-h-screen bg-transparent"
       style={{
-        backgroundColor: 'var(--color-bg)',
         color: 'var(--color-body)',
         fontFamily: 'var(--font-sans)',
       }}

@@ -29,7 +29,7 @@ export default function Meeting() {
   const events = eventsData || [];
 
   return (
-    <section id="meeting" className="section-white">
+    <div id="meeting" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader 
         label="EVENTS & MEETINGS"
         title="How & When We Meet"
@@ -60,14 +60,11 @@ export default function Meeting() {
 
           {/* Text */}
           <motion.div {...inView(0)} className="flex flex-col gap-6">
-            <h2
-              className="h-lg"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight">
               Meeting Structure
             </h2>
-            <div className="divider-mint" />
-            <p className="text-body text-base leading-relaxed">
+            <div className="w-24 h-1 bg-secondary"></div>
+            <p className="text-slate-600 text-base md:text-lg leading-relaxed">
               Consistency builds credibility. Every Wednesday morning, our
               members gather to exchange referrals, present their businesses,
               and conduct structured introductions designed to generate real
@@ -81,8 +78,7 @@ export default function Meeting() {
                 return (
                   <div
                     key={i}
-                    className="flex items-center gap-4 p-4 rounded-lg section-light"
-                    style={{ border: '1px solid var(--color-border-subtle)' }}
+                    className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 border border-gray-100 shadow-sm"
                   >
                     <div
                       className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-secondary"
@@ -94,13 +90,10 @@ export default function Meeting() {
                       />
                     </div>
                     <div>
-                      <p
-                        className="text-sm font-semibold"
-                        style={{ color: 'var(--color-heading)' }}
-                      >
+                      <p className="text-base font-bold text-primary">
                         {d.label}
                       </p>
-                      <p className="text-muted text-xs mt-0.5">{d.sub}</p>
+                      <p className="text-slate-600 text-sm mt-0.5">{d.sub}</p>
                     </div>
                   </div>
                 );
@@ -121,11 +114,8 @@ export default function Meeting() {
         {/* ─── Upcoming Events ──────────────── */}
         <div>
           <motion.div {...inView(0)} className="mb-12">
-            <span className="section-label block mb-3">Chapter Agenda</span>
-            <h2
-              className="h-lg"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3">Chapter Agenda</span>
+            <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight">
               Upcoming Events
             </h2>
           </motion.div>
@@ -139,37 +129,28 @@ export default function Meeting() {
               <motion.div
                 key={i}
                 {...inView(i * 0.1)}
-                className="card-primary p-7 flex flex-col gap-5"
+                className="bg-white rounded-2xl p-6 border border-gray-200 hover:border-secondary shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col gap-5"
               >
                 {/* Date Badge */}
                 <div className="flex items-center gap-3">
                   <div
                     className="w-14 h-14 rounded-lg flex flex-col items-center justify-center shrink-0 bg-secondary"
                   >
-                    <span
-                      className="text-lg font-bold leading-none"
-                      style={{ color: 'var(--color-on-secondary)', fontFamily: 'var(--font-display)' }}
-                    >
+                    <span className="text-xl md:text-2xl font-black text-black leading-none">
                       {ev.date}
                     </span>
-                    <span
-                      className="text-[10px] font-semibold leading-none mt-0.5"
-                      style={{ color: 'var(--color-on-secondary)' }}
-                    >
+                    <span className="text-xs font-bold text-black leading-none mt-1 uppercase">
                       {ev.month}
                     </span>
                   </div>
-                  <span className="text-muted text-xs font-mono uppercase">{ev.year}</span>
+                  <span className="text-slate-500 text-sm font-bold tracking-wider uppercase">{ev.year}</span>
                 </div>
 
                 <div className="flex flex-col gap-2 flex-grow">
-                  <h3
-                    className="h-md leading-snug group-hover:text-secondary transition-colors line-clamp-2"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
+                  <h3 className="text-xl md:text-2xl font-bold text-primary group-hover:text-secondary transition-colors line-clamp-2">
                     {ev.title}
                   </h3>
-                  <p className="text-body text-sm leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>
+                  <p className="text-slate-600 text-sm md:text-base leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>
                 </div>
 
                 <Link
@@ -185,6 +166,6 @@ export default function Meeting() {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 }

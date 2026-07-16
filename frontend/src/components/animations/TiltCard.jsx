@@ -1,76 +1,72 @@
-import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
 
-export const TiltCard = React.memo(({ children, className = '', tiltMax = 15, scaleMax = 1.05 }) => {
+const TiltCard = ({ children, className = "", scaleMax = 1.05, tiltMax = 15 }) => {
   const ref = useRef(null);
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [tiltMax, -tiltMax]), { stiffness: 300, damping: 40 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-tiltMax, tiltMax]), { stiffness: 300, damping: 40 });
+  const scale = useSpring(isHovered ? scaleMax : 1, { stiffness: 300, damping: 30 });
+  
+  const background = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, rgba(14,165,168,0.15), transparent 80%)`;
 
   const handleMouseMove = (e) => {
     if (!ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
     
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
+    // For tilt
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
     
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    
-    setRotation({
-      x: -yPct * tiltMax,
-      y: xPct * tiltMax
-    });
+    // For glow
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
   };
 
   const handleMouseLeave = () => {
-    setIsHovering(false);
-    setRotation({ x: 0, y: 0 });
+    setIsHovered(false);
+    x.set(0);
+    y.set(0);
   };
 
   return (
     <motion.div
       ref={ref}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      animate={{
-        rotateX: rotation.x,
-        rotateY: rotation.y,
-        scale: isHovering ? scaleMax : 1,
-        z: isHovering ? 50 : 0
+      style={{
+        rotateX,
+        rotateY,
+        scale,
+        transformStyle: "preserve-3d",
       }}
-      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-      style={{ perspective: '1200px', transformStyle: 'preserve-3d' }}
-      className={`relative will-change-transform ${className}`}
+      className={`relative w-full group ${className}`}
     >
+      {/* Animated Glow Border */}
+      <motion.div
+        className="absolute -inset-[2px] rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        style={{ background }}
+      />
+      
+      {/* Main Glassmorphism Card */}
       <div 
-        style={{ transformStyle: 'preserve-3d', transform: isHovering ? 'translateZ(30px)' : 'translateZ(0px)', transition: 'transform 0.4s ease' }} 
-        className="w-full h-full"
+        style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} 
+        className="relative w-full h-full bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-[inherit] overflow-hidden"
       >
+        <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background }} />
         {children}
-        
-        {/* Soft shadow overlay for realistic depth lighting */}
-        <motion.div 
-          animate={{ opacity: isHovering ? 0.3 : 0 }}
-          style={{
-            background: 'linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.4) 25%, transparent 35%)',
-            position: 'absolute',
-            inset: 0,
-            borderRadius: 'inherit',
-            pointerEvents: 'none',
-            transform: 'translateZ(1px)' // Keeps shadow strictly above card layers
-          }}
-        />
-        
-        {/* Drop shadow driven by elevation */}
-        <motion.div 
-          animate={{ opacity: isHovering ? 1 : 0 }}
-          className="absolute -inset-4 z-[-1] blur-2xl bg-black/40 rounded-[inherit] pointer-events-none transition-opacity duration-300"
-          style={{ transform: 'translateZ(-20px)' }}
-        />
       </div>
     </motion.div>
   );
-});
+};
+
+export default TiltCard;

@@ -1,94 +1,138 @@
 import React from 'react';
-import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
-import { TiltCard } from '../../../components/animations/TiltCard';
+import ScrollReveal3D from '../../../components/animations/ScrollReveal3D';
+import TiltCard from '../../../components/animations/TiltCard';
+import LuxuryCard from '../../../components/ui/LuxuryCard';
 import { stats1 } from '../../../data';
 import { CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import GlassSection from '../../../components/ui/GlassSection';
 
 export default function AboutSection() {
   return (
-    <section className="relative overflow-hidden py-32 bg-transparent z-10" id="about">
-      <div className="relative max-w-7xl mx-auto px-6 md:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+    <GlassSection id="about">
+      {/* Soft animated gradient background & lighting */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-[20%] -left-[10%] w-[60vw] h-[60vw] rounded-full bg-gradient-to-br from-primary/10 to-transparent blur-[120px] mix-blend-multiply animate-[pulse_8s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-[10%] -right-[10%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tr from-secondary/15 to-transparent blur-[140px] mix-blend-multiply animate-[pulse_10s_ease-in-out_infinite_2s]"></div>
 
+        {/* Subtle Blue/White Particles (CSS) */}
+        <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-secondary/60 animate-[float_4s_ease-in-out_infinite] shadow-[0_0_10px_rgba(18,59,93,0.8)]"></div>
+        <div className="absolute bottom-1/3 right-1/4 w-3 h-3 rounded-full bg-secondary/40 animate-[float_6s_ease-in-out_infinite_1s] shadow-[0_0_15px_rgba(18,59,93,0.6)]"></div>
+        <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full bg-primary/40 animate-[float_5s_ease-in-out_infinite_0.5s]"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-24 items-center">
+
+          {/* LEFT CONTENT */}
           <div className="flex flex-col z-10 w-full">
             <ScrollReveal3D delay={0.1}>
-              <span className="inline-flex items-center gap-3 font-bold tracking-[0.25em] uppercase text-secondary text-[10px] md:text-xs">
-                <div className="w-10 md:w-16 h-[2px] bg-gradient-to-r from-secondary to-transparent"></div>
-                About Chapter
+              <span className="inline-flex items-center gap-4 font-bold tracking-[0.25em] uppercase text-secondary text-sm">
+                <motion.div
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 48 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  className="h-[2px] bg-secondary"
+                ></motion.div>
+                01 — About Chapter
               </span>
             </ScrollReveal3D>
 
             <ScrollReveal3D delay={0.2}>
-              <h2 className="mt-5 md:mt-8 text-4xl md:text-5xl lg:text-[4rem] font-semibold leading-[1.1] text-heading tracking-tight">
+              <h2 className="mt-8 font-extrabold leading-[1.1] tracking-tight" style={{ fontSize: "clamp(42px, 5vw, 72px)", color: "#FFFFFF" }}>
                 Building Powerful
                 <br className="max-sm:hidden" />
-                Business
-                <span className="text-secondary bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary"> Connections.</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC]"> Business Connections</span>.
               </h2>
             </ScrollReveal3D>
 
             <ScrollReveal3D delay={0.3}>
-              <p className="mt-6 md:mt-8 text-[17px] md:text-[19px] leading-[1.8] text-body font-medium max-w-xl">
+              <p className="mt-8 font-medium max-w-2xl leading-[1.8]" style={{ fontSize: "18px", color: "#CBD5E1" }}>
                 Our Platinum Chapter brings together visionary entrepreneurs, manufacturers, traders, and professionals under one exclusive ecosystem designed to generate quality referrals and long-term relationships.
               </p>
             </ScrollReveal3D>
 
-            {/* Modern Feature Cards instead of simple line list */}
-            <div className="mt-10 md:mt-14 flex flex-col gap-5">
+            {/* Feature Cards - Stacked Layout */}
+            <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-6">
               {[
                 { title: "One Business Category Per Member", desc: "Exclusive category rights outperforming ordinary networks." },
                 { title: "Verified Referral Management", desc: "Seamless and secure tracking of high-quality business leads." },
                 { title: "Premium Business Networking", desc: "Elite gatherings prioritizing substantial business growth." }
               ].map((item, index) => (
                 <ScrollReveal3D key={index} delay={0.4 + index * 0.1}>
-                  <div className="group relative flex items-center gap-5 md:gap-6 p-4 md:p-5 rounded-[20px] bg-white/40 border border-primary/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_15px_40px_rgb(9,71,95,0.08)] hover:border-primary/20">
-                    <div className="shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary/5 text-primary flex items-center justify-center transition-all duration-500 group-hover:bg-primary group-hover:text-white group-hover:scale-110 group-hover:shadow-[0_10px_20px_rgb(9,71,95,0.2)]">
-                      <CheckCircle className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2.5} />
+                  <LuxuryCard className="h-full p-6">
+                    <div className="shrink-0 w-14 h-14 rounded-[16px] flex items-center justify-center transition-all duration-500 group-hover:bg-white group-hover:text-primary mb-6" style={{ color: '#4FA3D1' }}>
+                      <CheckCircle className="w-7 h-7" strokeWidth={2.5} />
                     </div>
-                    <div className="flex flex-col">
-                      <h4 className="font-semibold text-md text-heading leading-tight">{item.title}</h4>
-                      <p className="text-muted mt-1 text-sm md:text-[15px] font-medium leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
+                    <h4 className="font-bold leading-tight group-hover:text-white transition-colors duration-500" style={{ fontSize: "22px", color: "#FFFFFF" }}>
+                      {item.title}
+                    </h4>
+                    <p className="mt-3 font-medium leading-relaxed transition-colors duration-500" style={{ fontSize: "16px", color: "#CBD5E1" }}>
+                      {item.desc}
+                    </p>
+                  </LuxuryCard>
                 </ScrollReveal3D>
               ))}
             </div>
           </div>
-
-          {/* Right Column: 3D Floating Glass Statistics */}
-          <div className="relative lg:pl-10 h-full w-full">
-            {/* Decorative floating blur behind cards */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-gradient-to-tr from-secondary/10 to-primary/10 blur-[80px] rounded-full pointer-events-none mix-blend-multiply"></div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 min-h-[300px] relative z-10 w-full mt-10 lg:mt-0">
-              {stats1.map((item, index) => (
-                <ScrollReveal3D key={index} delay={0.3 + index * 0.15} className={`h-full w-full ${index === 0 ? "sm:col-span-2" : ""}`}>
-                  <div className="h-full w-full animate-[float_6s_ease-in-out_infinite]" style={{ animationDelay: `${index * 1.5}s` }}>
-                    <TiltCard scaleMax={1.03} tiltMax={10} className="h-full w-full block">
-                      <div className="h-full w-full rounded-[30px] md:rounded-[36px] bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_10px_40px_rgba(9,71,95,0.06)] p-8 md:p-10 lg:p-12 transition-all duration-700 hover:shadow-[0_20px_60px_rgba(9,71,95,0.12)] hover:bg-white/90 relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-bl-[100px] transition-transform duration-700 group-hover:scale-150 group-hover:bg-secondary/10 pointer-events-none"></div>
-                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-[18px] bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white mb-6 md:mb-10 shadow-lg relative z-10 transition-transform duration-500 group-hover:scale-110">
-                          <item.icon className="w-6 h-6 md:w-8 md:h-8" strokeWidth={2} />
-                        </div>
-                        <div className="relative z-10 flex flex-col justify-end h-full">
-                          <h2 className="text-5xl md:text-6xl font-black text-heading tabular-nums tracking-tight">
-                            {item.value}
-                          </h2>
-                          <p className="uppercase tracking-[0.2em] md:tracking-[0.25em] mt-3 md:mt-4 text-xs md:text-sm text-primary font-bold opacity-80 leading-snug break-words">
-                            {item.label}
-                          </p>
-                        </div>
-
+          <div className="relative h-full w-full lg:pl-12 flex justify-center items-center perspective-[2000px] mt-16 lg:mt-0">
+            <ScrollReveal3D delay={0.4} className="w-full flex flex-col gap-6 sm:gap-8 preserve-3d">
+              {stats1[0] && (
+                <motion.div
+                  initial={{ rotateX: 20, rotateY: -10, translateZ: -100, opacity: 0 }}
+                  whileInView={{ rotateX: 0, rotateY: 0, translateZ: 50, opacity: 1 }}
+                  transition={{ duration: 1, type: "spring", bounce: 0.3 }}
+                  style={{ transformStyle: "preserve-3d" }}
+                  className="w-full relative"
+                >
+                  <LuxuryCard className="w-full min-h-[320px] p-10 sm:p-14 flex flex-col justify-between group">
+                    <div className="w-20 h-20 rounded-[20px] flex items-center justify-center mb-10 relative z-20 group-hover:bg-white group-hover:text-primary transition-all duration-500" style={{ color: '#4FA3D1' }}>
+                      {React.createElement(stats1[0].icon, { className: "w-10 h-10 group-hover:scale-[1.15]", strokeWidth: 2 })}
+                    </div>
+                    <div className="relative z-10 flex flex-col">
+                      <h2 className="font-extrabold tabular-nums tracking-tight leading-none group-hover:drop-shadow-[0_0_20px_rgba(18,59,93,0.6)] transition-all duration-500" style={{ fontSize: "clamp(20px, 2vw, 38px)", color: '#FFFFFF' }}>
+                        {stats1[0].value}
+                      </h2>
+                      <p className="uppercase tracking-[0.25em] mt-4 font-bold transition-colors duration-500 group-hover:text-white" style={{ fontSize: "14px", color: '#64748B' }}>
+                        {stats1[0].label}
+                      </p>
+                    </div>
+                  </LuxuryCard>
+                </motion.div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 w-full preserve-3d">
+                {stats1.slice(1, 3).map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ rotateX: 10, rotateY: -15, translateZ: -50, opacity: 0 }}
+                    whileInView={{ rotateX: 0, rotateY: 0, translateZ: 20, opacity: 1 }}
+                    transition={{ duration: 1, delay: 0.2 + index * 0.1, type: "spring", bounce: 0.3 }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="w-full relative"
+                  >
+                    <LuxuryCard className="w-full min-h-[260px] p-8 flex flex-col justify-between group">
+                      <div className="w-16 h-16 rounded-[16px] flex items-center justify-center mb-8 relative z-20 group-hover:bg-white group-hover:text-primary transition-all duration-500" style={{ color: '#4FA3D1' }}>
+                        <item.icon className="w-8 h-8 group-hover:scale-[1.15]" strokeWidth={2} />
                       </div>
-                    </TiltCard>
-                  </div>
-                </ScrollReveal3D>
-              ))}
-            </div>
+
+                      <div className="relative z-10 flex flex-col">
+                        <h2 className="font-extrabold tabular-nums tracking-tight leading-none group-hover:drop-shadow-[0_0_20px_rgba(18,59,93,0.6)] transition-all duration-500" style={{ fontSize: "clamp(20px, 2vw, 38px)", color: '#FFFFFF' }}>
+                          {item.value}
+                        </h2>
+                        <p className="uppercase tracking-[0.2em] mt-3 font-bold text-xs group-hover:text-white transition-colors duration-500" style={{ color: '#64748B' }}>
+                          {item.label}
+                        </p>
+                      </div>
+                    </LuxuryCard>
+                  </motion.div>
+                ))}
+              </div>
+
+            </ScrollReveal3D>
           </div>
 
         </div>
       </div>
-    </section>
+    </GlassSection>
   );
 }

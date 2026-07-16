@@ -18,7 +18,7 @@ export default function Showcase() {
   }, [galleryData]);
 
   return (
-    <section id="showcase" className="section-light">
+    <div id="showcase" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader 
         label="Chapter Gallery"
         title="Moments From Our Meetings"
@@ -41,12 +41,7 @@ export default function Showcase() {
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.8, delay: (i % 6) * 0.05, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setLightbox(src)}
-              className="group rounded-xl overflow-hidden cursor-zoom-in relative aspect-[4/3]"
-              style={{
-                border:     '1px solid var(--color-border)',
-                boxShadow:  'var(--shadow-card)',
-                transition: 'box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
-              }}
+              className="group rounded-xl overflow-hidden cursor-zoom-in relative aspect-[4/3] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-gray-50"
               whileHover={{ scale: 1.02 }}
               aria-label="View Image"
               role="button"
@@ -65,7 +60,7 @@ export default function Showcase() {
                 style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.72), transparent)' }}
               >
                 <div className="p-5">
-                  <ZoomIn className="w-5 h-5 text-white/90" aria-hidden />
+                  <ZoomIn className="w-5 h-5 text-black/90" aria-hidden />
                 </div>
               </div>
 
@@ -98,12 +93,7 @@ export default function Showcase() {
               exit={{ scale: 0.92, opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-w-4xl w-full rounded-2xl overflow-hidden relative"
-              style={{
-                backgroundColor: 'var(--color-bg)',
-                boxShadow: '0 32px 64px rgba(0,0,0,0.45)',
-                border: '1px solid var(--color-border)',
-              }}
+              className="max-w-4xl w-full rounded-2xl overflow-hidden relative bg-white shadow-2xl border border-gray-100"
             >
               <button
                 onClick={() => setLightbox(null)}
@@ -122,6 +112,6 @@ export default function Showcase() {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   );
 }

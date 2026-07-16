@@ -6,6 +6,7 @@ const Admin = require('../models/Admin');
 const Event = require('../models/Event');
 const Gallery = require('../models/Gallery');
 const Leader = require('../models/Leader');
+const Member = require('../models/Member');
 
 const initDb = async () => {
   const adminCount = await Admin.countDocuments();
@@ -44,6 +45,18 @@ const initDb = async () => {
     for (let url of defaultImages) {
       await Gallery.create({ image_url: url });
     }
+  }
+
+  const membersCount = await Member.countDocuments();
+  if (membersCount === 0) {
+    await Member.insertMany([
+      { name: 'Amit Rajodiya', memberId: 'MEM-001', chapter: 'Surat Platinum', businessName: 'Om Shiv Insurance', businessCategory: 'Insurance Services', photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=Amit%20Rajodiya&backgroundColor=09475f&textColor=fff', logoUrl: '' },
+      { name: 'Jenish Vekariya', memberId: 'MEM-002', chapter: 'Surat Gold', businessName: 'JV Builders', businessCategory: 'Real Estate Developer', photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=Jenish%20Vekariya&backgroundColor=09475f&textColor=fff', logoUrl: '' },
+      { name: 'Pragnesh Kotadiya', memberId: 'MEM-003', chapter: 'Surat Platinum', businessName: 'Kotadiya Diamonds', businessCategory: 'Diamond Merchant', photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=Pragnesh%20Kotadiya&backgroundColor=09475f&textColor=fff', logoUrl: '' },
+      { name: 'Mayur Rakholiya', memberId: 'MEM-004', chapter: 'Surat Platinum', businessName: 'Rakholiya Textiles', businessCategory: 'Textile Manufacturer', photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=Mayur%20Rakholiya&backgroundColor=09475f&textColor=fff', logoUrl: '' },
+      { name: 'Rajvi Borad', memberId: 'MEM-005', chapter: 'Surat Dynamic', businessName: 'Borad Financials', businessCategory: 'Financial Services', photoUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=Rajvi%20Borad&backgroundColor=09475f&textColor=fff', logoUrl: '' }
+    ]);
+    console.log("Seeded default members.");
   }
 };
 

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
+import { ChevronLeft, ChevronRight, Globe, MessageSquare, Mail, User } from 'lucide-react';
+import ScrollReveal3D from '../../../components/animations/ScrollReveal3D';
 import { motion } from 'framer-motion';
 import { useFetch } from '../../../hooks/useFetch';
 import { getLeaders } from '../../../api/leadersApi';
+import LuxuryCard from '../../../components/ui/LuxuryCard';
+import GlassSection from '../../../components/ui/GlassSection';
 
 export default function LeadershipSection() {
   const { data: leadersData, loading, error } = useFetch(getLeaders);
@@ -35,7 +37,7 @@ export default function LeadershipSection() {
     if (isHovered) return;
     const interval = setInterval(() => {
       handleNext();
-    }, 2000);
+    }, 3000); // Slower, more premium feel
     return () => clearInterval(interval);
   }, [isHovered, handleNext]);
 
@@ -53,21 +55,16 @@ export default function LeadershipSection() {
     if (touchStartX === null) return;
     const clientX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
     const diff = touchStartX - clientX;
-
     if (diff > 50) handleNext();
     if (diff < -50) handlePrev();
     setTouchStartX(null);
   };
 
-  // Mouse Wheel Debounced Handler
   const handleWheel = (e) => {
-    if (Math.abs(e.deltaX) < 20) return; // Prevent vertical scroll from triggering
+    if (Math.abs(e.deltaX) < 20) return;
     if (scrollTimeout.current) return;
-
     if (e.deltaX > 0) handleNext();
     else handlePrev();
-
-    // Throttle scrolling
     scrollTimeout.current = setTimeout(() => { scrollTimeout.current = null; }, 400);
   };
 
@@ -76,24 +73,15 @@ export default function LeadershipSection() {
       let diff = index - activeIndex;
 
       const half = Math.floor(leaders.length / 2);
-      if (diff > half) {
-        diff -= leaders.length;
-      } else if (diff < -half) {
-        diff += leaders.length;
-      }
+      if (diff > half) diff -= leaders.length;
+      else if (diff < -half) diff += leaders.length;
 
       let cardWidth, cardHeight, gap, overlap;
-      if (winWidth <= 480) {
-        cardWidth = 270; cardHeight = 390; gap = 70; overlap = 90;
-      } else if (winWidth <= 767) {
-        cardWidth = 310; cardHeight = 440; gap = 100; overlap = 120;
-      } else if (winWidth <= 1024) {
-        cardWidth = 350; cardHeight = 480; gap = 180; overlap = 160;
-      } else if (winWidth <= 1366) {
-        cardWidth = 390; cardHeight = 540; gap = 280; overlap = 220;
-      } else {
-        cardWidth = 450; cardHeight = 600; gap = 380; overlap = 280;
-      }
+      if (winWidth <= 480) { cardWidth = 280; cardHeight = 420; gap = 70; overlap = 90; }
+      else if (winWidth <= 767) { cardWidth = 320; cardHeight = 480; gap = 100; overlap = 120; }
+      else if (winWidth <= 1024) { cardWidth = 360; cardHeight = 520; gap = 180; overlap = 160; }
+      else if (winWidth <= 1366) { cardWidth = 400; cardHeight = 580; gap = 280; overlap = 220; }
+      else { cardWidth = 460; cardHeight = 640; gap = 380; overlap = 280; }
 
       const absDiff = Math.abs(diff);
       const isActive = diff === 0;
@@ -103,10 +91,9 @@ export default function LeadershipSection() {
       if (diff < 0) xOffset = -(gap + (absDiff - 1) * overlap);
       if (diff > 0) xOffset = gap + (absDiff - 1) * overlap;
 
-      const zOffset = isActive ? 0 : -absDiff * 80;
-      const rotateY = isActive ? 0 : diff < 0 ? -15 : 15;
-      const opacity = absDiff > 2 ? 0 : isActive ? 1 : 0.85;
-
+      const zOffset = isActive ? 0 : -absDiff * 100;
+      const rotateY = isActive ? 0 : diff < 0 ? -25 : 25;
+      const opacity = absDiff > 2 ? 0 : isActive ? 1 : 0.6;
       const zIndex = 50 - absDiff;
 
       return (
@@ -114,70 +101,66 @@ export default function LeadershipSection() {
           key={index}
           onClick={() => setActiveIndex(index)}
           initial={false}
-          animate={{
-            x: `calc(-50% + ${xOffset}px)`,
-            y: "-50%",
-            z: zOffset,
-            rotateY: rotateY,
-            scale: scale,
-            opacity: opacity,
-          }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transformStyle: "preserve-3d",
-            zIndex: zIndex
-          }}
+          animate={{ x: `calc(-50% + ${xOffset}px)`, y: "-50%", z: zOffset, rotateY: rotateY, scale: scale, opacity: opacity }}
+          transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          style={{ position: 'absolute', top: '50%', left: '50%', transformStyle: "preserve-3d", zIndex: zIndex }}
           className={`cursor-pointer ${isActive ? 'group' : ''}`}
         >
-          <div className={`rounded-[28px] bg-primary/40 backdrop-blur-md border border-white/20
-              flex flex-col p-5 md:p-6 transition-all duration-300
-              ${isActive ? 'group-hover:-translate-y-3 shadow-[0_12px_40px_rgba(0,0,0,0.2)] group-hover:shadow-[0_24px_50px_rgba(20,184,166,0.3)]' : 'shadow-sm grayscale filter'}
-            `}
+          <LuxuryCard className={`flex flex-col p-4 md:p-5 transition-all duration-700 ${isActive ? '' : 'shadow-none grayscale filter pointer-events-none'}`}
             style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
           >
-            <div className="w-full h-[65%] md:h-[75%] lg:h-[80%] rounded-[20px] overflow-hidden mb-4 md:mb-5">
+            <div className="w-full h-[65%] md:h-[75%] rounded-[24px] overflow-hidden relative">
               <img src={leader.img}
                 alt={leader.name}
-                className={`w-full h-full object-cover transition-transform duration-500 rounded-[20px] ${isActive ? 'group-hover:scale-105' : ''}`}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=09475f&textColor=fff`; }}
               />
             </div>
-            <div className="flex flex-col items-center text-center mt-auto">
-              <h4 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${isActive ? 'text-primary group-hover:text-secondary' : 'text-muted'}`}>
+            
+            <div className="flex flex-col items-center justify-center text-center mt-auto flex-grow relative z-20">
+              <h4 className="text-card font-bold transition-colors duration-500" style={{ color: isActive ? '#FFFFFF' : '#64748B' }}>
                 {leader.name}
               </h4>
-              <p className="text-gray-300 text-xs md:text-sm mt-1">{leader.role}</p>
-              {/* Accent Line */}
-              <div className={`h-[3px] bg-secondary rounded-full transition-all duration-500 ease-out origin-center mt-5 ${isActive ? 'w-6 group-hover:w-16' : 'w-0'}`}></div>
+              <p className="text-sm font-semibold tracking-widest uppercase mt-2 transition-colors duration-500" style={{ color: isActive ? '#7DD3FC' : '#94A3B8' }}>{leader.role}</p>
             </div>
-          </div>
+          </LuxuryCard>
         </motion.div>
       );
     });
   };
 
   return (
-    <section className="relative min-h-screen overflow-hidden ">
+    <GlassSection>
+      {/* Decorative Blur Backgrounds */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 blur-[120px] rounded-full pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/10 blur-[120px] rounded-full pointer-events-none translate-y-1/2 -translate-x-1/3"></div>
+
       <div className="relative z-10 w-full flex flex-col items-center">
-        <div className="flex flex-col items-center text-center max-w-2xl mt-16">
+        
+        <div className="flex flex-col items-center text-center max-w-2xl mb-12">
+          <ScrollReveal3D>
+            <span className="inline-flex items-center gap-3 font-bold tracking-[0.2em] uppercase text-xs mb-4" style={{ color: '#4FA3D1' }}>
+              <div className="w-12 h-[2px]" style={{ backgroundColor: '#4FA3D1' }}></div>
+              04 — Executive Board
+              <div className="w-12 h-[2px]" style={{ backgroundColor: '#4FA3D1' }}></div>
+            </span>
+          </ScrollReveal3D>
           <ScrollReveal3D delay={0.1}>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-heading tracking-tight leading-[1.1] mb-5">
-              Meet Our Leadership <span className='text-secondary'>Team</span>
+            <h2 className="text-section font-extrabold text-white tracking-tight">
+              Meet Our Leadership <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC]'>Team</span>
             </h2>
           </ScrollReveal3D>
           <ScrollReveal3D delay={0.2}>
-            <p className="text-gray-300 text-base md:text-lg font-light leading-relaxed max-w-[80%] mx-auto">
-              Professional leaders committed to building a stronger, more connected business community.
+            <p className="mt-6 font-light leading-relaxed max-w-[80%] mx-auto" style={{ color: '#CBD5E1' }}>
+              Professional leaders committed to building a stronger, more connected and elite business ecosystem.
             </p>
           </ScrollReveal3D>
         </div>
-        <ScrollReveal3D delay={0.3} className="w-full px-2 md:px-6">
+
+        <ScrollReveal3D delay={0.3} className="w-full max-w-7xl mx-auto px-6 md:px-10">
           <div
             className="relative w-full max-w-[2200px] mx-auto flex justify-center items-center touch-pan-y select-none"
-            style={{ perspective: "1500px", height: winWidth <= 480 ? '450px' : winWidth <= 767 ? '500px' : winWidth <= 1024 ? '580px' : '700px' }}
+            style={{ perspective: "1500px", height: winWidth <= 480 ? '480px' : winWidth <= 767 ? '540px' : winWidth <= 1024 ? '620px' : '750px' }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
             onMouseDown={onTouchStart}
@@ -193,16 +176,17 @@ export default function LeadershipSection() {
             {leaders.length > 0 ? renderCards() : null}
           </div>
         </ScrollReveal3D>
-        <ScrollReveal3D delay={0.4} className="mt-8 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-body">
+
+        <ScrollReveal3D delay={0.4} className="mt-6 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-white">
           <button
             onClick={handlePrev}
-            className={`flex items-center gap-2 font-semibold text-xs md:text-sm uppercase tracking-wider transition-opacity opacity-80 hover:opacity-100 hover:-translate-x-1 transition-all`}
+            className="flex items-center gap-2 font-black text-xs md:text-sm uppercase tracking-[0.2em] transition-opacity opacity-50 hover:opacity-100 hover:-translate-x-1 transition-all"
             aria-label="Previous Leader"
           >
-            <ChevronLeft className="w-5 h-5" /> Previous
+            <ChevronLeft className="w-5 h-5" /> Prev
           </button>
 
-          <div className="font-bold text-sm tracking-[0.2em] w-24 text-center tabular-nums flex items-center justify-center">
+          <div className="font-extrabold text-sm md:text-base tracking-[0.2em] w-24 text-center tabular-nums flex items-center justify-center" style={{ color: '#4FA3D1' }}>
             <motion.span
               key={activeIndex}
               initial={{ opacity: 0, y: -10 }}
@@ -212,13 +196,13 @@ export default function LeadershipSection() {
             >
               {String(activeIndex + 1).padStart(2, '0')}
             </motion.span>
-            <span className="mx-2">/</span>
-            <span className="opacity-50">{String(leaders.length).padStart(2, '0')}</span>
+            <span className="mx-2" style={{ color: '#CBD5E1' }}>/</span>
+            <span className="opacity-50" style={{ color: '#CBD5E1' }}>{String((leaders.length || 0)).padStart(2, '0')}</span>
           </div>
 
           <button
             onClick={handleNext}
-            className={`flex items-center gap-2 font-semibold text-xs md:text-sm uppercase tracking-wider transition-opacity opacity-80 hover:opacity-100 hover:translate-x-1 transition-all`}
+            className="flex items-center gap-2 font-black text-xs md:text-sm uppercase tracking-[0.2em] transition-opacity opacity-50 hover:opacity-100 hover:translate-x-1 transition-all"
             aria-label="Next Leader"
           >
             Next <ChevronRight className="w-5 h-5" />
@@ -226,6 +210,6 @@ export default function LeadershipSection() {
         </ScrollReveal3D>
 
       </div>
-    </section>
+    </GlassSection>
   );
 }

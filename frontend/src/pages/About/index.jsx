@@ -5,7 +5,7 @@ import SectionHeading from '../../components/ui/SectionHeading';
 import PageHeader from '../../components/ui/PageHeader';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
-import { ScrollReveal3D } from '../../components/animations/ScrollReveal3D';
+import ScrollReveal3D from '../../components/animations/ScrollReveal3D';
 import { aboutHero, coreValues, founders, founderMessage } from '../../data/about';
 import { Quote } from 'lucide-react';
 
@@ -26,7 +26,7 @@ export default function About() {
         description={aboutHero.description}
       />
 
-      <Container className="relative z-10 mb-16 md:mb-24 px-4 sm:px-6 lg:px-8 mt-10">
+      <Container className="relative z-10 mb-16 md:mb-24 mt-10">
         <ScrollReveal3D delay={0.3}>
           <div className="relative w-full max-w-full aspect-[16/9] md:aspect-[21/9] rounded-[30px] md:rounded-[40px] overflow-hidden shadow-2xl border border-white">
              <img src="/about/KVS_3369-2048x1365.webp"
@@ -45,7 +45,7 @@ export default function About() {
           {coreValues.map((item, i) => (
             <ScrollReveal3D delay={i * 0.15} key={i}>
               <Card hover={true} className="h-full flex flex-col items-start border-t-4 border-t-secondary">
-                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-white mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-black mb-8">
                   <item.icon className="w-8 h-8" strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-primary mb-4">
@@ -88,7 +88,7 @@ export default function About() {
           </div>
 
           <ScrollReveal3D delay={0.4} className="max-w-4xl mx-auto text-center">
-            <div className="relative p-10 md:p-14 bg-gradient-to-br from-primary to-dark rounded-[40px] text-white shadow-2xl overflow-hidden">
+            <div className="relative p-10 md:p-14 bg-gradient-to-br from-primary to-dark rounded-[40px] text-black shadow-2xl overflow-hidden">
               {/* Pattern overlay */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-[80px]"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px]"></div>

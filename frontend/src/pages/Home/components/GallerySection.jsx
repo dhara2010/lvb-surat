@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ScrollReveal3D } from '../../../components/animations/ScrollReveal3D';
+import ScrollReveal3D from '../../../components/animations/ScrollReveal3D';
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { useFetch } from "../../../hooks/useFetch";
 import { getGalleryImages } from "../../../api/galleryApi";
-
-import { TiltCard } from '../../../components/animations/TiltCard';
+import TiltCard from '../../../components/animations/TiltCard';
+import LuxuryButton from '../../../components/ui/LuxuryButton';
+import LuxuryCard from '../../../components/ui/LuxuryCard';
+import GlassSection from '../../../components/ui/GlassSection';
 
 export default function GallerySection() {
   const [gallery, setGallery] = useState([]);
@@ -23,62 +21,43 @@ export default function GallerySection() {
   const { data, loading, error } = useFetch(getGalleryImages);
 
   useEffect(() => {
-    if (data) {
-      setGallery(data.map((item) => item.image_url));
-    }
+    if (data) setGallery(data.map((item) => item.image_url));
   }, [data]);
 
-  // Responsive Items
   useEffect(() => {
     const resize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerPage(1);
-      } else if (window.innerWidth < 1024) {
-        setItemsPerPage(2);
-      } else {
-        setItemsPerPage(3);
-      }
+      if (window.innerWidth < 640) setItemsPerPage(1);
+      else if (window.innerWidth < 1024) setItemsPerPage(2);
+      else setItemsPerPage(3);
     };
-
     resize();
     window.addEventListener("resize", resize);
-
     return () => window.removeEventListener("resize", resize);
   }, []);
 
   const chunkedGallery = [];
-
   for (let i = 0; i < gallery.length; i += itemsPerPage) {
     chunkedGallery.push(gallery.slice(i, i + itemsPerPage));
   }
-
   const totalPages = chunkedGallery.length;
 
   useEffect(() => {
-    if (activeIndex >= totalPages) {
-      setActiveIndex(totalPages ? totalPages - 1 : 0);
-    }
+    if (activeIndex >= totalPages) setActiveIndex(totalPages ? totalPages - 1 : 0);
   }, [totalPages]);
 
   const handleNext = useCallback(() => {
     setDirection(1);
-    setActiveIndex((prev) =>
-      prev === totalPages - 1 ? 0 : prev + 1
-    );
+    setActiveIndex((prev) => prev === totalPages - 1 ? 0 : prev + 1);
   }, [totalPages]);
 
   const handlePrev = useCallback(() => {
     setDirection(-1);
-    setActiveIndex((prev) =>
-      prev === 0 ? totalPages - 1 : prev - 1
-    );
+    setActiveIndex((prev) => prev === 0 ? totalPages - 1 : prev - 1);
   }, [totalPages]);
 
   useEffect(() => {
     if (isHovered || totalPages <= 1) return;
-
     const interval = setInterval(handleNext, 4000);
-
     return () => clearInterval(interval);
   }, [handleNext, isHovered, totalPages]);
 
@@ -87,58 +66,39 @@ export default function GallerySection() {
     setActiveIndex(index);
   };
 
-  const onTouchStart = (e) =>
-    setTouchStartX(e.touches[0].clientX);
-
+  const onTouchStart = (e) => setTouchStartX(e.touches[0].clientX);
   const onTouchEnd = (e) => {
     if (touchStartX === null) return;
-
     const diff = touchStartX - e.changedTouches[0].clientX;
-
     if (diff > 50) handleNext();
     if (diff < -50) handlePrev();
-
     setTouchStartX(null);
   };
 
   const sliderVariants = {
-    enter: (dir) => ({
-      x: dir > 0 ? "100%" : "-100%",
-      opacity: 0,
-      rotateY: dir > 0 ? 15 : -15,
-      z: -50
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      rotateY: 0,
-      z: 0,
-      transition: {
-        duration: 0.6,
-        type: 'spring',
-        stiffness: 150,
-        damping: 20
-      },
-    },
-    exit: (dir) => ({
-      x: dir > 0 ? "-100%" : "100%",
-      opacity: 0,
-      rotateY: dir > 0 ? -15 : 15,
-      z: -50,
-      transition: {
-        duration: 0.5,
-      },
-    }),
+    enter: (dir) => ({ x: dir > 0 ? "100%" : "-100%", opacity: 0, rotateY: dir > 0 ? 15 : -15, z: -50 }),
+    center: { x: 0, opacity: 1, rotateY: 0, z: 0, transition: { duration: 0.6, type: 'spring', stiffness: 150, damping: 20 } },
+    exit: (dir) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0, rotateY: dir > 0 ? -15 : 15, z: -50, transition: { duration: 0.5 } })
   };
 
   return (
-    <section className="py-16 md:py-20 lg:py-24 overflow-hidden w-full max-w-[100vw]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 lg:px-20 relative">
+    <GlassSection>
+      {/* Decorative Network Grid */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03] pointer-events-none"></div>
+
+      <div className="container-xl mx-auto relative z-10">
 
         <ScrollReveal3D>
-          <h2 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-heading mb-8 md:mb-12">
-            Chapter <span className="text-secondary">Gallery</span>
-          </h2>
+          <div className="flex flex-col items-center justify-center text-center mb-16 md:mb-20">
+            <span className="inline-flex items-center gap-3 font-bold tracking-[0.2em] uppercase text-xs mb-4" style={{ color: '#4FA3D1' }}>
+              <div className="w-12 h-[2px]" style={{ backgroundColor: '#4FA3D1' }}></div>
+              05 — Experiences
+              <div className="w-12 h-[2px]" style={{ backgroundColor: '#4FA3D1' }}></div>
+            </span>
+            <h2 className="text-section font-bold text-white">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC]">Gallery</span>
+            </h2>
+          </div>
         </ScrollReveal3D>
 
         <div
@@ -151,31 +111,22 @@ export default function GallerySection() {
           {/* Previous */}
           <button
             onClick={handlePrev}
-            className="absolute -left-2 sm:-left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-[0_4px_20px_rgba(9,71,95,0.1)] p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -left-3 sm:-left-6 md:-left-8 top-1/2 -translate-y-1/2 z-20 glass-panel shadow-[0_10px_30px_rgba(11,25,44,0.1)] text-primary hover:text-secondary rounded-full p-3 transition-colors hidden md:block"
           >
-            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ChevronLeft className="w-6 h-6" />
           </button>
 
           {/* Next */}
           <button
             onClick={handleNext}
-            className="absolute -right-2 sm:-right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-20 bg-white text-primary hover:bg-secondary hover:text-white rounded-full shadow-[0_4px_20px_rgba(9,71,95,0.1)] p-1.5 sm:p-2 md:p-3 transition-colors"
+            className="absolute -right-3 sm:-right-6 md:-right-8 top-1/2 -translate-y-1/2 z-20 glass-panel shadow-[0_10px_30px_rgba(11,25,44,0.1)] text-primary hover:text-secondary rounded-full p-3 transition-colors hidden md:block"
           >
-            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            <ChevronRight className="w-6 h-6" />
           </button>
 
           <div className="overflow-visible px-1 py-8">
-            {loading && (
-              <div className="h-[200px] sm:h-80 flex items-center justify-center text-muted text-sm md:text-base">
-                Loading...
-              </div>
-            )}
-
-            {error && (
-              <div className="h-[200px] sm:h-80 flex items-center justify-center text-red-500 text-sm md:text-base">
-                Failed to load gallery
-              </div>
-            )}
+            {loading && <div className="h-[200px] sm:h-80 flex items-center justify-center text-muted font-bold tracking-widest text-sm">LOADING GALLERY...</div>}
+            {error && <div className="h-[200px] sm:h-80 flex items-center justify-center text-red-500 font-bold tracking-widest text-sm">FAILED TO LOAD</div>}
 
             {!loading && gallery.length > 0 && (
               <AnimatePresence custom={direction} mode="wait">
@@ -187,28 +138,15 @@ export default function GallerySection() {
                   animate="center"
                   exit="exit"
                   style={{ transformStyle: 'preserve-3d', perspective: '1200px' }}
-                  className={`grid gap-6 sm:gap-8
-                    ${
-                      itemsPerPage === 1
-                        ? "grid-cols-1"
-                        : itemsPerPage === 2
-                        ? "grid-cols-2"
-                        : "grid-cols-3"
-                    }`}
+                  className={`grid gap-6 sm:gap-8 ${itemsPerPage === 1 ? "grid-cols-1" : itemsPerPage === 2 ? "grid-cols-2" : "grid-cols-3"}`}
                 >
                   {chunkedGallery[activeIndex].map((img, index) => (
-                    <TiltCard key={index} tiltMax={12} scaleMax={1.03}>
-                      <div
-                        className="overflow-hidden rounded-xl h-full border border-primary/5 shadow-lg bg-white"
-                      >
-                        <img loading="lazy" decoding="async" src={img}
-                          alt=""
-                          className="w-full aspect-[4/3] object-cover hover:scale-105 transition duration-700"
-                          onError={(e) => {
-                            e.target.src = "/KVS_3369-scaled.webp";
-                          }}
-                        />
-                      </div>
+                    <TiltCard key={index} tiltMax={12} scaleMax={1.03} className="h-full">
+                      <LuxuryCard className="relative group overflow-hidden p-2 h-full transition-all duration-500">
+                        <div className="relative overflow-hidden rounded-[18px] w-full h-full aspect-[4/3]">
+                          <img loading="lazy" decoding="async" src={img} alt="Gallery Event" className="w-full h-full object-cover transition duration-700 group-hover:scale-110" onError={(e) => { e.target.src = "/KVS_3369-scaled.webp"; }} />
+                        </div>
+                      </LuxuryCard>
                     </TiltCard>
                   ))}
                 </motion.div>
@@ -218,34 +156,28 @@ export default function GallerySection() {
         </div>
 
         {/* Dots */}
-        <div className="flex justify-center gap-2 md:gap-3 mt-6 md:mt-8">
+        <div className="flex justify-center gap-3 mt-6">
           {Array.from({ length: totalPages }).map((_, index) => (
             <button
               key={index}
               onClick={() => handleDotClick(index)}
-              className={`transition-all duration-300 rounded-full
-              ${
-                activeIndex === index
-                  ? "w-6 h-2 md:w-8 md:h-2.5 bg-secondary"
-                  : "w-2 h-2 md:w-2.5 md:h-2.5 bg-gray-400/50 hover:bg-gray-400"
-              }`}
+              className={`transition-all duration-300 rounded-full h-2 ${activeIndex === index ? "w-8 shadow-[0_0_10px_rgba(125,211,252,0.3)] bg-[#7DD3FC]" : "w-2 bg-gray-600 hover:bg-gray-400"}`}
             />
           ))}
         </div>
 
         {/* Button */}
         <ScrollReveal3D delay={0.1}>
-          <div className="flex justify-center mt-8 md:mt-10">
-            <Link
-              to="/gallery"
-              className="btn-primary text-sm md:text-base px-6 py-2.5 md:px-7 md:py-3"
-            >
-              View Full Gallery
+          <div className="flex justify-center mt-12 w-full">
+            <Link to="/gallery">
+              <LuxuryButton as="div" className="py-4 px-12">
+                View Full Experience
+              </LuxuryButton>
             </Link>
           </div>
         </ScrollReveal3D>
 
       </div>
-    </section>
+    </GlassSection>
   );
 }

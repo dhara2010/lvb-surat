@@ -16,6 +16,7 @@ import { AnimatedBackground } from '../../components/animations/AnimatedBackgrou
 import SmoothScroll from '../../components/animations/SmoothScroll';
 import CustomCursor from '../../components/ui/CustomCursor';
 import Preloader from '../../components/ui/Preloader';
+import BackgroundVideo from '../../components/video/BackgroundVideo';
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -28,11 +29,11 @@ export default function Home() {
         {loading && <Preloader onComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
-    <div className={`w-full flex flex-col font-sans overflow-hidden bg-white transition-opacity duration-1000 ease-[0.16,1,0.3,1] ${loading ? 'opacity-0 h-screen' : 'opacity-100'}`}>
-      {/* 3D Animated Background replaces video layer fully */}
-      <AnimatedBackground />
+    <div className={`theme-dark w-full flex flex-col font-sans overflow-hidden transition-opacity duration-1000 ease-[0.16,1,0.3,1] bg-transparent ${loading ? 'opacity-0 h-screen' : 'opacity-100'}`}>
       
-      <div className="relative z-10 w-full" style={{ transformStyle: 'preserve-3d' }}>
+      <BackgroundVideo />
+      
+      <main className="relative z-10 w-full" style={{ transformStyle: 'preserve-3d' }}>
         <Hero />
         
         <ParallaxSection speed={0.15}>
@@ -54,7 +55,7 @@ export default function Home() {
           <EventsSection />
           <FAQSection />
         </ParallaxSection>
-      </div>
+      </main>
     </div>
     </SmoothScroll>
   );

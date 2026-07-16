@@ -1,661 +1,200 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
-/* ════════════════════════════════════════════════════════════
-   LVB SURAT PLATINUM — DESIGN SYSTEM
-   Single source of truth for ALL colors, typography,
-   spacing, shadows, and component styles.
-
-   Mirrors src/theme.js — never hardcode values in components.
-   ════════════════════════════════════════════════════════════ */
-
-/* ─────────────────────────────────────────────
-   1. CSS CUSTOM PROPERTIES  (consumed by every
-      component via var(--token-name))
-────────────────────────────────────────────── */
 :root {
   /* Core Brand */
-  --color-primary:        #09475f;   /* Deep Ocean Blue      */
-  --color-primary-light:  #09475f;   /* Blue hover           */
-  --color-primary-dark:   #09475f;   /* Blue pressed         */
-  --color-secondary:      #09475f;   /* Modern Teal          */
-  --color-secondary-dark: #09475f;   /* Teal pressed         */
-  --color-secondary-light:#09475f;   /* Light Teal           */
-  --color-accent:         #09475f;   /* Modern Teal          */
-  --color-dark:           #061826;   /* Dark Theme           */
+  --color-primary:        #090E14;   /* Deep Onyx */
+  --color-primary-light:  #15202E;
+  --color-primary-dark:   #04070A;
+  --color-secondary:      #123B5D;   /* Brand Blue */
+  --color-secondary-dark: #0A2236;
+  --color-secondary-light:#1A5485;
+  --color-accent:         #123B5D;
+  --color-dark:           #090E14;
 
   /* Backgrounds */
-  --color-bg:             #FFFFFF;   /* Page white           */
-  --color-bg-alt:         #F4F8FA;   /* Light Background     */
-  --color-bg-dark:        #061826;   /* Navbar / Footer      */
+  --color-bg:             #2d2a2a;   /* Minor light (pure white) */
+  --color-bg-alt:         #252627;
+  --color-bg-dark:        #3a3c3e;
 
   /* Surface / Cards */
-  --color-surface:        #FFFFFF;
-  --color-surface-hover:  #F4F8FA;
+  --color-surface:        #323131;
+  --color-surface-hover:  #3f3d3d;
 
   /* Borders */
-  --color-border:         #D9E6EC;   /* Subtle deviders      */
-  --color-border-subtle:  #eaf1f5;   /* Very soft border     */
+  --color-border:         rgba(255, 255, 255, 0.12);
+  --color-border-subtle:  rgba(255, 255, 255, 0.06);
 
-  /* Typography */
-  --color-heading:        #000000;   /* Deep blue headings   */
-  --color-body:           #000000;   /* Neutral body         */
-  --color-muted:          #000000;   /* Secondary muted      */
-  --color-on-primary:     #FFFFFF;   /* Text on primary      */
-  --color-on-secondary:   #FFFFFF;   /* Text on teal         */
+  /* Typography Colors */
+  --color-heading:        #F8FAFC;
+  --color-body:           #CBD5E1;   /* Muted Light */
+  --color-muted:          #94A3B8;
+  --color-on-primary:     #FFFFFF;
+  --color-on-secondary:   #FFFFFF;
 
   /* Font Families */
-  --font-display: 'Montserrat', sans-serif;
-  --font-sans:    'Montserrat', sans-serif;
-
-  /* Border Radii */
-  --radius-sm:   0.5rem;    /*  8px */
-  --radius-md:   0.75rem;   /* 12px */
-  --radius-lg:   1rem;      /* 16px */
-  --radius-xl:   1.5rem;    /* 24px */
-  --radius-2xl:  2rem;      /* 32px */
-
-  /* Shadows */
-  --shadow-card:      0 2px 16px 0 rgba(9, 71, 95, 0.06);
-  --shadow-card-hover:0 8px 32px 0 rgba(9, 71, 95, 0.12);
-  --shadow-navbar:    0 2px 20px 0 rgba(6, 24, 38, 0.15);
-  --shadow-btn:       0 4px 14px 0 rgba(9, 71, 95, 0.25);
-  --shadow-btn-hover: 0 6px 20px 0 rgba(9, 71, 95, 0.35);
-  --shadow-lg:        0 16px 48px 0 rgba(6, 24, 38, 0.12);
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-sans:    'Plus Jakarta Sans', sans-serif;
 }
 
-/* ─────────────────────────────────────────────
-   2. TAILWIND v4 THEME TOKEN MAPPING
-────────────────────────────────────────────── */
+.theme-dark {
+  --color-primary:        #F8FAFC;
+  --color-primary-light:  #F1F5F9;
+  --color-primary-dark:   #E2E8F0;
+  --color-secondary:      #4FA3D1;   
+  --color-secondary-dark: #123B5D;
+  --color-secondary-light:#7DD3FC;
+  --color-accent:         #7DD3FC;
+  
+  --color-bg:             #090E14;
+  --color-bg-alt:         #15202E;
+  --color-bg-dark:        #04070A;
+  
+  --color-surface:        rgba(255, 255, 255, 0.05);
+  --color-surface-hover:  rgba(255, 255, 255, 0.1);
+  --color-border:         rgba(255, 255, 255, 0.1);
+  --color-border-subtle:  rgba(255, 255, 255, 0.05);
+
+  --color-heading:        #F8FAFC;
+  --color-body:           #94A3B8;
+  --color-muted:          #94A3B8;
+  --color-on-primary:     #090E14;
+  --color-on-secondary:   #090E14;
+}
+
 @theme {
-  /* Fonts */
-  --font-sans:    'Montserrat', sans-serif;
-  --font-display: 'Montserrat', sans-serif;
-  --font-serif:   'Montserrat', sans-serif;
-
-  /* Brand Colors */
-  --color-primary:         #09475f;
-  --color-primary-light:   #09475f;
-  --color-primary-dark:    #09475f;
-  --color-secondary:       #09475f;
-  --color-secondary-dark:  #09475f;
-  --color-secondary-light: #09475f;
-  --color-accent:          #09475f;
-  --color-dark:            #061826;
-
-  /* Backgrounds */
-  --color-bg:              #FFFFFF;
-  --color-bg-alt:          #F4F8FA;
-  --color-bg-dark:         #061826;
-
-  /* Surface */
-  --color-surface:         #FFFFFF;
-  --color-surface-hover:   #F4F8FA;
-
-  /* Borders */
-  --color-border:          #D9E6EC;
-  --color-border-subtle:   #eaf1f5;
-
-  /* Typography */
-  --color-heading:         #000000;
-  --color-body:            #000000;
-  --color-muted:           #000000;
-  --color-on-primary:      #FFFFFF;
-  --color-on-secondary:    #FFFFFF;
+  --color-primary:         #090E14;
+  --color-primary-light:   #15202E;
+  --color-primary-dark:    #04070A;
+  --color-secondary:       #123B5D;
+  --color-secondary-dark:  #0A2236;
+  --color-secondary-light: #1A5485;
+  --color-accent:          #123B5D;
+  --color-bg:              #F8FAFC;
+  --color-bg-alt:          #F1F5F9;
+  --color-bg-dark:         #E2E8F0;
+  --color-heading:         #090E14;
+  --color-body:            #64748B;
+  --color-muted:           #64748B;
+  --font-sans:             'Plus Jakarta Sans', sans-serif;
+  --font-display:          'Plus Jakarta Sans', sans-serif;
 }
 
-/* ─────────────────────────────────────────────
-   3. BASE / RESET STYLES
-────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-  font-size: 112.5%; /* Scales base 1rem from 16px to 18px */
-  scroll-behavior: smooth;
+body {
+  background-color: var(--color-bg);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-size: 18px; /* Standardized 18px body text */
+  font-weight: 400;
+  line-height: 1.7;
+  margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  background-color: var(--color-bg);
-  color: #000000;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.65;
-  margin: 0;
-}
-
-p, .text-body, .description, .subtitle, .content {
-  font-family: "Montserrat", sans-serif !important;
-  font-size: 20px !important;
-  font-weight: 500 !important;
-  line-height: 1.65;
-}
-
-/* Heading defaults — font-family & color always from theme */
+/* Base Typographic Hierarchy */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Montserrat", sans-serif !important;
-  font-weight: 600 !important;
-  font-size: clamp(32px, 5vw, 55px) !important;
-  color: #000000 !important;
-  line-height: 1.25 !important;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display) !important;
+  color: var(--color-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 
-/* Links */
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-a:hover {
-  color: var(--color-secondary);
-}
-
-/* Focus ring — uses mint accent */
-*:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
-}
-
-img {
-  max-width: 100%;
-  display: block;
-}
-
-/* ─────────────────────────────────────────────
-   4. UTILITY CLASSES — BACKGROUND
-   Never hardcode. Use these class names.
-────────────────────────────────────────────── */
-.bg-primary        { background-color: var(--color-primary) !important; }
-.bg-secondary      { background-color: var(--color-secondary) !important; }
-.bg-accent         { background-color: var(--color-accent) !important; }
-.bg-surface        { background-color: var(--color-surface) !important; }
-.bg-surface-hover  { background-color: var(--color-surface-hover) !important; }
-
-/* Section background helpers */
-.section-white     { background-color: var(--color-bg); }
-.section-light     { background-color: var(--color-bg-alt); }
-.section-dark      { background-color: var(--color-bg-dark); }
-
-/* ─────────────────────────────────────────────
-   5. UTILITY CLASSES — TEXT
-────────────────────────────────────────────── */
-.text-primary      { color: var(--color-primary) !important; }
-.text-secondary    { color: var(--color-secondary) !important; }
-.text-accent       { color: var(--color-accent) !important; }
-.text-heading      { color: var(--color-heading); font-family: var(--font-display); }
-.text-body         { color: var(--color-body); }
-.text-muted        { color: var(--color-muted); }
-.text-on-primary   { color: var(--color-on-primary); }
-.text-on-secondary { color: var(--color-on-secondary); }
-
-.font-display      { font-family: var(--font-display); }
-.font-sans         { font-family: var(--font-sans); }
-
-/* ─────────────────────────────────────────────
-   6. UTILITY CLASSES — BORDERS
-────────────────────────────────────────────── */
-.border-primary    { border-color: var(--color-primary) !important; }
-.border-secondary  { border-color: var(--color-secondary) !important; }
-.border-accent     { border-color: var(--color-accent) !important; }
-.border-theme      { border-color: var(--color-border) !important; }
-.border-subtle     { border-color: var(--color-border-subtle) !important; }
-
-/* ─────────────────────────────────────────────
-   7. BUTTON SYSTEM
-   btn-primary  — Main Ocean Blue Button
-   btn-secondary — Champagne Gold Button
-   btn-ghost    — Minimal, for subtle actions
-────────────────────────────────────────────── */
-.btn-primary,
-.btn-platinum,
-.btn-secondary,
-.btn-platinum-outline {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  overflow: hidden;
-  border-radius: 9999px;
-  padding: 1rem 2rem;
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 10px 15px -3px rgba(4, 71, 101, 0.3);
-  transition: all 0.5s ease;
-  z-index: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  background-color: var(--color-primary);
-}
-
-.btn-secondary,
-.btn-platinum-outline {
-  background-color: var(--color-secondary);
-  box-shadow: 0 10px 15px -3px rgba(14, 165, 168, 0.3);
-}
-
-.btn-primary:hover,
-.btn-platinum:hover,
-.btn-secondary:hover,
-.btn-platinum-outline:hover {
-  box-shadow: 0 25px 50px -12px rgba(4, 71, 101, 0.5);
-  border-color: transparent;
-}
-
-/* Sliding background */
-.btn-primary::before,
-.btn-platinum::before,
-.btn-secondary::before,
-.btn-platinum-outline::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to right, var(--color-secondary), var(--color-primary), var(--color-secondary));
-  transform: translateX(-100%);
-  transition: transform 0.7s ease;
-  z-index: -1;
-}
-
-.btn-primary:hover::before,
-.btn-platinum:hover::before,
-.btn-secondary:hover::before,
-.btn-platinum-outline:hover::before {
-  transform: translateX(0);
-}
-
-/* Arrow layout */
-.btn-primary::after,
-.btn-platinum::after,
-.btn-secondary::after,
-.btn-platinum-outline::after {
-  content: '';
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.1);
-  transition: all 0.5s ease;
-  flex-shrink: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 16px;
-}
-
-.btn-primary:hover::after,
-.btn-platinum:hover::after,
-.btn-secondary:hover::after,
-.btn-platinum-outline:hover::after {
-  transform: translateX(4px);
-  background-color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2309475f' stroke-width='3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M5 12h14M12 5l7 7-7 7'/%3E%3C/svg%3E");
-}
-
-.btn-ghost {
-  display:         inline-flex;
-  align-items:     center;
-  justify-content: center;
-  gap:             0.5rem;
-  font-family:     var(--font-sans);
-  font-weight:     500;
-  font-size:       0.875rem;
-  letter-spacing:  0.03em;
-  padding:         0.625rem 1.25rem;
-  border-radius:   var(--radius-sm);
-  background-color:transparent;
-  color:           var(--color-body);
-  border:          1.5px solid var(--color-border);
-  cursor:          pointer;
-  transition:      all 0.2s ease;
-  text-decoration: none;
-  line-height:     1;
-}
-.btn-ghost:hover {
-  border-color:     var(--color-secondary);
-  color:            var(--color-secondary);
-  background-color: rgba(20, 184, 166, 0.05);
-}
-
-/* ─────────────────────────────────────────────
-   8. CARD SYSTEM
-   card-primary — Standard white card with subtle border
-   card-dark    — Dark theme card
-────────────────────────────────────────────── */
-.card-primary {
-  background-color: var(--color-surface);
-  border:           1px solid var(--color-border);
-  border-radius:    var(--radius-lg);
-  box-shadow:       var(--shadow-card);
-  transition:       box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-}
-.card-primary:hover {
-  box-shadow:   var(--shadow-card-hover);
-  border-color: var(--color-primary);
-  transform:    translateY(-3px);
-}
-
-.card-dark {
-  background-color: var(--color-dark);
-  border:           1px solid rgba(14, 165, 168, 0.2);
-  border-radius:    var(--radius-lg);
-  box-shadow:       var(--shadow-card);
-  color:            var(--color-on-dark);
-  transition:       box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.card-dark:hover {
-  border-color: rgba(14, 165, 168, 0.5);
-  box-shadow:   0 8px 32px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* ─────────────────────────────────────────────
-   9. FORM INPUTS
-────────────────────────────────────────────── */
-.input-primary {
-  width:            100%;
-  background-color: var(--color-bg);
-  border:           1.5px solid var(--color-border);
-  border-radius:    var(--radius-sm);
-  padding:          0.75rem 1rem;
-  font-family:      var(--font-sans);
-  font-size:        0.875rem;
-  color:            var(--color-heading);
-  outline:          none;
-  transition:       border-color 0.2s ease, box-shadow 0.2s ease;
-  line-height:      1.5;
-}
-.input-primary::placeholder {
-  color: var(--color-muted);
-}
-.input-primary:focus {
-  border-color: var(--color-secondary);
-  box-shadow:   0 0 0 3px rgba(20, 184, 166, 0.12);
-}
-.input-primary:hover:not(:focus) {
-  border-color: var(--color-border);
-}
-
-/* Select specific reset */
-select.input-primary {
-  appearance: none;
-  cursor:     pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:   no-repeat;
-  background-position: right 0.85rem center;
-  padding-right:       2.5rem;
-}
-
-/* ─────────────────────────────────────────────
-   10. NAVIGATON STYLES
-────────────────────────────────────────────── */
-.navbar {
-  background-color: var(--color-bg);
-  border-bottom:    1px solid var(--color-border-subtle);
-  transition:       box-shadow 0.3s ease, border-color 0.3s ease;
-}
-.navbar.scrolled {
-  box-shadow:   var(--shadow-navbar);
-  border-color: transparent;
-}
-
-.nav-link {
-  position:       relative;
-  font-family:    var(--font-sans);
-  font-size:      0.875rem;
-  font-weight:    500;
-  color:          var(--color-primary);
-  text-decoration:none;
-  padding-bottom: 0.125rem;
-  transition:     color 0.2s ease;
-}
-.nav-link::after {
-  content:          '';
-  position:         absolute;
-  bottom:           -2px;
-  left:             0;
-  width:            0;
-  height:           1.5px;
-  background-color: var(--color-secondary);
-  border-radius:    9999px;
-  transition:       width 0.3s ease;
-}
-.nav-link:hover,
-.nav-link.active {
-  color: var(--color-secondary);
-}
-.nav-link:hover::after,
-.nav-link.active::after {
-  width: 100%;
-}
-
-/* ─────────────────────────────────────────────
-   11. TYPOGRAPHY HELPERS
-────────────────────────────────────────────── */
-/* Section eyebrow label */
-.section-label {
-  font-family:     var(--font-sans);
-  font-size:       0.7rem;
-  font-weight:     700;
-  letter-spacing:  0.2em;
-  text-transform:  uppercase;
-  color:           var(--color-secondary);
-}
-
-/* Thin mint divider bar */
-.divider-mint {
-  width:            3rem;
-  height:           2px;
-  background-color: var(--color-secondary);
-  border-radius:    9999px;
-  flex-shrink:      0;
-}
-
-/* Heading sizes — use in JSX className */
-.h-display, .h-xl, .h-lg, .h-md {
-  font-family:  "Montserrat", sans-serif !important;
-  font-size:    clamp(32px, 5vw, 55px) !important;
-  font-weight:  600 !important;
-  line-height:  1.25 !important;
-  color:        #000000 !important;
-  letter-spacing: -0.01em;
-}
-
-/* Mint highlight text */
-.text-mint {
-  color: var(--color-secondary);
-}
-
-/* ─────────────────────────────────────────────
-   12. TABLE SYSTEM
-────────────────────────────────────────────── */
-.table-primary {
-  width:           100%;
-  border-collapse: separate;
-  border-spacing:  0;
-  font-family:     var(--font-sans);
-  font-size:       0.875rem;
-  color:           var(--color-body);
-}
-.table-primary thead tr th {
-  background-color: var(--color-bg-alt);
-  color:            var(--color-heading);
-  font-weight:      600;
-  font-size:        0.75rem;
-  letter-spacing:   0.08em;
-  text-transform:   uppercase;
-  padding:          0.875rem 1rem;
-  border-bottom:    2px solid var(--color-border);
-  text-align:       left;
-}
-.table-primary tbody tr td {
-  padding:          0.875rem 1rem;
-  border-bottom:    1px solid var(--color-border-subtle);
-  transition:       background-color 0.15s ease;
-}
-.table-primary tbody tr:hover td {
-  background-color: var(--color-surface-hover);
-}
-.table-primary tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* ─────────────────────────────────────────────
-   13. BADGE / TAG SYSTEM
-────────────────────────────────────────────── */
-.badge {
-  display:          inline-flex;
-  align-items:      center;
-  gap:              0.25rem;
-  font-size:        0.7rem;
-  font-weight:      600;
-  letter-spacing:   0.06em;
-  text-transform:   uppercase;
-  padding:          0.2rem 0.6rem;
-  border-radius:    9999px;
-  border:           1px solid var(--color-border);
-  background-color: var(--color-bg-alt);
-  color:            var(--color-secondary);
-}
-.badge-navy {
-  background-color: var(--color-primary);
-  color:            var(--color-on-primary);
-  border-color:     var(--color-primary);
-}
-.badge-mint {
-  background-color: var(--color-secondary);
-  color:            var(--color-on-secondary);
-  border-color:     var(--color-secondary);
-}
-
-/* ─────────────────────────────────────────────
-   14. ICON HELPERS
-────────────────────────────────────────────── */
-.icon-box {
-  display:          flex;
-  align-items:      center;
-  justify-content:  center;
-  flex-shrink:      0;
-  border-radius:    var(--radius-md);
-  background-color: var(--color-bg-alt);
-  border:           1px solid var(--color-border);
-  color:            var(--color-secondary);
-  transition:       background-color 0.25s ease,
-                    border-color 0.25s ease,
-                    color 0.25s ease;
-}
-.icon-box:hover,
-.group:hover .icon-box {
-  background-color: var(--color-secondary);
-  border-color:     var(--color-secondary);
-  color:            var(--color-on-secondary);
-}
-
-/* ─────────────────────────────────────────────
-   15. SECTION SPACING STANDARDS
-────────────────────────────────────────────── */
-.section-padding {
-  padding-top:    6rem;
-  padding-bottom: 6rem;
+/* Standardized Typography Classes as requested */
+.text-hero {
+  font-size: 44px !important;
 }
 @media (min-width: 768px) {
-  .section-padding {
-    padding-top:    8rem;
-    padding-bottom: 8rem;
-  }
+  .text-hero { font-size: 72px !important; }
 }
 
+.text-section {
+  font-size: 32px !important;
+}
+@media (min-width: 768px) {
+  .text-section { font-size: 48px !important; }
+}
+
+.text-card {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+}
+
+.text-body {
+  font-size: 16px !important;
+}
+@media (min-width: 768px) {
+  .text-body { font-size: 18px !important; }
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(11, 25, 44, 0.05);
+}
+
+.glass-dark {
+  background: rgba(11, 25, 44, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(18, 59, 93, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Animations */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes blue-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* Smooth Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-primary-light); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
+
+::selection {
+  background-color: var(--color-secondary);
+  color: var(--color-primary-dark);
+}
+
+/* Video Background specific requirements (Removed due to global layout conflicts) */
+
+/* Global Container Standardization */
 .container-xl {
-  max-width:    80rem;
-  margin-left:  auto;
+  width: 100%;
+  max-width: 80rem; /* max-w-7xl */
+  margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right:1.5rem;
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem; /* px-6 */
 }
 @media (min-width: 768px) {
   .container-xl {
-    padding-left: 2.5rem;
-    padding-right:2.5rem;
+    padding-left: 2.5rem; /* px-10 */
+    padding-right: 2.5rem; /* px-10 */
   }
 }
 
-/* ─────────────────────────────────────────────
-   16. ANIMATIONS & TRANSITIONS
-────────────────────────────────────────────── */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0);   }
+.section-padding {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
-}
-@keyframes pulse-mint {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.mint-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-secondary) 0%,
-    var(--color-accent)    40%,
-    var(--color-secondary) 60%,
-    var(--color-secondary-dark) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: shimmer 3s linear infinite;
-}
-
-/* ─────────────────────────────────────────────
-   17. SCROLLBAR STYLING (WebKit)
-────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-bg-alt);
-}
-::-webkit-scrollbar-thumb {
-  background:    var(--color-border);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary);
-}
-
-/* ─────────────────────────────────────────────
-   18. SELECTION COLOR
-────────────────────────────────────────────── */
-::selection {
-  background-color: rgba(4, 71, 101, 0.2);
-  color:            var(--color-heading);
-}
-
-/* ─────────────────────────────────────────────
-   19. LEGACY COMPAT ALIASES
-────────────────────────────────────────────── */
-/* These aliases simply point to the new system.
-   Keep them so any old usage still works. */
-.btn-platinum         { /* inherits from .btn-primary above */ }
-.btn-platinum-outline { /* inherits from .btn-secondary above */ }

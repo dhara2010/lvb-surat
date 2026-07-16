@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollReveal3D } from '../animations/ScrollReveal3D';
+import ScrollReveal3D from '../animations/ScrollReveal3D';
 import Container from '../layout/Container';
 
 export default function PageHeader({ label, title, description, alignment = 'left' }) {
@@ -19,7 +19,7 @@ export default function PageHeader({ label, title, description, alignment = 'lef
           )}
           {title && (
             <ScrollReveal3D delay={0.1}>
-              <h1 className={`text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-primary leading-tight max-w-3xl ${textCenterClass} mb-5 md:mb-6`}>
+              <h1 className={`text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-extrabold text-primary leading-tight max-w-3xl ${textCenterClass} mb-5 md:mb-6`}>
                 {title}
               </h1>
             </ScrollReveal3D>

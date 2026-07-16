@@ -5,7 +5,9 @@ const MemberSchema = new mongoose.Schema({
   businessName: String,
   businessCategory: String,
   photoUrl: String,
-  logoUrl: String
+  logoUrl: String,
+  memberId: String,
+  chapter: String
 });
 
 module.exports = mongoose.model('Member', MemberSchema);
