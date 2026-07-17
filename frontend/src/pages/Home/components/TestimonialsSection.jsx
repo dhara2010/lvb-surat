@@ -107,22 +107,66 @@ export default function TestimonialsSection() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] md:w-[800px] md:h-[800px] bg-gradient-to-b rounded-full blur-[100px]" style={{ backgroundImage: 'linear-gradient(to bottom, rgba(18,59,93,0.1), transparent)' }} />
       </div>
 
+<<<<<<< HEAD
       <div className="container-xl relative z-10 w-full flex flex-col items-center">
+=======
+      <div className="container-xl relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+>>>>>>> 4c81fa0 (home page done)
 
-        {/* Header */}
-        <div className="flex flex-col items-center text-center max-w-[90%] md:max-w-2xl mx-auto mb-10 md:mb-16">
+        {/* Left Column */}
+        <div className="lg:col-span-5 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
           <ScrollReveal3D delay={0.1}>
+<<<<<<< HEAD
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.2] lg:leading-[1.1] mb-3 md:mb-5">
               What Our <span style={{ color: '#4FA3D1' }}>Members</span> Say
+=======
+            <span className="inline-block uppercase tracking-[0.2em] text-xs font-bold mb-3" style={{ color: '#4FA3D1' }}>
+              Testimonials
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.2] lg:leading-[1.1] mb-5">
+              Voices of our <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC]'>happy customers</span>
+>>>>>>> 4c81fa0 (home page done)
             </h2>
           </ScrollReveal3D>
+          
           <ScrollReveal3D delay={0.2}>
+<<<<<<< HEAD
             <p className="text-sm md:text-lg lg:text-xl font-light leading-relaxed" style={{ color: '#CBD5E1' }}>
               Real experiences from our trusted business community.
+=======
+            <p className="text-sm md:text-base lg:text-lg font-light leading-relaxed mb-10 max-w-lg lg:max-w-none mx-auto lg:mx-0" style={{ color: '#CBD5E1' }}>
+              Discover what our customers love about us through their real experiences, honest feedback.
+>>>>>>> 4c81fa0 (home page done)
             </p>
+          </ScrollReveal3D>
+
+          <ScrollReveal3D delay={0.4} className="flex flex-col sm:flex-row items-center gap-6 mt-2">
+            {/* Satisfy Client Images */}
+            <div className="flex -space-x-4">
+              {testimonials.slice(0,3).map((t, idx) => (
+                <div key={idx} className="relative w-12 h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.5)] z-10" style={{ borderColor: '#090E14' }}>
+                   <img src={t.img} alt={t.name} className="w-full h-full object-cover" 
+                    onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${t.name}&backgroundColor=090E14&textColor=fff`; }} />
+                </div>
+              ))}
+              <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full border-2 flex items-center justify-center shadow-[0_0_15px_rgba(0,0,0,0.5)] z-0 bg-[#0A192F]" style={{ borderColor: '#090E14' }}>
+                 <span className="text-white font-light text-xl">+</span>
+              </div>
+            </div>
+            
+            <div className="flex flex-col items-center sm:items-start">
+              <span className="flex items-center gap-1 mb-1">
+                {[1,2,3,4,5].map(s => <Star key={s} className="w-4 h-4 text-[#4FA3D1] fill-[#4FA3D1]" />)}
+                <b className="text-white font-bold ml-2 text-lg tabular-nums">4.9</b>
+              </span>
+              <span className="text-xs uppercase tracking-wider font-semibold" style={{ color: '#94A3B8' }}>
+                4.9 / 5 Ratings
+              </span>
+            </div>
           </ScrollReveal3D>
         </div>
 
+<<<<<<< HEAD
         {/* Stacked Cards Area */}
         <ScrollReveal3D delay={0.3} className="w-full">
           <div
@@ -219,7 +263,114 @@ export default function TestimonialsSection() {
             Next <ChevronRight className="w-5 h-5" />
           </button>
         </ScrollReveal3D>
+=======
+        {/* Right Column: Stacked Cards Area */}
+        <div className="lg:col-span-7 flex flex-col items-center w-full relative mt-12 lg:mt-0">
+          <ScrollReveal3D delay={0.3} className="w-full">
+            <div
+              className="relative w-full max-w-[600px] mx-auto md:pb-16"
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => { setTouchStartX(null); setIsHovered(false); }}
+            >
+              {cards.map((card, idx) => {
+                const isTop = idx === 0;
+                // Safe fallback if more than 4 items are somehow fed, though exactly 4 are guaranteed here
+                const variantKey = idx < 4 ? idx.toString() : "3";
 
+                return (
+                  <motion.div
+                    key={card.id}
+                    animate={variantKey}
+                    variants={getVariants(moveDir)}
+                    initial={false}
+                    className={`w-full ${isTop ? 'relative z-10' : 'hidden md:block absolute top-0 left-0 h-full'}`}
+                  >
+                    <LuxuryCard 
+                      hoverVariant="light"
+                      className={`w-full h-full p-6 sm:p-8 md:p-10 flex flex-col justify-between group ${isTop ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'}`}
+                      style={{ 
+                        background: '#FFFFFF', 
+                        border: '1px solid #E2E8F0', 
+                        boxShadow: '0 20px 60px rgba(0,0,0,0.1)' 
+                      }}
+                    >
+                      
+                      {/* Top Row: Stars and Quote */}
+                      <div className="flex justify-between items-start mb-4 md:mb-6">
+                        <div className="flex gap-1">
+                          {[1, 2, 3, 4, 5].map(s => (
+                            <Star key={s} className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 transition-colors" style={{ color: isTop ? '#f59e0b' : '#d1d5db', fill: isTop ? '#f59e0b' : 'transparent' }} />
+                          ))}
+                        </div>
+                        <Quote className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-colors duration-300" style={{ color: isTop ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0.05)' }} />
+                      </div>
+>>>>>>> 4c81fa0 (home page done)
+
+                      {/* Testimonial Text */}
+                      <p className={`text-sm sm:text-base md:text-lg font-light leading-relaxed italic flex-grow ${isTop ? 'text-[#090E14]' : 'line-clamp-4 md:line-clamp-none text-[#64748B]'}`}>
+                        "{card.text}"
+                      </p>
+
+                      {/* Member Profile */}
+                      <div className="flex items-center gap-3 sm:gap-4 mt-6 md:mt-8">
+                        <div className={`relative overflow-hidden w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ? 'group-hover:scale-110' : ''}`} style={{ borderColor: isTop ? '#4FA3D1' : 'transparent' }}>
+                          <img loading="lazy" decoding="async" src={card.img}
+                            alt={card.name}
+                            className={`w-full h-full object-cover ${isTop ? '' : 'grayscale opacity-70'}`}
+                            onError={(e) => { e.target.src = `https://api.dicebear.com/7.x/initials/svg?seed=${card.name}&backgroundColor=ffffff&textColor=000`; }}
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-extrabold text-base md:text-lg" style={{ color: isTop ? '#090E14' : '#64748B' }}>
+                            {card.name}
+                          </h4>
+                          <p className="text-xs md:text-sm font-semibold" style={{ color: isTop ? '#4FA3D1' : '#94A3B8' }}>
+                            {card.role}
+                          </p>
+                        </div>
+                      </div>
+
+                    </LuxuryCard>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </ScrollReveal3D>
+
+          {/* Navigation */}
+          <ScrollReveal3D delay={0.4} className="flex items-center justify-center gap-8 mt-12 md:mt-16 w-full max-w-[600px]">
+            <button
+              onClick={movePrev}
+              className="flex items-center gap-2 font-semibold transition-colors md:text-sm text-xs uppercase tracking-wider hover:-translate-x-1"
+              style={{ color: '#E8EDF2' }}
+            >
+              <ChevronLeft className="w-5 h-5" /> Previous
+            </button>
+
+            <div className="tabular-nums font-bold tracking-[0.2em] text-sm flex items-center justify-center min-w-[80px]" style={{ color: '#4FA3D1' }}>
+              <motion.span
+                key={cards[0]?.id || 0}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                className="inline-block"
+              >
+                {cards.length > 0 ? String(cards[0].id + 1).padStart(2, '0') : '00'}
+              </motion.span>
+              <span className="opacity-40 mx-2" style={{ color: '#CBD5E1' }}>/</span>
+              <span className="opacity-60" style={{ color: '#CBD5E1' }}>{String(testimonials.length).padStart(2, '0')}</span>
+            </div>
+
+            <button
+              onClick={moveNext}
+              className="flex items-center gap-2 font-semibold transition-colors md:text-sm text-xs uppercase tracking-wider hover:translate-x-1"
+              style={{ color: '#E8EDF2' }}
+            >
+              Next <ChevronRight className="w-5 h-5" />
+            </button>
+          </ScrollReveal3D>
+        </div>
       </div>
     </GlassSection>
   );

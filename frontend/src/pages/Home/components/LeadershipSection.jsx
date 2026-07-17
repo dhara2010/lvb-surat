@@ -106,7 +106,13 @@ export default function LeadershipSection() {
           style={{ position: 'absolute', top: '50%', left: '50%', transformStyle: "preserve-3d", zIndex: zIndex }}
           className={`cursor-pointer ${isActive ? 'group' : ''}`}
         >
+<<<<<<< HEAD
           <LuxuryCard className={`flex flex-col p-4 md:p-5 transition-all duration-700 ${isActive ? '' : 'shadow-none grayscale filter pointer-events-none'}`}
+=======
+          <LuxuryCard 
+            hoverEffect={false}
+            className={`flex flex-col p-4 md:p-5 transition-all duration-700 ${isActive ? '' : 'shadow-none grayscale filter pointer-events-none'}`}
+>>>>>>> 4c81fa0 (home page done)
             style={{ width: `${cardWidth}px`, height: `${cardHeight}px` }}
           >
             <div className="w-full h-[65%] md:h-[75%] rounded-[24px] overflow-hidden relative">
@@ -177,7 +183,11 @@ export default function LeadershipSection() {
           </div>
         </ScrollReveal3D>
 
+<<<<<<< HEAD
         <ScrollReveal3D delay={0.4} className="mt-6 md:mt-12 flex items-center justify-center gap-10 md:gap-16 text-white">
+=======
+        <ScrollReveal3D delay={0.4} className="flex items-center justify-center gap-10 md:gap-16 text-white">
+>>>>>>> 4c81fa0 (home page done)
           <button
             onClick={handlePrev}
             className="flex items-center gap-2 font-black text-xs md:text-sm uppercase tracking-[0.2em] transition-opacity opacity-50 hover:opacity-100 hover:-translate-x-1 transition-all"

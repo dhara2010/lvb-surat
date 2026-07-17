@@ -197,4 +197,45 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
+<<<<<<< HEAD
+=======
+}
+
+/* Global Typography Overrides for White Theme Inner Pages */
+body.theme-inner {
+  --color-heading: #164e63 !important;
+  --color-body: #164e63 !important;
+}
+
+@layer utilities {
+  body.theme-inner :is(
+    .text-white, 
+    .text-gray-50, 
+    .text-slate-50, 
+    .text-neutral-50, 
+    .text-zinc-50, 
+    .text-stone-50, 
+    .text-white\/90, 
+    .text-white\/80, 
+    .text-white\/70, 
+    .text-white\/60, 
+    .text-primary
+  ):not(
+    button, button *, 
+    .btn, .btn *, 
+    svg, svg *, 
+    .icon, .icon *, 
+    footer, footer *, 
+    .footer, .footer *, 
+    .overlay, .overlay *, 
+    .glass-dark, .glass-dark *, 
+    .bg-primary, .bg-primary *, 
+    .bg-dark, .bg-dark *,
+    .theme-dark, .theme-dark *,
+    .navbar, .navbar *,
+    header, header *
+  ) {
+    color: #164e63 !important;
+  }
+>>>>>>> 4c81fa0 (home page done)
 }

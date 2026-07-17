@@ -17,7 +17,10 @@ export default function About() {
         label="ABOUT US"
         title={
           <>
-            {aboutHero.title} <br className="hidden md:block" />
+           <span className="text-cyan-900">
+              {aboutHero.title}
+            </span>
+             <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-teal-400">
               {aboutHero.highlight}
             </span>

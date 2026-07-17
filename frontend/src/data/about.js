@@ -28,12 +28,12 @@ export const founders = [
   {
     name: 'Mr. Akash Vaghasiya',
     role: 'Founder',
-    img: '/about/AK.png',
+    img: '/about/AK.webp',
   },
   {
     name: 'Mr. Ajay Italiya',
     role: 'Co Founder',
-    img: '/about/ajay.png',
+    img: '/about/ajay.webp',
   }
 ];
 

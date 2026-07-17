@@ -1,7 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+<<<<<<< HEAD
 export default function LuxuryCard({ children, className = '', hoverEffect = true, ...props }) {
+=======
+export default function LuxuryCard({ children, className = '', hoverEffect = true, hoverVariant = 'dark', ...props }) {
+  const hoverBackground = hoverVariant === 'dark' 
+    ? 'linear-gradient(135deg, #090E14, rgba(79,163,209,0.15))'
+    : 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(79,163,209,0.1))';
+
+>>>>>>> 4c81fa0 (home page done)
   return (
     <motion.div
       whileHover={hoverEffect ? { y: -10, scale: 1.03 } : {}}
@@ -21,7 +29,11 @@ export default function LuxuryCard({ children, className = '', hoverEffect = tru
         <div 
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
           style={{
+<<<<<<< HEAD
             background: 'linear-gradient(135deg, #090E14, rgba(79,163,209,0.15))'
+=======
+            background: hoverBackground
+>>>>>>> 4c81fa0 (home page done)
           }}
         />
       )}

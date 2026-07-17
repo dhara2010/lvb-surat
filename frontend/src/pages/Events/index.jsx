@@ -5,6 +5,7 @@
  * ══════════════════════════════════════════
  */
 import React, { useState, useEffect } from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -25,6 +26,8 @@ const meetingDetails = [
 ];
 
 export default function Meeting() {
+  const primaryTextClass = usePrimaryTextClass();
+
   const { data: eventsData, loading, error } = useFetch(getEvents);
   const events = eventsData || [];
 
@@ -60,7 +63,11 @@ export default function Meeting() {
 
           {/* Text */}
           <motion.div {...inView(0)} className="flex flex-col gap-6">
+<<<<<<< HEAD
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight">
+=======
+            <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight`}>
+>>>>>>> 4c81fa0 (home page done)
               Meeting Structure
             </h2>
             <div className="w-24 h-1 bg-secondary"></div>
@@ -90,7 +97,11 @@ export default function Meeting() {
                       />
                     </div>
                     <div>
+<<<<<<< HEAD
                       <p className="text-base font-bold text-primary">
+=======
+                      <p className={`text-base font-bold ${primaryTextClass}`}>
+>>>>>>> 4c81fa0 (home page done)
                         {d.label}
                       </p>
                       <p className="text-slate-600 text-sm mt-0.5">{d.sub}</p>
@@ -115,7 +126,11 @@ export default function Meeting() {
         <div>
           <motion.div {...inView(0)} className="mb-12">
             <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3">Chapter Agenda</span>
+<<<<<<< HEAD
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight">
+=======
+            <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight`}>
+>>>>>>> 4c81fa0 (home page done)
               Upcoming Events
             </h2>
           </motion.div>
@@ -147,7 +162,11 @@ export default function Meeting() {
                 </div>
 
                 <div className="flex flex-col gap-2 flex-grow">
+<<<<<<< HEAD
                   <h3 className="text-xl md:text-2xl font-bold text-primary group-hover:text-secondary transition-colors line-clamp-2">
+=======
+                  <h3 className={`text-xl md:text-2xl font-bold ${primaryTextClass} group-hover:text-secondary transition-colors line-clamp-2`}>
+>>>>>>> 4c81fa0 (home page done)
                     {ev.title}
                   </h3>
                   <p className="text-slate-600 text-sm md:text-base leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>

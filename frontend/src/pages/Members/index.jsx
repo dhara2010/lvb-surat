@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
 import { Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -22,6 +23,8 @@ const vacantCategories = [
 ];
 
 export default function MembersDirectory() {
+  const primaryTextClass = usePrimaryTextClass();
+
   const { data: membersData, loading, error } = useFetch(getMembers);
   const platinumMembers = membersData || [];
 
@@ -56,24 +59,40 @@ export default function MembersDirectory() {
             className="bg-white rounded-3xl p-8 md:p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] flex flex-col md:flex-row items-center justify-between border border-gray-100 backdrop-blur-xl"
           >
             <div className="flex-1 text-center md:text-left md:pl-10 mb-8 md:mb-0 border-b md:border-b-0 border-gray-100 pb-8 md:pb-0">
+<<<<<<< HEAD
               <h2 className="text-2xl md:text-3xl font-black text-primary tracking-tight">LVB Surat Platinum</h2>
+=======
+              <h2 className={`text-2xl md:text-3xl font-black ${primaryTextClass} tracking-tight`}>LVB Surat Platinum</h2>
+>>>>>>> 4c81fa0 (home page done)
               <p className="text-secondary uppercase tracking-[0.25em] text-[11px] font-black mt-2">Chapter Network</p>
             </div>
             
             <div className="flex-1 flex flex-col md:flex-row items-center justify-around w-full border-l md:border-t-0 border-gray-100 md:pl-6 divide-y md:divide-y-0 md:divide-x divide-gray-100">
               <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
                 <Users className="text-secondary mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
+<<<<<<< HEAD
                 <span className="text-3xl font-black text-primary mb-1">50+</span>
+=======
+                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>50+</span>
+>>>>>>> 4c81fa0 (home page done)
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Professionals</span>
               </div>
               <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
                 <TrendingUp className="text-secondary mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
+<<<<<<< HEAD
                 <span className="text-3xl font-black text-primary mb-1">₹500 Cr+</span>
+=======
+                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>₹500 Cr+</span>
+>>>>>>> 4c81fa0 (home page done)
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Business Done</span>
               </div>
               <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
                 <MessageSquare className="text-secondary mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
+<<<<<<< HEAD
                 <span className="text-3xl font-black text-primary mb-1">12+</span>
+=======
+                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>12+</span>
+>>>>>>> 4c81fa0 (home page done)
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Testimonials</span>
               </div>
             </div>
@@ -85,7 +104,11 @@ export default function MembersDirectory() {
       <section className="py-24 px-6 md:px-10 max-w-7xl mx-auto w-full">
         <motion.div {...inView(0)} className="text-center mb-20">
           <span className="inline-block text-secondary font-extrabold tracking-[0.3em] uppercase text-xs mb-4">Elite Network</span>
+<<<<<<< HEAD
           <h2 className="text-4xl md:text-5xl font-black text-primary mb-6 tracking-tight leading-[1.1]">
+=======
+          <h2 className={`text-4xl md:text-5xl font-black ${primaryTextClass} mb-6 tracking-tight leading-[1.1]`}>
+>>>>>>> 4c81fa0 (home page done)
             Meet our <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Platinum Members</span>
           </h2>
           <div className="w-16 h-1.5 bg-secondary mx-auto rounded-full"></div>
@@ -121,7 +144,11 @@ export default function MembersDirectory() {
               </div>
               
               <div className="flex flex-col mt-auto pb-4 border-b border-gray-100">
+<<<<<<< HEAD
                 <h3 className="text-2xl font-black text-primary truncate leading-tight group-hover:text-secondary transition-colors duration-300">{m.name}</h3>
+=======
+                <h3 className={`text-2xl font-black ${primaryTextClass} truncate leading-tight group-hover:text-secondary transition-colors duration-300`}>{m.name}</h3>
+>>>>>>> 4c81fa0 (home page done)
                 
                 <div className="mt-3 flex items-center gap-2">
                   <div className="w-8 h-[2px] shrink-0 bg-secondary rounded-full"></div>
@@ -149,7 +176,11 @@ export default function MembersDirectory() {
         
         <div className="max-w-6xl mx-auto px-6 md:px-10 relative z-10 flex flex-col items-center">
           <motion.div {...inView(0)} className="text-center mb-16">
+<<<<<<< HEAD
             <h2 className="text-4xl md:text-5xl font-black text-primary mb-6 tracking-tight leading-[1.1]">
+=======
+            <h2 className={`text-4xl md:text-5xl font-black ${primaryTextClass} mb-6 tracking-tight leading-[1.1]`}>
+>>>>>>> 4c81fa0 (home page done)
               Top Vacant Categories
             </h2>
             <div className="w-16 h-1.5 bg-secondary mx-auto rounded-full"></div>
@@ -168,7 +199,11 @@ export default function MembersDirectory() {
                 <div className="w-16 h-16 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-6 text-secondary group-hover:bg-secondary group-hover:text-white transition-all duration-300">
                   <v.icon size={26} strokeWidth={1.5}/>
                 </div>
+<<<<<<< HEAD
                 <h4 className="text-primary font-extrabold text-center text-[13px] md:text-[15px] leading-tight">
+=======
+                <h4 className={`${primaryTextClass} font-extrabold text-center text-[13px] md:text-[15px] leading-tight`}>
+>>>>>>> 4c81fa0 (home page done)
                   {v.title}
                 </h4>
               </motion.div>

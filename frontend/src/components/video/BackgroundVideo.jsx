@@ -16,9 +16,15 @@ export default function BackgroundVideo() {
         transition={{ duration: 2, ease: "easeOut" }}
         className="absolute inset-0 w-full h-full object-cover"
       />
+<<<<<<< HEAD
 
       {/* Dark/Blue Overlay Layer for Readability */}
       <div
+=======
+      
+      {/* Dark/Blue Overlay Layer for Readability */}
+      <div 
+>>>>>>> 4c81fa0 (home page done)
         className="absolute inset-0 z-10"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.45)" }}
       ></div>

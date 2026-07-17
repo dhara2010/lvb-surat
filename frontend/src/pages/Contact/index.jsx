@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
 import { faqs } from '../../data';
@@ -19,6 +20,8 @@ const contactDetails = [
 ];
 
 export default function Contact() {
+  const primaryTextClass = usePrimaryTextClass();
+
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
@@ -73,7 +76,11 @@ export default function Contact() {
                   <div className="w-10 h-[3px] bg-secondary rounded-full"></div>
                   <span className="text-secondary font-extrabold tracking-[0.25em] uppercase text-xs">Reach Out</span>
                 </div>
+<<<<<<< HEAD
                 <h2 className="text-4xl md:text-5xl lg:text-[2.75rem] font-black text-primary tracking-tight leading-[1.15]">
+=======
+                <h2 className={`text-4xl md:text-5xl lg:text-[2.75rem] font-black ${primaryTextClass} tracking-tight leading-[1.15]`}>
+>>>>>>> 4c81fa0 (home page done)
                   Let's Start a <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
                 </h2>
               </div>
@@ -91,7 +98,11 @@ export default function Contact() {
                         <Icon className="w-6 h-6 text-secondary" strokeWidth={1.5} aria-hidden />
                       </div>
                       <div className="flex flex-col justify-center pt-2">
+<<<<<<< HEAD
                         <p className="text-[15px] font-extrabold text-primary mb-0.5 group-hover:text-secondary transition-colors">{d.label}</p>
+=======
+                        <p className={`text-[15px] font-extrabold ${primaryTextClass} mb-0.5 group-hover:text-secondary transition-colors`}>{d.label}</p>
+>>>>>>> 4c81fa0 (home page done)
                         <p className="text-slate-500 text-sm font-medium">{d.sub}</p>
                       </div>
                     </div>
@@ -102,7 +113,11 @@ export default function Contact() {
 
             {/* Bottom Graphic / Social Proof */}
             <div className="relative z-10 mt-14 pt-8 border-t border-gray-200">
+<<<<<<< HEAD
               <p className="text-[11px] font-black text-primary uppercase tracking-[0.2em] mb-4">Connect with us</p>
+=======
+              <p className={`text-[11px] font-black ${primaryTextClass} uppercase tracking-[0.2em] mb-4`}>Connect with us</p>
+>>>>>>> 4c81fa0 (home page done)
               <div className="flex gap-5">
                 {['LinkedIn', 'Twitter', 'Instagram'].map((social, i) => (
                   <a key={i} href="#" className="text-sm font-bold text-slate-500 hover:text-secondary hover:-translate-y-0.5 transition-all">
@@ -130,11 +145,19 @@ export default function Contact() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
+<<<<<<< HEAD
                   <h3 className="text-3xl font-black text-primary">Request Submitted</h3>
                   <p className="text-slate-500 text-lg max-w-md mx-auto font-medium">
                     Thank you for your interest. Our membership committee will review your details and contact you within 24 hours.
                   </p>
                   <button onClick={() => setSubmitted(false)} className="mt-8 text-secondary font-extrabold uppercase tracking-widest text-[13px] hover:text-primary transition-colors border-b-2 border-secondary/30 hover:border-primary pb-1">
+=======
+                  <h3 className={`text-3xl font-black ${primaryTextClass}`}>Request Submitted</h3>
+                  <p className="text-slate-500 text-lg max-w-md mx-auto font-medium">
+                    Thank you for your interest. Our membership committee will review your details and contact you within 24 hours.
+                  </p>
+                  <button onClick={() => setSubmitted(false)} className={`mt-8 text-secondary font-extrabold uppercase tracking-widest text-[13px] hover:${primaryTextClass} transition-colors border-b-2 border-secondary/30 hover:border-primary pb-1`}>
+>>>>>>> 4c81fa0 (home page done)
                     Send another message
                   </button>
                 </motion.div>
@@ -147,12 +170,17 @@ export default function Contact() {
                   animate={{ opacity: 1 }}
                 >
                   <div className="flex flex-col mb-2">
+<<<<<<< HEAD
                     <h3 className="text-2xl md:text-3xl font-extrabold text-primary mb-3">Send us a message</h3>
+=======
+                    <h3 className={`text-2xl md:text-3xl font-extrabold ${primaryTextClass} mb-3`}>Send us a message</h3>
+>>>>>>> 4c81fa0 (home page done)
                     <p className="text-slate-500 text-[15px] font-medium leading-relaxed">Please fill out the form below with your accurate details to help us process your inquiry faster.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2.5">
+<<<<<<< HEAD
                       <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary ml-1" htmlFor="contact-name">Full Name *</label>
                       <input id="contact-name" type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Doe"
@@ -164,12 +192,26 @@ export default function Contact() {
                       <input id="contact-company" type="text" required value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         placeholder="Company Ltd."
                         className="w-full bg-gray-50/80 border border-gray-200 text-primary font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium"
+=======
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-name">Full Name *</label>
+                      <input id="contact-name" type="text" required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="John Doe"
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2.5">
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-company">Business Name *</label>
+                      <input id="contact-company" type="text" required value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                        placeholder="Company Ltd."
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+>>>>>>> 4c81fa0 (home page done)
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2.5">
+<<<<<<< HEAD
                       <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary ml-1" htmlFor="contact-phone">Phone Number *</label>
                       <input id="contact-phone" type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+91 98765 43210"
@@ -181,12 +223,26 @@ export default function Contact() {
                       <input id="contact-email" type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
                         className="w-full bg-gray-50/80 border border-gray-200 text-primary font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium"
+=======
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-phone">Phone Number *</label>
+                      <input id="contact-phone" type="tel" required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+91 98765 43210"
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2.5">
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-email">Email Address *</label>
+                      <input id="contact-email" type="email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="john@example.com"
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+>>>>>>> 4c81fa0 (home page done)
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2.5">
+<<<<<<< HEAD
                       <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary ml-1" htmlFor="contact-category">Industry / Category *</label>
                       <input id="contact-category" type="text" required value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                         placeholder="e.g. Textiles, Diamonds"
@@ -198,15 +254,35 @@ export default function Contact() {
                       <input id="contact-referral" type="text" value={formData.referral} onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
                         placeholder="Member Name"
                         className="w-full bg-gray-50/80 border border-gray-200 text-primary font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium"
+=======
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-category">Industry / Category *</label>
+                      <input id="contact-category" type="text" required value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        placeholder="e.g. Textiles, Diamonds"
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2.5">
+                      <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-referral">Referred By (Optional)</label>
+                      <input id="contact-referral" type="text" value={formData.referral} onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
+                        placeholder="Member Name"
+                        className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium`}
+>>>>>>> 4c81fa0 (home page done)
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-2.5">
+<<<<<<< HEAD
                     <label className="text-[11px] font-black uppercase tracking-[0.2em] text-primary ml-1" htmlFor="contact-message">Your Message</label>
                     <textarea id="contact-message" rows="4" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell us what you're looking for..."
                       className="w-full bg-gray-50/80 border border-gray-200 text-primary font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium resize-none"
+=======
+                    <label className={`text-[11px] font-black uppercase tracking-[0.2em] ${primaryTextClass} ml-1`} htmlFor="contact-message">Your Message</label>
+                    <textarea id="contact-message" rows="4" value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      placeholder="Tell us what you're looking for..."
+                      className={`w-full bg-gray-50/80 border border-gray-200 ${primaryTextClass} font-semibold rounded-2xl px-5 py-4 focus:outline-none focus:border-secondary focus:ring-4 focus:ring-secondary/10 transition-all placeholder:text-gray-400 placeholder:font-medium resize-none`}
+>>>>>>> 4c81fa0 (home page done)
                     />
                   </div>
 
@@ -230,7 +306,11 @@ export default function Contact() {
         <div className="max-w-4xl mx-auto w-full pt-12 pb-16">
           <motion.div {...inView(0.1)} className="text-center mb-12">
             <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3 mx-auto">Got Questions?</span>
+<<<<<<< HEAD
             <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight">
+=======
+            <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight`}>
+>>>>>>> 4c81fa0 (home page done)
               Frequently Asked Questions
             </h2>
             <p className="text-slate-600 text-base md:text-lg max-w-xl mx-auto mt-4">
@@ -251,7 +331,11 @@ export default function Contact() {
                     onClick={() => setOpenFaq(isOpen ? null : i)}
                     className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
                   >
+<<<<<<< HEAD
                     <span className="font-semibold text-[15px] text-primary">
+=======
+                    <span className={`font-semibold text-[15px] ${primaryTextClass}`}>
+>>>>>>> 4c81fa0 (home page done)
                       {faq.q}
                     </span>
                     <motion.div

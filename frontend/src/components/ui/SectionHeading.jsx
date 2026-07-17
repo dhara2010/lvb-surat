@@ -1,21 +1,31 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+import { usePrimaryTextClass } from '../../hooks/useTheme';
+>>>>>>> 4c81fa0 (home page done)
 import ScrollReveal3D from '../animations/ScrollReveal3D';
 
 export default function SectionHeading({ label, title, subtitle, highlight, align = 'center', className = '' }) {
+  const primaryTextClass = usePrimaryTextClass();
+
   const alignmentClass = align === 'center' ? 'items-center text-center mx-auto' : 'items-start text-left';
 
   return (
     <div className={`flex flex-col max-w-2xl px-4 mb-16 ${alignmentClass} ${className}`}>
       {label && (
         <ScrollReveal3D>
-          <span className="inline-block text-primary font-bold tracking-[0.2em] uppercase text-xs mb-4">
+          <span className={`inline-block ${primaryTextClass} font-bold tracking-[0.2em] uppercase text-xs mb-4`}>
             {label}
           </span>
         </ScrollReveal3D>
       )}
       {title && (
         <ScrollReveal3D delay={0.1}>
+<<<<<<< HEAD
           <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight leading-[1.1] mb-5">
+=======
+          <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight leading-[1.1] mb-5`}>
+>>>>>>> 4c81fa0 (home page done)
             {title} {highlight && <span className="text-secondary">{highlight}</span>}
           </h2>
         </ScrollReveal3D>

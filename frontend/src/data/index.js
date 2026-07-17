@@ -46,19 +46,19 @@ export const stats2 = [
 
 export const testimonials = [
   {
-    name: 'Kishor Dhameliya', role: 'Sunrise Interior Hub', img: '/kishor.png',
+    name: 'Kishor Dhameliya', role: 'Sunrise Interior Hub', img: '/kishor.webp',
     text: 'LVB has given me much more than business connections—it has given me a trusted circle of entrepreneurs who genuinely care about each other’s success. The positive atmosphere, valuable interactions, and endless learning opportunities make every meeting worthwhile. Being a member of LVB has been a rewarding experience that continues to add value to my professional journey.'
   },
   {
-    name: 'Divya Gajera', role: 'Gajera physiotherapist', img: '/divya.png',
+    name: 'Divya Gajera', role: 'Gajera physiotherapist', img: '/divya.webp',
     text: 'LVB is more than a networking platform—it is a circle of trust, growth, and opportunity. The relationships I have built here have added immense value to my professional journey. Through meaningful interactions and a culture of mutual support, LVB continues to create an environment where businesses thrive together. I am proud to be associated with a community that believes in growing stronger through connections.'
   },
   {
-    name: 'Hardik Kotadiya', role: 'Anjuben Chutney', img: '/kotadiya.png',
+    name: 'Hardik Kotadiya', role: 'Anjuben Chutney', img: '/kotadiya.webp',
     text: 'Thank you LVB platform for providing such an excellent space to connect with like-minded professionals and discover outstanding organizations. The opportunities for collaboration, growth, and networking have been exceptional. Thank you for creating such a valuable and well-organized community. The platform not only promotes meaningful connections but also empowers individuals and businesses to grow, collaborate, and thrive.'
   },
   {
-    name: 'Sanjay Gorasiya', role: 'Nilkanth Ayurveda & Nutricare', img: '/sanjay.png',
+    name: 'Sanjay Gorasiya', role: 'Nilkanth Ayurveda & Nutricare', img: '/sanjay.webp',
     text: 'Every entrepreneur needs a platform that helps them grow beyond their business, and for me, that platform is LVB. It has connected me with visionary business owners, encouraged meaningful collaborations, and created opportunities that extend far beyond traditional networking. The culture of positivity and growth within LVB makes it an exceptional community for every entrepreneur. I am honored to be associated with such an inspiring network.'
   }
 ];

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
@@ -12,6 +13,8 @@ const inView = (delay = 0) => ({
 });
 
 export default function EventDetail() {
+  const primaryTextClass = usePrimaryTextClass();
+
   const { eventId } = useParams();
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [calendarOpen, setCalendarOpen] = useState(false);
@@ -71,7 +74,7 @@ export default function EventDetail() {
         {/* Hero Header */}
         <motion.div {...inView(0.1)} className="mb-12">
           <h1 className="h-display mb-4">{event.title || 'Event Title'}</h1>
-          <div className="flex flex-wrap items-center gap-2 text-primary font-medium text-lg">
+          <div className={`flex flex-wrap items-center gap-2 ${primaryTextClass} font-medium text-lg`}>
             <span className="flex items-center gap-2">
               {event.month && event.date ? `${event.month} ${event.date}` : 'Date TBD'}{event.year ? `, ${event.year}` : ''} {event.time ? `@ ${event.time}` : ''}
             </span>
@@ -129,12 +132,12 @@ export default function EventDetail() {
                     <div className="flex flex-col gap-2">
                       <h3 className="h-lg">{session.title}</h3>
                       {session.primaryText && (
-                        <div className="text-primary font-semibold text-lg flex items-center gap-2">
+                        <div className={`${primaryTextClass} font-semibold text-lg flex items-center gap-2`}>
                           <span className="text-muted font-normal">{session.primaryLabel || 'Speaker'}:</span> {session.primaryText}
                         </div>
                       )}
                       {session.secondaryText && (
-                        <div className="text-primary font-semibold text-lg flex items-center gap-2">
+                        <div className={`${primaryTextClass} font-semibold text-lg flex items-center gap-2`}>
                           <span className="text-muted font-normal">{session.secondaryLabel || 'Topic'}:</span> {session.secondaryText}
                         </div>
                       )}
@@ -153,7 +156,7 @@ export default function EventDetail() {
                   className="btn-secondary group flex items-center gap-2 bg-surface hover:bg-surface-hover transition-colors"
                 >
                   <Calendar className="w-4 h-4 text-secondary" />
-                  <span className="text-primary font-medium">Add to calendar</span>
+                  <span className={`${primaryTextClass} font-medium`}>Add to calendar</span>
                   <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${calendarOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`} />
                 </button>
 
@@ -184,13 +187,13 @@ export default function EventDetail() {
                   {tickets.map((ticket, idx) => (
                     <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-subtle last:border-0 last:pb-0">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-primary text-lg">{ticket.category}</h4>
+                        <h4 className={`font-semibold ${primaryTextClass} text-lg`}>{ticket.category}</h4>
                         {ticket.description && (
                           <p className="text-sm text-muted mt-1 leading-relaxed">{ticket.description}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-6 sm:w-auto w-full justify-between sm:justify-end">
-                        <span className="text-lg font-bold text-primary flex items-center">
+                        <span className={`text-lg font-bold ${primaryTextClass} flex items-center`}>
                           ₹ {parseFloat(ticket.price).toFixed(2)}
                         </span>
                         <select 
@@ -222,12 +225,12 @@ export default function EventDetail() {
               <div className="card-primary bg-bg-alt border-none shadow-md p-8 flex flex-col gap-8">
                 {/* Details */}
                 <div>
-                  <h4 className="font-display font-semibold text-xl text-primary border-b border-border pb-3 mb-4">Details</h4>
+                  <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Details</h4>
                   <ul className="flex flex-col gap-4 text-sm">
                     {event.month && event.date && (
                       <li className="flex flex-col">
                         <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Date</span>
-                        <span className="text-primary font-medium flex items-center gap-2">
+                        <span className={`${primaryTextClass} font-medium flex items-center gap-2`}>
                           <Calendar className="w-4 h-4 text-secondary"/> {event.month} {event.date} {event.year}
                         </span>
                       </li>
@@ -235,7 +238,7 @@ export default function EventDetail() {
                     {event.time && (
                       <li className="flex flex-col">
                         <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Time</span>
-                        <span className="text-primary font-medium flex items-center gap-2">
+                        <span className={`${primaryTextClass} font-medium flex items-center gap-2`}>
                           <Clock className="w-4 h-4 text-secondary"/> {event.time}
                         </span>
                       </li>
@@ -243,7 +246,7 @@ export default function EventDetail() {
                     {event.cost && (
                       <li className="flex flex-col">
                         <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Cost</span>
-                        <span className="text-primary font-medium flex items-center gap-1">
+                        <span className={`${primaryTextClass} font-medium flex items-center gap-1`}>
                           {event.cost}
                         </span>
                       </li>
@@ -254,10 +257,10 @@ export default function EventDetail() {
                 {/* Organizer */}
                 {event.organizer && (
                   <div>
-                    <h4 className="font-display font-semibold text-xl text-primary border-b border-border pb-3 mb-4">Organizer</h4>
+                    <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Organizer</h4>
                     <ul className="flex flex-col gap-4 text-sm">
                       <li>
-                        <span className="text-primary font-semibold text-base">{event.organizer}</span>
+                        <span className={`${primaryTextClass} font-semibold text-base`}>{event.organizer}</span>
                       </li>
                     </ul>
                   </div>
@@ -266,9 +269,9 @@ export default function EventDetail() {
                 {/* Venue */}
                 {event.venue && (
                   <div>
-                    <h4 className="font-display font-semibold text-xl text-primary border-b border-border pb-3 mb-4">Venue</h4>
+                    <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Venue</h4>
                     <ul className="flex flex-col gap-4 text-sm">
-                      <li className="text-primary font-medium leading-relaxed flex items-start gap-2">
+                      <li className={`${primaryTextClass} font-medium leading-relaxed flex items-start gap-2`}>
                          <MapPin className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                          {event.venue}
                       </li>
@@ -295,11 +298,11 @@ export default function EventDetail() {
 
         {/* Footer Navigation */}
         <motion.div {...inView(0.6)} className="mt-16 border-t border-subtle pt-6 flex justify-between items-center text-sm font-medium">
-          <Link to="/events" className="text-primary hover:text-secondary flex items-center gap-2 transition-colors">
+          <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             « Previous Event
           </Link>
           <div className="hidden sm:block text-muted">LVB PLATINUM CHAPTER</div>
-          <Link to="/events" className="text-primary hover:text-secondary flex items-center gap-2 transition-colors">
+          <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             Next Event »
           </Link>
         </motion.div>
