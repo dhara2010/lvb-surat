@@ -5,6 +5,7 @@ import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircl
 import { Link, useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvent } from '../../api/eventsApi';
+import PageHeader from '../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -64,16 +65,20 @@ export default function EventDetail() {
   };
 
   return (
-    <div className="section-white min-h-screen pt-24 pb-20">
-      <div className="container-xl">
+    <div className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
+      <PageHeader 
+        label="EVENT DETAILS"
+        title={event.title || 'Event Title'}
+        description={event.desc ? event.desc.substring(0, 160) + (event.desc.length > 160 ? "..." : "") : "Join us for an inspiring event. Connect with like-minded individuals and gain practical insights."}
+      />
+      
+      <div className="container-xl section-padding flex flex-col gap-12 pt-0 md:pt-4">
         {/* Navigation Breadcrumb */}
         <motion.div {...inView(0)} className="mb-6 flex gap-2 items-center text-sm">
           <Link to="/events" className="text-muted hover:text-secondary transition-colors">« All Events</Link>
         </motion.div>
 
-        {/* Hero Header */}
-        <motion.div {...inView(0.1)} className="mb-12">
-          <h1 className="h-display mb-4">{event.title || 'Event Title'}</h1>
+        <motion.div {...inView(0.1)} className="mb-0 flex justify-between items-center flex-wrap gap-4 pt-4 border-t border-gray-100">
           <div className={`flex flex-wrap items-center gap-2 ${primaryTextClass} font-medium text-lg`}>
             <span className="flex items-center gap-2">
               {event.month && event.date ? `${event.month} ${event.date}` : 'Date TBD'}{event.year ? `, ${event.year}` : ''} {event.time ? `@ ${event.time}` : ''}
