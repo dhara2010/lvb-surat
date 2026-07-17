@@ -19,11 +19,7 @@ export default function PageHeader({ label, title, description, alignment = 'lef
           )}
           {title && (
             <ScrollReveal3D delay={0.1}>
-<<<<<<< HEAD
-              <h1 className={`text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-extrabold text-primary leading-tight max-w-3xl ${textCenterClass} mb-5 md:mb-6`}>
-=======
               <h1 className={`text-3xl md:text-4xl lg:text-4xl xl:text-4xl font-extrabold text-black leading-tight max-w-3xl ${textCenterClass} mb-5 md:mb-6`}>
->>>>>>> 4c81fa0 (home page done)
                 {title}
               </h1>
             </ScrollReveal3D>

@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
 
 :root {
   /* Core Brand */
@@ -197,8 +197,6 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
-<<<<<<< HEAD
-=======
 }
 
 /* Global Typography Overrides for White Theme Inner Pages */
@@ -237,5 +235,4 @@ body.theme-inner {
   ) {
     color: #164e63 !important;
   }
->>>>>>> 4c81fa0 (home page done)
 }

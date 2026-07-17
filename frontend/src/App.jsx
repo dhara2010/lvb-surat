@@ -4,8 +4,6 @@ import AppRoutes from './routes/AppRoutes';
 import SmoothScroll from './components/animations/SmoothScroll';
 import CustomCursor from './components/animations/CustomCursor';
 import { AnimatedBackground } from './components/animations/AnimatedBackground';
-<<<<<<< HEAD
-=======
 
 function ThemeController() {
   const location = useLocation();
@@ -18,15 +16,11 @@ function ThemeController() {
   }, [location.pathname]);
   return null;
 }
->>>>>>> 4c81fa0 (home page done)
 
 export default function App() {
   return (
     <BrowserRouter>
-<<<<<<< HEAD
-=======
       <ThemeController />
->>>>>>> 4c81fa0 (home page done)
       <SmoothScroll>
         <CustomCursor />
         <AppRoutes />

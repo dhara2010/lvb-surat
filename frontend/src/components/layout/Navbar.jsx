@@ -48,16 +48,6 @@ export default function Navbar() {
     <>
       <header
         style={{
-<<<<<<< HEAD
-          backgroundColor: scrolled ? 'rgba(9, 14, 20, 0.85)' : 'transparent',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          boxShadow: scrolled ? '0 10px 40px -10px rgba(0,0,0,0.2)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.05)' : '1px solid transparent',
-          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
-        }}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 theme-dark"
-=======
           backgroundColor: isHome ? (scrolled ? 'rgba(9, 14, 20, 0.85)' : 'transparent') : '#FFFFFF',
           backdropFilter: isHome ? 'blur(20px)' : 'none',
           WebkitBackdropFilter: isHome ? 'blur(20px)' : 'none',
@@ -66,7 +56,6 @@ export default function Navbar() {
           transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isHome ? 'theme-dark' : 'theme-light'}`}
->>>>>>> 4c81fa0 (home page done)
         role="banner"
       >
         <div
@@ -124,11 +113,6 @@ export default function Navbar() {
           >
             {NAV_LINKS.map((link) => (
               <Magnetic strength={0.3} key={link.path}>
-<<<<<<< HEAD
-                <ThemeNavLink to={link.path} className="px-1 py-2 xl:text-base">
-                   {link.label}
-                </ThemeNavLink>
-=======
                 {isHome ? (
                   <ThemeNavLink to={link.path} className="px-1 py-2 xl:text-base">
                      {link.label}
@@ -146,7 +130,6 @@ export default function Navbar() {
                     )}
                   </NavLink>
                 )}
->>>>>>> 4c81fa0 (home page done)
               </Magnetic>
             ))}
           </nav>
@@ -155,11 +138,6 @@ export default function Navbar() {
           <div className="hidden lg:block shrink-0">
             <Magnetic strength={0.4}>
               <Link to="/contact">
-<<<<<<< HEAD
-                <LuxuryButton as="div" className="xl:py-3.5 xl:px-10">
-                  Let's Connect
-                </LuxuryButton>
-=======
                 {isHome ? (
                   <LuxuryButton as="div" className="xl:py-3.5 xl:px-10">
                     Let's Connect
@@ -169,7 +147,6 @@ export default function Navbar() {
                     Let's Connect
                   </div>
                 )}
->>>>>>> 4c81fa0 (home page done)
               </Link>
             </Magnetic>
           </div>
@@ -179,13 +156,8 @@ export default function Navbar() {
             onClick={() => setMobileOpen((o) => !o)}
             className="lg:hidden w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200"
             style={{
-<<<<<<< HEAD
-              borderColor: mobileOpen ? 'var(--color-secondary)' : 'var(--color-border)',
-              color: mobileOpen ? 'var(--color-secondary)' : 'var(--color-heading)',
-=======
               borderColor: mobileOpen ? 'var(--color-secondary)' : (isHome ? 'var(--color-border)' : 'rgba(4,71,101,0.3)'),
               color: mobileOpen ? 'var(--color-secondary)' : (isHome ? 'var(--color-heading)' : '#044765'),
->>>>>>> 4c81fa0 (home page done)
               backgroundColor: mobileOpen ? 'rgba(20,184,166,0.05)' : 'transparent',
             }}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
@@ -227,13 +199,8 @@ export default function Navbar() {
                     to={link.path}
                     className="flex items-center justify-between py-3 text-base sm:text-lg font-medium border-b transition-colors"
                     style={({ isActive }) => ({
-<<<<<<< HEAD
-                      color: isActive ? 'var(--color-secondary)' : 'var(--color-heading)',
-                      borderColor: 'var(--color-border-subtle)',
-=======
                       color: isActive ? (isHome ? 'var(--color-secondary)' : '#0F9D9A') : (isHome ? 'var(--color-heading)' : '#044765'),
                       borderColor: isHome ? 'var(--color-border-subtle)' : 'rgba(0,0,0,0.08)',
->>>>>>> 4c81fa0 (home page done)
                     })}
                   >
                     {({ isActive }) => (
@@ -249,11 +216,7 @@ export default function Navbar() {
                     )}
                   </NavLink>
                 ))}
-<<<<<<< HEAD
-                <Link to="/contact" className="mt-6 flex justify-center w-full max-w-[300px] mx-auto items-center overflow-hidden rounded-full px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(79,163,209,0.3)] transition-transform active:scale-95" style={{ backgroundColor: '#4FA3D1' }}>
-=======
                 <Link to="/contact" className={`mt-6 flex justify-center w-full max-w-[300px] mx-auto items-center overflow-hidden rounded-full px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(79,163,209,0.3)] transition-transform active:scale-95 ${isHome ? '' : 'bg-[#044765] hover:bg-[#0F9D9A]'}`} style={isHome ? { backgroundColor: '#4FA3D1' } : {}}>
->>>>>>> 4c81fa0 (home page done)
                   <span className="text-white">Let's Connect</span>
                 </Link>
               </div>

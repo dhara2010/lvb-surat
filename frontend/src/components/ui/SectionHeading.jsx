@@ -1,8 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
-=======
 import { usePrimaryTextClass } from '../../hooks/useTheme';
->>>>>>> 4c81fa0 (home page done)
 import ScrollReveal3D from '../animations/ScrollReveal3D';
 
 export default function SectionHeading({ label, title, subtitle, highlight, align = 'center', className = '' }) {
@@ -21,11 +18,7 @@ export default function SectionHeading({ label, title, subtitle, highlight, alig
       )}
       {title && (
         <ScrollReveal3D delay={0.1}>
-<<<<<<< HEAD
-          <h2 className="text-3xl md:text-4xl lg:text-4xl font-extrabold text-primary tracking-tight leading-[1.1] mb-5">
-=======
           <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight leading-[1.1] mb-5`}>
->>>>>>> 4c81fa0 (home page done)
             {title} {highlight && <span className="text-secondary">{highlight}</span>}
           </h2>
         </ScrollReveal3D>
