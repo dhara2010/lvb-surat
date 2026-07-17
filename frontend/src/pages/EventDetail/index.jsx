@@ -185,12 +185,12 @@ export default function EventDetail() {
 
             {/* Tickets */}
             {tickets.length > 0 && (
-              <motion.div {...inView(0.5)} className="card-primary p-8 mt-4 bg-surface shadow-lg">
-                <h3 className="h-lg mb-6 pb-4 border-b border-subtle">Tickets</h3>
+              <motion.div {...inView(0.5)} className="rounded-[24px] bg-gray-50 border border-gray-100 shadow-sm p-8 mt-4">
+                <h3 className={`text-2xl font-extrabold ${primaryTextClass} mb-6 pb-4 border-b border-gray-200`}>Tickets</h3>
                 <div className="flex flex-col gap-6">
                   
                   {tickets.map((ticket, idx) => (
-                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-subtle last:border-0 last:pb-0">
+                    <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-gray-200 last:border-0 last:pb-0">
                       <div className="flex-1">
                         <h4 className={`font-semibold ${primaryTextClass} text-lg`}>{ticket.category}</h4>
                         {ticket.description && (
@@ -202,7 +202,7 @@ export default function EventDetail() {
                           ₹ {parseFloat(ticket.price).toFixed(2)}
                         </span>
                         <select 
-                          className="input-primary w-24 px-4 py-2 text-center font-semibold bg-surface-hover hover:bg-white"
+                          className={`input-primary w-24 px-4 py-2 text-center font-semibold bg-white border border-gray-200 ${primaryTextClass} rounded-xl shadow-sm`}
                           value={ticketQuantities[idx] || 0}
                           onChange={(e) => handleQtyChange(idx, e.target.value)}
                         >
@@ -227,10 +227,10 @@ export default function EventDetail() {
           <div className="lg:col-span-1">
             <motion.div {...inView(0.3)} className="sticky top-28 flex flex-col gap-8">
               
-              <div className="card-primary bg-bg-alt border-none shadow-md p-8 flex flex-col gap-8">
+              <div className="rounded-[24px] bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 p-8 flex flex-col gap-8">
                 {/* Details */}
                 <div>
-                  <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Details</h4>
+                  <h4 className={`font-display font-extrabold text-xl ${primaryTextClass} border-b border-gray-200 pb-3 mb-4`}>Details</h4>
                   <ul className="flex flex-col gap-4 text-sm">
                     {event.month && event.date && (
                       <li className="flex flex-col">
@@ -262,7 +262,7 @@ export default function EventDetail() {
                 {/* Organizer */}
                 {event.organizer && (
                   <div>
-                    <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Organizer</h4>
+                    <h4 className={`font-display font-extrabold text-xl ${primaryTextClass} border-b border-gray-200 pb-3 mb-4`}>Organizer</h4>
                     <ul className="flex flex-col gap-4 text-sm">
                       <li>
                         <span className={`${primaryTextClass} font-semibold text-base`}>{event.organizer}</span>
@@ -274,7 +274,7 @@ export default function EventDetail() {
                 {/* Venue */}
                 {event.venue && (
                   <div>
-                    <h4 className={`font-display font-semibold text-xl ${primaryTextClass} border-b border-border pb-3 mb-4`}>Venue</h4>
+                    <h4 className={`font-display font-extrabold text-xl ${primaryTextClass} border-b border-gray-200 pb-3 mb-4`}>Venue</h4>
                     <ul className="flex flex-col gap-4 text-sm">
                       <li className={`${primaryTextClass} font-medium leading-relaxed flex items-start gap-2`}>
                          <MapPin className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
