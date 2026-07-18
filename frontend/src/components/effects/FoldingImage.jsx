@@ -165,9 +165,9 @@ export default function FoldingImage({ src, alt, className = '' }) {
   useEffect(() => {
     // Pre-validate image so Three.js doesn't crash on 404s
     const img = new window.Image();
-    img.src = src;
     img.onload = () => setValidSrc(src);
     img.onerror = () => setValidSrc('/KVS_3369-scaled.webp'); // Fallback image for missing textures
+    img.src = src;
   }, [src]);
 
   useEffect(() => {
