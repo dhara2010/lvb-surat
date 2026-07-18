@@ -12,7 +12,6 @@ import LuxuryButton from'../../../components/ui/LuxuryButton';
 import LuxuryCard from'../../../components/ui/LuxuryCard';
 import GlassSection from'../../../components/ui/GlassSection';
 import GalleryStraps from'../../../components/effects/GalleryStraps';
-import FoldingImage from'../../../components/effects/FoldingImage';
 
 export default function GallerySection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -146,10 +145,13 @@ export default function GallerySection() {
                     <TiltCard key={index} tiltMax={12} scaleMax={1.03} className="h-full">
                       <LuxuryCard className="relative group overflow-hidden p-2 h-full transition-all duration-500">
                         <div className="relative overflow-hidden rounded-[18px] w-full h-full aspect-[4/3]">
-                          <FoldingImage
+                          <img
+                            loading="lazy"
+                            decoding="async"
                             src={img}
                             alt="Gallery Event"
-                            className="w-full h-full rounded-[18px] overflow-hidden" 
+                            className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
+                            onError={(e) => { e.target.src ="/KVS_3369-scaled.webp"; }} 
                           />
                         </div>
                       </LuxuryCard>
