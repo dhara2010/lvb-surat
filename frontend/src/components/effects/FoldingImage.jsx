@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useEffect, Suspense } from 'react';
+import React, { useRef, useMemo, useState, useEffect, Suspense, Component } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -154,59 +154,92 @@ const PaperPlane = ({ src, inView }) => {
 };
 
 // --------------------------------------------------------
+// ERROR BOUNDARY FOR WEBGL CRASHES
+// --------------------------------------------------------
+class WebGLErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+  componentDidCatch(error, errorInfo) {
+    console.warn("FoldingImage WebGL Error:", error);
+  }
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
+
+// --------------------------------------------------------
 // MAIN EXPORT
 // --------------------------------------------------------
 export default function FoldingImage({ src, alt, className = '' }) {
-  const [isMobile, setIsMobile] = useState(false);
-  const [validSrc, setValidSrc] = useState(null);
   const containerRef = useRef(null);
   const inView = useInView(containerRef, { once: true, margin: "-100px" });
+  
+  // States: 'checking', 'supported', 'unsupported'
+  const [webGLState, setWebGLState] = useState('checking');
 
   useEffect(() => {
-    // Pre-validate image so Three.js doesn't crash on 404s
-    const img = new window.Image();
-    img.onload = () => setValidSrc(src);
-    img.onerror = () => setValidSrc('/KVS_3369-scaled.webp'); // Fallback image for missing textures
-    img.src = src;
-  }, [src]);
-
-  useEffect(() => {
-    if (window.innerWidth < 1024) {
-      setIsMobile(true);
+    try {
+      const canvas = document.createElement('canvas');
+      const supported = !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+      setWebGLState(supported ? 'supported' : 'unsupported');
+    } catch(e) {
+      setWebGLState('unsupported');
     }
   }, []);
 
-  if (isMobile) {
-    return (
-      <motion.div 
-        ref={containerRef}
-        className={`relative overflow-hidden shadow-none bg-transparent ${className}`}
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
-        animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        {validSrc && <img loading="lazy" src={validSrc} alt={alt} className="w-full h-full object-cover" />}
-      </motion.div>
-    );
-  }
+  const FallbackImage = (
+    <motion.div 
+      className={`relative overflow-hidden bg-transparent ${className}`}
+      style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
+      initial={{ opacity: 0, scale: 0.9, y: 30 }}
+      animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <img 
+        loading="lazy" 
+        src={src} 
+        alt={alt} 
+        className="w-full h-full object-cover"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        onError={(e) => {
+          console.warn(`[FoldingImage] Missing image: ${src}`);
+          e.target.src = '/KVS_3369-scaled.webp';
+        }}
+      />
+    </motion.div>
+  );
 
   return (
     <div 
       ref={containerRef} 
       className={`interactive-img-container relative group bg-transparent ${className}`}
+      style={{ minHeight: '1px' }} // prevent zero-height collapse
     >
-      {validSrc && (
-        <Canvas 
-          className="w-full h-full absolute inset-0 z-10"
-          camera={{ position: [0, 0, 4.5], fov: 45 }}
-          gl={{ alpha: true, antialias: true, preserveDrawingBuffer: false }}
-          dpr={[1, 2]}
-        >
-          <ambientLight intensity={0.5} />
-          <Suspense fallback={null}>
-            <PaperPlane src={validSrc} inView={inView} />
-          </Suspense>
-        </Canvas>
+      {webGLState === 'unsupported' && FallbackImage}
+      
+      {webGLState === 'supported' && (
+        <WebGLErrorBoundary fallback={FallbackImage}>
+          <Canvas 
+            className="w-full h-full absolute inset-0 z-10"
+            style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
+            camera={{ position: [0, 0, 4.5], fov: 45 }}
+            gl={{ alpha: true, antialias: true, preserveDrawingBuffer: false, failIfMajorPerformanceCaveat: true }}
+            dpr={[1, 2]}
+          >
+            <ambientLight intensity={0.5} />
+            <Suspense fallback={null}>
+              <PaperPlane src={src} inView={inView} />
+            </Suspense>
+          </Canvas>
+        </WebGLErrorBoundary>
       )}
     </div>
   );
