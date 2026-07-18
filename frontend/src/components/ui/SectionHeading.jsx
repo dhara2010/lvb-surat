@@ -1,11 +1,11 @@
-import React from 'react';
-import { usePrimaryTextClass } from '../../hooks/useTheme';
-import ScrollReveal3D from '../animations/ScrollReveal3D';
+import React from'react';
+import { usePrimaryTextClass } from'../../hooks/useTheme';
+import ScrollReveal3D from'../animations/ScrollReveal3D';
 
-export default function SectionHeading({ label, title, subtitle, highlight, align = 'center', className = '' }) {
+export default function SectionHeading({ label, title, subtitle, highlight, align ='center', className ='' }) {
   const primaryTextClass = usePrimaryTextClass();
 
-  const alignmentClass = align === 'center' ? 'items-center text-center mx-auto' : 'items-start text-left';
+  const alignmentClass = align ==='center' ?'items-center text-center mx-auto' :'items-start text-left';
 
   return (
     <div className={`flex flex-col max-w-2xl px-4 mb-16 ${alignmentClass} ${className}`}>
@@ -19,13 +19,13 @@ export default function SectionHeading({ label, title, subtitle, highlight, alig
       {title && (
         <ScrollReveal3D delay={0.1}>
           <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight leading-[1.1] mb-5`}>
-            {title} {highlight && <span className="text-secondary">{highlight}</span>}
+            {title} {highlight && <span className="">{highlight}</span>}
           </h2>
         </ScrollReveal3D>
       )}
       {subtitle && (
         <ScrollReveal3D delay={0.2}>
-          <p className="text-muted text-lg md:text-xl leading-relaxed">
+          <p className="text-lg md:text-xl leading-relaxed">
             {subtitle}
           </p>
         </ScrollReveal3D>

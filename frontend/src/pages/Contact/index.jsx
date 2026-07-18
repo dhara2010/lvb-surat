@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { usePrimaryTextClass } from '../../hooks/useTheme';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
-import { faqs } from '../../data';
-import { submitContactForm } from '../../api/contactApi';
-import PageHeader from '../../components/ui/PageHeader';
+import React, { useState } from'react';
+import { usePrimaryTextClass } from'../../hooks/useTheme';
+import { motion, AnimatePresence } from'framer-motion';
+import { Plus, Clock, MapPin, Mail, ArrowRight } from'lucide-react';
+import { faqs } from'../../data';
+import { submitContactForm } from'../../api/contactApi';
+import PageHeader from'../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -14,9 +14,9 @@ const inView = (delay = 0) => ({
 });
 
 const contactDetails = [
-  { icon: Clock, label: 'Every Wednesday', sub: '7:30 AM – 9:30 AM IST' },
-  { icon: MapPin, label: '5-Star Hotel, Surat', sub: 'Grand Ballroom, Gujarat' },
-  { icon: Mail, label: 'info@lvbsuratplatinum.com', sub: 'Membership inquiries' },
+  { icon: Clock, label:'Every Wednesday', sub:'7:30 AM – 9:30 AM IST' },
+  { icon: MapPin, label:'5-Star Hotel, Surat', sub:'Grand Ballroom, Gujarat' },
+  { icon: Mail, label:'info@lvbsuratplatinum.com', sub:'Membership inquiries' },
 ];
 
 export default function Contact() {
@@ -24,7 +24,7 @@ export default function Contact() {
 
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
+  const [formData, setFormData] = useState({ name:'', email:'', phone:'', company:'', category:'', referral:'', message:'' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -37,16 +37,16 @@ export default function Contact() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        message: `Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
+        message:`Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
       });
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
-        setFormData({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
+        setFormData({ name:'', email:'', phone:'', company:'', category:'', referral:'', message:'' });
       }, 4000);
     } catch (err) {
       console.error(err);
-      setError(err.message || 'Failed to submit the form.');
+      setError(err.message ||'Failed to submit the form.');
     } finally {
       setIsSubmitting(false);
     }
@@ -67,21 +67,21 @@ export default function Contact() {
           {/* Left Column: Info Panel */}
           <motion.div {...inView(0)} className="lg:col-span-2 flex flex-col justify-between rounded-[40px] bg-gray-50 p-10 md:p-14 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
             {/* Decorative background shapes */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#4FA3D1]/5 rounded-full blur-2xl translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
+            
+            
 
             <div className="relative z-10 flex flex-col gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-[3px] bg-secondary rounded-full"></div>
-                  <span className="text-secondary font-extrabold tracking-[0.25em] uppercase text-xs">Reach Out</span>
+                  <span className="font-extrabold tracking-[0.25em] uppercase text-xs">Reach Out</span>
                 </div>
                 <h2 className={`text-4xl md:text-5xl lg:text-[2.75rem] font-black ${primaryTextClass} tracking-tight leading-[1.15]`}>
-                  Let's Start a <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
+                  Let's Start a <br/><span className="bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
                 </h2>
               </div>
               
-              <p className="text-slate-600 text-[15px] leading-[1.8] font-medium mt-2">
+              <p className="text-[15px] leading-[1.8] font-medium mt-2">
                 Interested in joining Surat's most exclusive business network? Contact our committee directly to arrange a guest pass or discuss membership criteria.
               </p>
 
@@ -91,11 +91,11 @@ export default function Contact() {
                   return (
                     <div key={i} className="flex items-start gap-4 group cursor-default">
                       <div className="w-14 h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center shrink-0 shadow-sm group-hover:border-secondary/30 group-hover:shadow-[0_8px_20px_rgba(18,59,93,0.12)] transition-all duration-400 group-hover:-translate-y-1">
-                        <Icon className="w-6 h-6 text-secondary" strokeWidth={1.5} aria-hidden />
+                        <Icon className="w-6 h-6" strokeWidth={1.5} aria-hidden />
                       </div>
                       <div className="flex flex-col justify-center pt-2">
                         <p className={`text-[15px] font-extrabold ${primaryTextClass} mb-0.5 group-hover:text-secondary transition-colors`}>{d.label}</p>
-                        <p className="text-slate-500 text-sm font-medium">{d.sub}</p>
+                        <p className="text-sm font-medium">{d.sub}</p>
                       </div>
                     </div>
                   );
@@ -107,8 +107,8 @@ export default function Contact() {
             <div className="relative z-10 mt-14 pt-8 border-t border-gray-200">
               <p className={`text-[11px] font-black ${primaryTextClass} uppercase tracking-[0.2em] mb-4`}>Connect with us</p>
               <div className="flex gap-5">
-                {['LinkedIn', 'Twitter', 'Instagram'].map((social, i) => (
-                  <a key={i} href="#" className="text-sm font-bold text-slate-500 hover:text-secondary hover:-translate-y-0.5 transition-all">
+                {['LinkedIn','Twitter','Instagram'].map((social, i) => (
+                  <a key={i} href="#" className="text-sm font-bold  hover:text-secondary hover:-translate-y-0.5 transition-all">
                     {social}
                   </a>
                 ))}
@@ -129,15 +129,15 @@ export default function Contact() {
                   className="flex flex-col items-center justify-center h-full gap-5 py-20 text-center"
                 >
                   <div className="w-20 h-20 rounded-[24px] bg-green-50 border-2 border-green-400 flex items-center justify-center mb-4 shadow-[0_10px_30px_rgba(74,222,128,0.2)]">
-                    <svg className="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <h3 className={`text-3xl font-black ${primaryTextClass}`}>Request Submitted</h3>
-                  <p className="text-slate-500 text-lg max-w-md mx-auto font-medium">
+                  <p className="text-lg max-w-md mx-auto font-medium">
                     Thank you for your interest. Our membership committee will review your details and contact you within 24 hours.
                   </p>
-                  <button onClick={() => setSubmitted(false)} className={`mt-8 text-secondary font-extrabold uppercase tracking-widest text-[13px] hover:${primaryTextClass} transition-colors border-b-2 border-secondary/30 hover:border-primary pb-1`}>
+                  <button onClick={() => setSubmitted(false)} className={`mt-8  font-extrabold uppercase tracking-widest text-[13px] hover:${primaryTextClass} transition-colors border-b-2 border-secondary/30 hover:border-primary pb-1`}>
                     Send another message
                   </button>
                 </motion.div>
@@ -151,7 +151,7 @@ export default function Contact() {
                 >
                   <div className="flex flex-col mb-2">
                     <h3 className={`text-2xl md:text-3xl font-extrabold ${primaryTextClass} mb-3`}>Send us a message</h3>
-                    <p className="text-slate-500 text-[15px] font-medium leading-relaxed">Please fill out the form below with your accurate details to help us process your inquiry faster.</p>
+                    <p className="text-[15px] font-medium leading-relaxed">Please fill out the form below with your accurate details to help us process your inquiry faster.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -213,14 +213,14 @@ export default function Contact() {
                     />
                   </div>
 
-                  {error && <div className="text-red-500 font-bold text-[13px] bg-red-50 p-4 rounded-xl border border-red-100">{error}</div>}
+                  {error && <div className="font-bold text-[13px] bg-red-50 p-4 rounded-xl border border-red-100">{error}</div>}
 
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`mt-6 w-full sm:w-auto sm:self-end bg-primary text-white font-extrabold uppercase tracking-[0.2em] text-[13px] px-10 py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-secondary border border-transparent hover:border-secondary-light shadow-lg hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)] hover:-translate-y-1 transition-all duration-400 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                    className={`mt-6 w-full sm:w-auto sm:self-end bg-primary  font-extrabold uppercase tracking-[0.2em] text-[13px] px-10 py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-secondary border border-transparent hover:border-secondary-light shadow-lg hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)] hover:-translate-y-1 transition-all duration-400 ${isSubmitting ?'opacity-70 cursor-not-allowed' :''}`}
                   >
-                    {isSubmitting ? 'Processing...' : 'Submit Inquiry'}
+                    {isSubmitting ?'Processing...' :'Submit Inquiry'}
                     <ArrowRight className="w-5 h-5 flex-shrink-0" aria-hidden />
                   </button>
                 </motion.form>
@@ -232,11 +232,11 @@ export default function Contact() {
         {/* ─── FAQ Accordion ─────────────────── */}
         <div className="max-w-4xl mx-auto w-full pt-12 pb-16">
           <motion.div {...inView(0.1)} className="text-center mb-12">
-            <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3 mx-auto">Got Questions?</span>
+            <span className="inline-block  font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3 mx-auto">Got Questions?</span>
             <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight`}>
               Frequently Asked Questions
             </h2>
-            <p className="text-slate-600 text-base md:text-lg max-w-xl mx-auto mt-4">
+            <p className="text-base md:text-lg max-w-xl mx-auto mt-4">
               Find answers to the most common questions about joining our chapter and understanding our weekly referral mechanics.
             </p>
           </motion.div>
@@ -248,7 +248,7 @@ export default function Contact() {
                 <motion.div
                   key={i}
                   {...inView(i * 0.05)}
-                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ? 'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]' : 'shadow-sm hover:shadow-md'}`}
+                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ?'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]' :'shadow-sm hover:shadow-md'}`}
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : i)}
@@ -259,8 +259,8 @@ export default function Contact() {
                     </span>
                     <motion.div
                       animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.3, ease: 'backOut' }}
-                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ml-4 bg-secondary/10 text-secondary"
+                      transition={{ duration: 0.3, ease:'backOut' }}
+                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ml-4 bg-secondary/10"
                     >
                       <Plus className="w-4 h-4" />
                     </motion.div>
@@ -269,11 +269,11 @@ export default function Contact() {
                     {isOpen && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
+                        animate={{ height:'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        transition={{ duration: 0.3, ease:'easeInOut' }}
                       >
-                        <div className="px-6 pb-6 text-[14px] leading-relaxed text-body border-t border-gray-100 mx-6 pt-5">
+                        <div className="px-6 pb-6 text-[14px] leading-relaxed  border-t border-gray-100 mx-6 pt-5">
                           {faq.a}
                         </div>
                       </motion.div>

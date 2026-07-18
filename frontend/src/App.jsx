@@ -1,29 +1,18 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import SmoothScroll from './components/animations/SmoothScroll';
-import CustomCursor from './components/animations/CustomCursor';
-import { AnimatedBackground } from './components/animations/AnimatedBackground';
 
-function ThemeController() {
-  const location = useLocation();
-  useEffect(() => {
-    if (location.pathname === '/') {
-      document.body.classList.remove('theme-inner');
-    } else {
-      document.body.classList.add('theme-inner');
-    }
-  }, [location.pathname]);
-  return null;
-}
+// Global Effects
+import ScrollProgress from './components/effects/ScrollProgress';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <ThemeController />
       <SmoothScroll>
-        <CustomCursor />
-        <AppRoutes />
+        <ScrollProgress />
+        <div className="relative z-10 w-full h-full min-h-screen">
+          <AppRoutes />
+        </div>
       </SmoothScroll>
     </BrowserRouter>
   );

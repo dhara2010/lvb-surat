@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { SectionHeader, InputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from './AdminUI';
+import React, { useState, useEffect } from'react';
+import { SectionHeader, InputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from'./AdminUI';
 
 const initialForm = {
-  title: '', date: '', month: '', year: '', time: '', cost: '',
-  venue: '', mapLink: '', organizer: '', image: '', descriptionPart1: '', descriptionPart2: '',
+  title:'', date:'', month:'', year:'', time:'', cost:'',
+  venue:'', mapLink:'', organizer:'', image:'', descriptionPart1:'', descriptionPart2:'',
   sessions: [], tickets: []
 };
 
 // Textarea component mapping similar to InputGroup
 const TextareaGroup = ({ label, placeholder, val, setVal, w="w-full", req=false }) => (
   <div className={`flex flex-col gap-1.5 ${w}`}>
-    <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">{label}</label>
+    <label className="text-xs font-bold uppercase tracking-wider pl-1">{label}</label>
     <textarea required={req} value={val||''} onChange={e=>setVal(e.target.value)} placeholder={placeholder} rows="3"
-      className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" 
+      className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl  outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" 
     />
   </div>
 );
@@ -22,32 +22,32 @@ export default function EventsManager({ token }) {
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
 
-  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/events').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/events').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const apiUrl = import.meta.env.VITE_API_URL ||'http://localhost:5000';
       if (editingId) {
         const res = await fetch(`${apiUrl}/api/events/${editingId}`, {
-          method:'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+          method:'PUT', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
           body: JSON.stringify(form)
         });
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || errData.message || 'Failed to update event');
+          throw new Error(errData.error || errData.message ||'Failed to update event');
         }
         setEditingId(null);
         alert('Event updated successfully');
       } else {
         const res = await fetch(`${apiUrl}/api/events`, {
-          method:'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+          method:'POST', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
           body: JSON.stringify(form)
         });
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || errData.message || 'Failed to create event');
+          throw new Error(errData.error || errData.message ||'Failed to create event');
         }
         alert('Event created successfully');
       }
@@ -66,14 +66,14 @@ export default function EventsManager({ token }) {
       sessions: d.sessions || [],
       tickets: d.tickets || []
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior:'smooth' });
   };
 
   const handleDelete = async (id) => {
     if(!window.confirm('Delete event from database?')) return;
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const res = await fetch(`${apiUrl}/api/events/${id}`, { method:'DELETE', headers:{'Authorization': `Bearer ${token}`}});
+      const apiUrl = import.meta.env.VITE_API_URL ||'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/events/${id}`, { method:'DELETE', headers:{'Authorization':`Bearer ${token}`}});
       if (!res.ok) throw new Error('Failed to delete event');
       loadData();
     } catch (err) {
@@ -82,7 +82,7 @@ export default function EventsManager({ token }) {
   };
 
   // Helper for dynamic arrays
-  const addSession = () => setForm({ ...form, sessions: [...form.sessions, { iconType: 'mic', title: '', primaryLabel: '', primaryText: '', secondaryLabel: '', secondaryText: '', description: '' }] });
+  const addSession = () => setForm({ ...form, sessions: [...form.sessions, { iconType:'mic', title:'', primaryLabel:'', primaryText:'', secondaryLabel:'', secondaryText:'', description:'' }] });
   const rmSession = (i) => setForm({ ...form, sessions: form.sessions.filter((_, idx) => idx !== i) });
   const updateSession = (i, field, val) => {
     const s = [...form.sessions];
@@ -90,7 +90,7 @@ export default function EventsManager({ token }) {
     setForm({ ...form, sessions: s });
   };
 
-  const addTicket = () => setForm({ ...form, tickets: [...form.tickets, { category: '', description: '', price: 0 }] });
+  const addTicket = () => setForm({ ...form, tickets: [...form.tickets, { category:'', description:'', price: 0 }] });
   const rmTicket = (i) => setForm({ ...form, tickets: form.tickets.filter((_, idx) => idx !== i) });
   const updateTicket = (i, field, val) => {
     const t = [...form.tickets];
@@ -104,16 +104,16 @@ export default function EventsManager({ token }) {
     const formData = new FormData();
     formData.append('image', file);
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/upload', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
+      const res = await fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/upload', {
+        method:'POST',
+        headers: {'Authorization':`Bearer ${token}` },
         body: formData
       });
       const uploadData = await res.json();
       if (res.ok) {
         setForm(prev => ({ ...prev, image: uploadData.imageUrl }));
       } else {
-        alert(uploadData.message || 'Upload failed');
+        alert(uploadData.message ||'Upload failed');
       }
     } catch (err) {
       console.error(err);
@@ -122,21 +122,21 @@ export default function EventsManager({ token }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 text-white pb-20">
+    <div className="flex flex-col gap-6  pb-20">
       <SectionHeader title="Event Schedule" desc="Manage robust event details and configurations." />
       
       <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-2xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           
-          <h3 className="text-secondary font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-2">Basic Info</h3>
+          <h3 className="font-bold uppercase tracking-wider text-sm border-b border-white/10 pb-2">Basic Info</h3>
           <div className="flex flex-wrap gap-4 items-end">
             <InputGroup label="Title" placeholder="Event Title" val={form.title||''} setVal={v => setForm({...form, title: v})} w="w-[40%]" />
             <InputGroup label="Organizer" placeholder="LVB Surat" val={form.organizer||''} setVal={v => setForm({...form, organizer: v})} w="w-1/3" req={false} />
             <div className="flex flex-col gap-1.5 flex-1">
-              <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Event Image</label>
+              <label className="text-xs font-bold uppercase tracking-wider pl-1">Event Image</label>
               <div className="flex items-center gap-2">
-                <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.webp" className="flex-1 bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" />
-                <label className="cursor-pointer bg-secondary/20 text-secondary hover:bg-secondary/30 px-3 py-3.5 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
+                <input type="text" value={form.image||''} onChange={e=>setForm({...form, image: e.target.value})} placeholder="/12-1.webp" className="flex-1 bg-black/20 border border-white/10 p-3.5 rounded-xl  outline-none focus:border-secondary focus:bg-black/30 transition-all font-medium text-sm" />
+                <label className="cursor-pointer bg-secondary/20  hover:bg-secondary/30 px-3 py-3.5 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
                   Upload
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                 </label>
@@ -162,30 +162,30 @@ export default function EventsManager({ token }) {
           {/* SESSIONS SECTION */}
           <div className="mt-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-4">
-              <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
+              <h3 className="font-bold uppercase tracking-wider text-sm">Event Sessions</h3>
               <button type="button" onClick={addSession} className="text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Session</button>
             </div>
             <div className="flex flex-col gap-4">
               {form.sessions.map((s, i) => (
                 <div key={i} className="bg-black/20 p-5 rounded-xl border border-white/5 relative shadow-inner">
-                  <button type="button" onClick={() => rmSession(i)} className="absolute top-4 right-4 text-red-400 hover:bg-red-400/20 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wider transition-colors">X Remove</button>
+                  <button type="button" onClick={() => rmSession(i)} className="absolute top-4 right-4  hover:bg-red-400/20 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wider transition-colors">X Remove</button>
                   <div className="flex flex-wrap gap-3 mt-6">
                      <div className="flex flex-col gap-1.5 w-[140px]">
-                        <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">Icon Type</label>
-                        <select value={s.iconType} onChange={e => updateSession(i, 'iconType', e.target.value)} className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl text-white outline-none focus:border-secondary font-medium text-sm">
+                        <label className="text-xs font-bold uppercase tracking-wider pl-1">Icon Type</label>
+                        <select value={s.iconType} onChange={e => updateSession(i,'iconType', e.target.value)} className="w-full bg-black/20 border border-white/10 p-3.5 rounded-xl  outline-none focus:border-secondary font-medium text-sm">
                            <option value="mic">Mic (Speaker)</option>
                            <option value="briefcase">Briefcase (Business)</option>
                            <option value="users">Users (Team)</option>
                         </select>
                      </div>
-                     <InputGroup label="Session Title" placeholder="Learning Session" val={s.title} setVal={v => updateSession(i, 'title', v)} w="w-[200px]" req={false} />
-                     <InputGroup label="Primary Label" placeholder="Speaker:" val={s.primaryLabel} setVal={v => updateSession(i, 'primaryLabel', v)} w="w-[120px]" req={false} />
-                     <InputGroup label="Primary Text" placeholder="Name" val={s.primaryText} setVal={v => updateSession(i, 'primaryText', v)} w="flex-1" req={false} />
+                     <InputGroup label="Session Title" placeholder="Learning Session" val={s.title} setVal={v => updateSession(i,'title', v)} w="w-[200px]" req={false} />
+                     <InputGroup label="Primary Label" placeholder="Speaker:" val={s.primaryLabel} setVal={v => updateSession(i,'primaryLabel', v)} w="w-[120px]" req={false} />
+                     <InputGroup label="Primary Text" placeholder="Name" val={s.primaryText} setVal={v => updateSession(i,'primaryText', v)} w="flex-1" req={false} />
                   </div>
                   <div className="flex flex-wrap gap-3 mt-4">
-                     <InputGroup label="Secondary Label" placeholder="Topic:" val={s.secondaryLabel} setVal={v => updateSession(i, 'secondaryLabel', v)} w="w-[120px]" req={false} />
-                     <InputGroup label="Secondary Text" placeholder="Leadership" val={s.secondaryText} setVal={v => updateSession(i, 'secondaryText', v)} w="flex-1" req={false} />
-                     <InputGroup label="Description" placeholder="..." val={s.description} setVal={v => updateSession(i, 'description', v)} w="w-full" req={false} />
+                     <InputGroup label="Secondary Label" placeholder="Topic:" val={s.secondaryLabel} setVal={v => updateSession(i,'secondaryLabel', v)} w="w-[120px]" req={false} />
+                     <InputGroup label="Secondary Text" placeholder="Leadership" val={s.secondaryText} setVal={v => updateSession(i,'secondaryText', v)} w="flex-1" req={false} />
+                     <InputGroup label="Description" placeholder="..." val={s.description} setVal={v => updateSession(i,'description', v)} w="w-full" req={false} />
                   </div>
                 </div>
               ))}
@@ -195,16 +195,16 @@ export default function EventsManager({ token }) {
           {/* TICKETS SECTION */}
           <div className="mt-4">
             <div className="flex items-center justify-between border-b border-white/10 pb-2 mb-4">
-              <h3 className="text-secondary font-bold uppercase tracking-wider text-sm">Tickets</h3>
+              <h3 className="font-bold uppercase tracking-wider text-sm">Tickets</h3>
               <button type="button" onClick={addTicket} className="text-xs font-bold uppercase tracking-wider bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors flex items-center gap-1">+ Add Ticket</button>
             </div>
             <div className="flex flex-col gap-4">
               {form.tickets.map((t, i) => (
                 <div key={i} className="flex flex-wrap gap-3 items-start bg-black/20 p-5 rounded-xl border border-white/5 relative">
-                  <InputGroup label="Category Name" placeholder="Meeting Fees for Visitors" val={t.category} setVal={v => updateTicket(i, 'category', v)} w="flex-1" req={false} />
-                  <InputGroup label="Price" placeholder="2500" val={t.price} setVal={v => updateTicket(i, 'price', v)} w="w-[120px]" req={false} />
-                  <InputGroup label="Info Description" placeholder="Includes breakfast..." val={t.description} setVal={v => updateTicket(i, 'description', v)} w="w-[45%]" req={false} />
-                  <button type="button" onClick={() => rmTicket(i)} className="bg-red-400/10 text-red-400 px-4 py-3.5 mt-6 rounded-xl hover:bg-red-400 hover:text-white transition-all font-bold">X</button>
+                  <InputGroup label="Category Name" placeholder="Meeting Fees for Visitors" val={t.category} setVal={v => updateTicket(i,'category', v)} w="flex-1" req={false} />
+                  <InputGroup label="Price" placeholder="2500" val={t.price} setVal={v => updateTicket(i,'price', v)} w="w-[120px]" req={false} />
+                  <InputGroup label="Info Description" placeholder="Includes breakfast..." val={t.description} setVal={v => updateTicket(i,'description', v)} w="w-[45%]" req={false} />
+                  <button type="button" onClick={() => rmTicket(i)} className="bg-red-400/10  px-4 py-3.5 mt-6 rounded-xl hover:bg-red-400 hover:text-white transition-all font-bold">X</button>
                 </div>
               ))}
             </div>
@@ -213,7 +213,7 @@ export default function EventsManager({ token }) {
           <div className="flex items-center gap-3 pt-6 border-t border-white/10">
             <SubmitButton editing={editingId !== null} />
             {editingId && (
-              <button type="button" onClick={() => { setEditingId(null); setForm(initialForm); }} className="h-[46px] px-6 rounded-xl font-bold uppercase tracking-wider bg-white/10 text-white hover:bg-white/20 transition-all">
+              <button type="button" onClick={() => { setEditingId(null); setForm(initialForm); }} className="h-[46px] px-6 rounded-xl font-bold uppercase tracking-wider bg-white/10  hover:bg-white/20 transition-all">
                 Cancel Edit
               </button>
             )}
@@ -222,15 +222,15 @@ export default function EventsManager({ token }) {
       </div>
 
       <PremiumTable 
-        headers={['Date Block', 'Event Description', 'Action']}
+        headers={['Date Block','Event Description','Action']}
         rows={data.map(d => (
           <tr key={d.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-            <td className="p-5 font-black text-lg text-white w-40">
-              <span className="text-secondary">{d.date||'--'}</span> <span className="opacity-70 text-sm uppercase">{d.month||'TBD'}</span>
+            <td className="p-5 font-black text-lg  w-40">
+              <span className="">{d.date||'--'}</span> <span className="opacity-70 text-sm uppercase">{d.month||'TBD'}</span>
             </td>
-            <td className="p-5 font-medium text-gray-200">
+            <td className="p-5 font-medium">
               <div className="font-bold">{d.title}</div>
-              <div className="text-xs bg-white/10 inline-block px-2 py-0.5 mt-1 rounded text-gray-300">
+              <div className="text-xs bg-white/10 inline-block px-2 py-0.5 mt-1 rounded">
                 {d.sessions?.length||0} Sessions | {d.tickets?.length||0} Tickets
               </div>
             </td>

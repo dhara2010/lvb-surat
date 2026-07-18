@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ZoomIn } from 'lucide-react';
-import { useFetch } from '../../hooks/useFetch';
-import { getGalleryImages } from '../../api/galleryApi';
-import PageHeader from '../../components/ui/PageHeader';
+import React, { useState, useEffect } from'react';
+import { motion, AnimatePresence } from'framer-motion';
+import { X, ZoomIn } from'lucide-react';
+import { useFetch } from'../../hooks/useFetch';
+import { getGalleryImages } from'../../api/galleryApi';
+import PageHeader from'../../components/ui/PageHeader';
 
 export default function Showcase() {
-  const [gallery, setGallery] = useState([]);
   const [lightbox, setLightbox] = useState(null);
 
   const { data: galleryData, loading, error } = useFetch(getGalleryImages);
 
-  useEffect(() => {
-    if (galleryData) {
-      setGallery(galleryData.map(item => item.image_url));
-    }
-  }, [galleryData]);
+  const gallery = React.useMemo(() => galleryData ? galleryData.map(item => item.image_url) : [], [galleryData]);
 
   return (
     <div id="showcase" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
@@ -28,9 +23,9 @@ export default function Showcase() {
       <div className="container-xl section-padding pt-0 md:pt-4">
 
         {/* ─── Gallery Grid ─────────────────── */}
-        {loading && <div className="py-20 flex justify-center w-full text-muted font-bold tracking-widest">LOADING GALLERY...</div>}
-        {error && <div className="py-20 flex justify-center w-full text-red-400 font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
-        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full text-muted font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
+        {loading && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">LOADING GALLERY...</div>}
+        {error && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
+        {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {gallery.map((src, i) => (
@@ -46,21 +41,21 @@ export default function Showcase() {
               aria-label="View Image"
               role="button"
               tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && setLightbox(src)}
+              onKeyDown={(e) => e.key ==='Enter' && setLightbox(src)}
             >
               <img loading="lazy" decoding="async" src={src}
                 alt={`Gallery image ${i + 1}`}
                 className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
+                onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
               />
 
               {/* Hover overlay */}
               <div
                 className="absolute inset-0 flex items-end justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ background: 'linear-gradient(to top, rgba(11,31,58,0.72), transparent)' }}
+                style={{ background:'linear-gradient(to top, rgba(11,31,58,0.72), transparent)' }}
               >
                 <div className="p-5">
-                  <ZoomIn className="w-5 h-5 text-black/90" aria-hidden />
+                  <ZoomIn className="w-5 h-5" aria-hidden />
                 </div>
               </div>
 
@@ -82,7 +77,7 @@ export default function Showcase() {
             exit={{ opacity: 0 }}
             onClick={() => setLightbox(null)}
             className="fixed inset-0 z-50 flex items-center justify-center p-6"
-            style={{ backgroundColor: 'rgba(11, 31, 58, 0.90)', backdropFilter: 'blur(6px)' }}
+            style={{ backgroundColor:'rgba(11, 31, 58, 0.90)', backdropFilter:'blur(6px)' }}
             role="dialog"
             aria-modal="true"
             aria-label="Expanded Image"
@@ -98,7 +93,7 @@ export default function Showcase() {
               <button
                 onClick={() => setLightbox(null)}
                 className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full flex items-center justify-center transition-colors"
-                style={{ backgroundColor: 'rgba(11,31,58,0.75)', color: '#fff' }}
+                style={{ backgroundColor:'rgba(11,31,58,0.75)', }}
                 aria-label="Close image"
               >
                 <X className="w-4 h-4" />
@@ -106,7 +101,7 @@ export default function Showcase() {
               <img loading="lazy" decoding="async" src={lightbox}
                 alt="Expanded Gallery Image"
                 className="w-full max-h-[85vh] object-contain bg-black/5"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
+                onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
               />
             </motion.div>
           </motion.div>

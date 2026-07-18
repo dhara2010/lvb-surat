@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function SmoothScroll({ children }) {
   useEffect(() => {
@@ -15,13 +17,17 @@ export default function SmoothScroll({ children }) {
       infinite: false,
     });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+    lenis.on('scroll', ScrollTrigger.update);
+
+    function onRaf(time) {
+      lenis.raf(time * 1000);
     }
-    requestAnimationFrame(raf);
+
+    gsap.ticker.add(onRaf);
+    gsap.ticker.lagSmoothing(0); // Prevent scroll jumps on tab switch
 
     return () => {
+      gsap.ticker.remove(onRaf);
       lenis.destroy();
     };
   }, []);

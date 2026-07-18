@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from './AdminUI';
+import React, { useState, useEffect } from'react';
+import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from'./AdminUI';
 
 export default function MembersManager({ token }) {
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({ name: '', businessName: '', businessCategory: '', photoUrl: '', logoUrl: '' });
+  const [form, setForm] = useState({ name:'', businessName:'', businessCategory:'', photoUrl:'', logoUrl:'' });
 
   const [editingId, setEditingId] = useState(null);
 
-  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/members').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/members').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
       await fetch(`http://localhost:5000/api/members/${editingId}`, {
-        method:'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+        method:'PUT', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
         body: JSON.stringify(form)
       });
       setEditingId(null);
     } else {
-      await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/members', {
-        method:'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+      await fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/members', {
+        method:'POST', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
         body: JSON.stringify(form)
       });
     }
-    setForm({ name: '', businessName: '', businessCategory: '', photoUrl: '', logoUrl: '' });
+    setForm({ name:'', businessName:'', businessCategory:'', photoUrl:'', logoUrl:'' });
     loadData();
   };
 
@@ -35,7 +35,7 @@ export default function MembersManager({ token }) {
 
   const handleDelete = async (id) => {
     if(!window.confirm('Delete member?')) return;
-    await fetch(`http://localhost:5000/api/members/${id}`, { method:'DELETE', headers:{'Authorization': `Bearer ${token}`}});
+    await fetch(`http://localhost:5000/api/members/${id}`, { method:'DELETE', headers:{'Authorization':`Bearer ${token}`}});
     loadData();
   };
 
@@ -57,7 +57,7 @@ export default function MembersManager({ token }) {
             <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
               <SubmitButton editing={editingId !== null} />
               {editingId && (
-                <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', businessName: '', businessCategory: '', photoUrl: '', logoUrl: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-muted hover:bg-gray-200 transition-all flex-1 md:flex-none">
+                <button type="button" onClick={() => { setEditingId(null); setForm({ name:'', businessName:'', businessCategory:'', photoUrl:'', logoUrl:'' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100  hover:bg-gray-200 transition-all flex-1 md:flex-none">
                   Cancel
                 </button>
               )}
@@ -67,7 +67,7 @@ export default function MembersManager({ token }) {
       </div>
 
       <PremiumTable 
-        headers={['Assets', 'Member', 'Business / Category', 'Action']}
+        headers={['Assets','Member','Business / Category','Action']}
         rows={data.map(d => (
           <tr key={d.id} className="border-b border-border hover:bg-bg-alt transition-colors">
             <td className="p-4 w-32">
@@ -80,9 +80,9 @@ export default function MembersManager({ token }) {
                 </div>
               </div>
             </td>
-            <td className="p-4 font-extrabold text-body max-w-[150px] truncate">{d.name}</td>
-            <td className="p-4 text-muted text-sm">
-              <div className="font-bold text-gray-700 truncate">{d.businessName}</div>
+            <td className="p-4 font-extrabold  max-w-[150px] truncate">{d.name}</td>
+            <td className="p-4  text-sm">
+              <div className="font-bold  truncate">{d.businessName}</div>
               <div className="text-xs mt-1 truncate">{d.businessCategory}</div>
             </td>
             <td className="p-4 w-32 text-right">

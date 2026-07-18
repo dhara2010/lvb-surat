@@ -4,14 +4,14 @@
  *  All colors via design-system utilities.
  * ══════════════════════════════════════════
  */
-import React, { useState, useEffect } from 'react';
-import { usePrimaryTextClass } from '../../hooks/useTheme';
-import { motion } from 'framer-motion';
-import { Calendar, MapPin, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
-import { getEvents } from '../../api/eventsApi';
-import PageHeader from '../../components/ui/PageHeader';
+import React, { useState, useEffect } from'react';
+import { usePrimaryTextClass } from'../../hooks/useTheme';
+import { motion } from'framer-motion';
+import { Calendar, MapPin, ArrowRight } from'lucide-react';
+import { Link } from'react-router-dom';
+import { useFetch } from'../../hooks/useFetch';
+import { getEvents } from'../../api/eventsApi';
+import PageHeader from'../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial:     { opacity: 0, y: 50 },
@@ -21,8 +21,8 @@ const inView = (delay = 0) => ({
 });
 
 const meetingDetails = [
-  { icon: Calendar, label: 'Every Wednesday',      sub: '7:30 AM – 9:30 AM IST' },
-  { icon: MapPin,   label: 'Premium Venue, Surat', sub: '5-Star Hotel, Grand Ballroom' },
+  { icon: Calendar, label:'Every Wednesday',      sub:'7:30 AM – 9:30 AM IST' },
+  { icon: MapPin,   label:'Premium Venue, Surat', sub:'5-Star Hotel, Grand Ballroom' },
 ];
 
 export default function Meeting() {
@@ -49,14 +49,14 @@ export default function Meeting() {
             <div
               className="rounded-2xl overflow-hidden"
               style={{
-                border:    '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-card)',
+                border:'1px solid var(--color-border)',
+                boxShadow:'var(--shadow-card)',
               }}
             >
               <img loading="lazy" decoding="async" src="/12-1.webp"
                 alt="LVB Platinum Chapter weekly meeting"
                 className="w-full aspect-[4/3] object-cover"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
+                onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
               />
             </div>
           </motion.div>
@@ -67,7 +67,7 @@ export default function Meeting() {
               Meeting Structure
             </h2>
             <div className="w-24 h-1 bg-secondary"></div>
-            <p className="text-slate-600 text-base md:text-lg leading-relaxed">
+            <p className="text-base md:text-lg leading-relaxed">
               Consistency builds credibility. Every Wednesday morning, our
               members gather to exchange referrals, present their businesses,
               and conduct structured introductions designed to generate real
@@ -88,7 +88,7 @@ export default function Meeting() {
                     >
                       <Icon
                         className="w-5 h-5"
-                        style={{ color: 'var(--color-on-secondary)' }}
+                        
                         aria-hidden
                       />
                     </div>
@@ -96,7 +96,7 @@ export default function Meeting() {
                       <p className={`text-base font-bold ${primaryTextClass}`}>
                         {d.label}
                       </p>
-                      <p className="text-slate-600 text-sm mt-0.5">{d.sub}</p>
+                      <p className="text-sm mt-0.5">{d.sub}</p>
                     </div>
                   </div>
                 );
@@ -117,16 +117,16 @@ export default function Meeting() {
         {/* ─── Upcoming Events ──────────────── */}
         <div>
           <motion.div {...inView(0)} className="mb-12">
-            <span className="inline-block text-secondary font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3">Chapter Agenda</span>
+            <span className="inline-block  font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-3">Chapter Agenda</span>
             <h2 className={`text-3xl md:text-4xl lg:text-4xl font-extrabold ${primaryTextClass} tracking-tight`}>
               Upcoming Events
             </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 min-h-[300px]">
-            {loading && <div className="col-span-3 flex justify-center items-center text-muted font-bold tracking-widest">LOADING EVENTS...</div>}
-            {error && <div className="col-span-3 flex justify-center items-center text-red-400 font-bold tracking-widest">FAILED TO LOAD EVENTS</div>}
-            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center text-muted font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
+            {loading && <div className="col-span-3 flex justify-center items-center  font-bold tracking-widest">LOADING EVENTS...</div>}
+            {error && <div className="col-span-3 flex justify-center items-center  font-bold tracking-widest">FAILED TO LOAD EVENTS</div>}
+            {!loading && !error && events.length === 0 && <div className="col-span-3 flex justify-center items-center  font-bold tracking-widest">NO EVENTS AVAILABLE</div>}
 
             {events.map((ev, i) => (
               <motion.div
@@ -139,21 +139,21 @@ export default function Meeting() {
                   <div
                     className="w-14 h-14 rounded-lg flex flex-col items-center justify-center shrink-0 bg-secondary"
                   >
-                    <span className="text-xl md:text-2xl font-black text-black leading-none">
+                    <span className="text-xl md:text-2xl font-black  leading-none">
                       {ev.date}
                     </span>
-                    <span className="text-xs font-bold text-black leading-none mt-1 uppercase">
+                    <span className="text-xs font-bold  leading-none mt-1 uppercase">
                       {ev.month}
                     </span>
                   </div>
-                  <span className="text-slate-500 text-sm font-bold tracking-wider uppercase">{ev.year}</span>
+                  <span className="text-sm font-bold tracking-wider uppercase">{ev.year}</span>
                 </div>
 
                 <div className="flex flex-col gap-2 flex-grow">
                   <h3 className={`text-xl md:text-2xl font-bold ${primaryTextClass} group-hover:text-secondary transition-colors line-clamp-2`}>
                     {ev.title}
                   </h3>
-                  <p className="text-slate-600 text-sm md:text-base leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>
+                  <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap line-clamp-3">{ev.desc}</p>
                 </div>
 
                 <Link

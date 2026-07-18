@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from './AdminUI';
+import React, { useState, useEffect } from'react';
+import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from'./AdminUI';
 
 export default function LeadersManager({ token }) {
   const [data, setData] = useState([]);
-  const [form, setForm] = useState({ name: '', role: '', img: '' });
+  const [form, setForm] = useState({ name:'', role:'', img:'' });
 
   const [editingId, setEditingId] = useState(null);
 
-  const loadData = () => fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/leaders').then(res=>res.json()).then(setData);
+  const loadData = () => fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/leaders').then(res=>res.json()).then(setData);
   useEffect(() => { loadData(); }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editingId) {
       await fetch(`http://localhost:5000/api/leaders/${editingId}`, {
-        method:'PUT', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+        method:'PUT', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
         body: JSON.stringify(form)
       });
       setEditingId(null);
     } else {
-      await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/leaders', {
-        method:'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+      await fetch((import.meta.env.VITE_API_URL ||'http://localhost:5000') +'/api/leaders', {
+        method:'POST', headers: {'Content-Type':'application/json','Authorization':`Bearer ${token}`},
         body: JSON.stringify(form)
       });
     }
-    setForm({ name: '', role: '', img: '' });
+    setForm({ name:'', role:'', img:'' });
     loadData();
   };
 
@@ -35,7 +35,7 @@ export default function LeadersManager({ token }) {
 
   const handleDelete = async (id) => {
     if(!window.confirm('Delete leadership member?')) return;
-    await fetch(`http://localhost:5000/api/leaders/${id}`, { method:'DELETE', headers:{'Authorization': `Bearer ${token}`}});
+    await fetch(`http://localhost:5000/api/leaders/${id}`, { method:'DELETE', headers:{'Authorization':`Bearer ${token}`}});
     loadData();
   };
 
@@ -51,7 +51,7 @@ export default function LeadersManager({ token }) {
           <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
             <SubmitButton editing={editingId !== null} />
             {editingId && (
-              <button type="button" onClick={() => { setEditingId(null); setForm({ name: '', role: '', img: '' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100 text-muted hover:bg-gray-200 transition-all flex-1 md:flex-none">
+              <button type="button" onClick={() => { setEditingId(null); setForm({ name:'', role:'', img:'' }); }} className="h-[44px] px-6 rounded-xl font-bold uppercase tracking-wider bg-gray-100  hover:bg-gray-200 transition-all flex-1 md:flex-none">
                 Cancel
               </button>
             )}
@@ -60,7 +60,7 @@ export default function LeadersManager({ token }) {
       </div>
 
       <PremiumTable 
-        headers={['Portrait', 'Officer Details', 'Position', 'Action']}
+        headers={['Portrait','Officer Details','Position','Action']}
         rows={data.map(d => (
           <tr key={d.id} className="border-b border-border hover:bg-bg-alt transition-colors">
             <td className="p-4 w-24">
@@ -68,8 +68,8 @@ export default function LeadersManager({ token }) {
                 <img loading="lazy" decoding="async" src={d.img} alt="leader portrait" className="w-full h-full object-cover" onError={(e)=>e.target.style.display='none'} />
               </div>
             </td>
-            <td className="p-4 font-extrabold text-body">{d.name}</td>
-            <td className="p-4 text-muted font-semibold text-sm tracking-wide">{d.role}</td>
+            <td className="p-4 font-extrabold">{d.name}</td>
+            <td className="p-4  font-semibold text-sm tracking-wide">{d.role}</td>
             <td className="p-4 w-32 text-right">
               <EditBtn onClick={()=>handleEdit(d)} />
               <DeleteBtn onClick={()=>handleDelete(d.id)} />

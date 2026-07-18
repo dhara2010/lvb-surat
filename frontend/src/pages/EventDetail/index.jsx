@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { usePrimaryTextClass } from '../../hooks/useTheme';
-import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
-import { useFetch } from '../../hooks/useFetch';
-import { getEvent } from '../../api/eventsApi';
-import PageHeader from '../../components/ui/PageHeader';
+import React, { useState } from'react';
+import { usePrimaryTextClass } from'../../hooks/useTheme';
+import { motion } from'framer-motion';
+import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle } from'lucide-react';
+import { Link, useParams } from'react-router-dom';
+import { useFetch } from'../../hooks/useFetch';
+import { getEvent } from'../../api/eventsApi';
+import PageHeader from'../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -29,16 +29,16 @@ export default function EventDetail() {
 
   const renderIcon = (type) => {
     switch (type) {
-      case 'mic': return <Mic className="w-7 h-7 text-white" />;
-      case 'briefcase': return <Briefcase className="w-7 h-7 text-white" />;
-      default: return <Users className="w-7 h-7 text-white" />;
+      case'mic': return <Mic className="w-7 h-7" />;
+      case'briefcase': return <Briefcase className="w-7 h-7" />;
+      default: return <Users className="w-7 h-7" />;
     }
   };
 
   if (loading) {
     return (
       <div className="section-white min-h-screen pt-32 pb-20 flex justify-center items-center">
-        <span className="font-bold tracking-widest text-muted">LOADING EVENT DETAILS...</span>
+        <span className="font-bold tracking-widest">LOADING EVENT DETAILS...</span>
       </div>
     );
   }
@@ -46,8 +46,8 @@ export default function EventDetail() {
   if (error || !event) {
     return (
       <div className="section-white min-h-screen pt-32 pb-20 flex flex-col justify-center items-center gap-4">
-        <AlertCircle className="w-10 h-10 text-red-400" />
-        <span className="font-bold tracking-widest text-red-500">FAILED TO LOAD EVENT OR NOT FOUND</span>
+        <AlertCircle className="w-10 h-10" />
+        <span className="font-bold tracking-widest">FAILED TO LOAD EVENT OR NOT FOUND</span>
         <Link to="/events" className="btn-secondary mt-4">Go Back to Events</Link>
       </div>
     );
@@ -58,35 +58,35 @@ export default function EventDetail() {
   const tickets = event.tickets || [];
 
   const calendarLinks = {
-      google: `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title || 'LVB Surat Event')}&details=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
-      outlookLive: `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title || 'LVB Surat Event')}&body=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
-      outlook365: `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title || 'LVB Surat Event')}&body=${encodeURIComponent(event.desc || 'Join us for this premium event.')}&location=${encodeURIComponent(event.venue || 'Surat, Gujarat')}`,
-      ics: `data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:${encodeURIComponent(event.title || 'LVB Surat Event')}%0ADESCRIPTION:${encodeURIComponent(event.desc || 'Join us for this premium event.')}%0ALOCATION:${encodeURIComponent(event.venue || 'Surat, Gujarat')}%0AEND:VEVENT%0AEND:VCALENDAR`
+      google:`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title ||'LVB Surat Event')}&details=${encodeURIComponent(event.desc ||'Join us for this premium event.')}&location=${encodeURIComponent(event.venue ||'Surat, Gujarat')}`,
+      outlookLive:`https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title ||'LVB Surat Event')}&body=${encodeURIComponent(event.desc ||'Join us for this premium event.')}&location=${encodeURIComponent(event.venue ||'Surat, Gujarat')}`,
+      outlook365:`https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(event.title ||'LVB Surat Event')}&body=${encodeURIComponent(event.desc ||'Join us for this premium event.')}&location=${encodeURIComponent(event.venue ||'Surat, Gujarat')}`,
+      ics:`data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:${encodeURIComponent(event.title ||'LVB Surat Event')}%0ADESCRIPTION:${encodeURIComponent(event.desc ||'Join us for this premium event.')}%0ALOCATION:${encodeURIComponent(event.venue ||'Surat, Gujarat')}%0AEND:VEVENT%0AEND:VCALENDAR`
   };
 
   return (
     <div className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader 
         label="EVENT DETAILS"
-        title={event.title || 'Event Title'}
-        description={event.desc ? event.desc.substring(0, 160) + (event.desc.length > 160 ? "..." : "") : "Join us for an inspiring event. Connect with like-minded individuals and gain practical insights."}
+        title={event.title ||'Event Title'}
+        description={event.desc ? event.desc.substring(0, 160) + (event.desc.length > 160 ?"..." :"") :"Join us for an inspiring event. Connect with like-minded individuals and gain practical insights."}
       />
       
       <div className="container-xl section-padding flex flex-col gap-12 pt-0 md:pt-4">
         {/* Navigation Breadcrumb */}
         <motion.div {...inView(0)} className="mb-6 flex gap-2 items-center text-sm">
-          <Link to="/events" className="text-muted hover:text-secondary transition-colors">« All Events</Link>
+          <Link to="/events" className="hover:text-secondary transition-colors">« All Events</Link>
         </motion.div>
 
         <motion.div {...inView(0.1)} className="mb-0 flex justify-between items-center flex-wrap gap-4 pt-4 border-t border-gray-100">
           <div className={`flex flex-wrap items-center gap-2 ${primaryTextClass} font-medium text-lg`}>
             <span className="flex items-center gap-2">
-              {event.month && event.date ? `${event.month} ${event.date}` : 'Date TBD'}{event.year ? `, ${event.year}` : ''} {event.time ? `@ ${event.time}` : ''}
+              {event.month && event.date ?`${event.month} ${event.date}` :'Date TBD'}{event.year ?`, ${event.year}` :''} {event.time ?`@ ${event.time}` :''}
             </span>
             {event.cost && (
               <>
-                <span className="text-muted hidden md:inline">|</span>
-                <span className="flex items-center text-secondary">
+                <span className="hidden md:inline">|</span>
+                <span className="flex items-center">
                   {event.cost}
                 </span>
               </>
@@ -101,16 +101,16 @@ export default function EventDetail() {
             <motion.div {...inView(0.2)}>
               <div
                 className="w-full rounded-2xl overflow-hidden mb-8"
-               style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-card)' }}
+               style={{ border:'1px solid var(--color-border)', boxShadow:'var(--shadow-card)' }}
               >
-                <img loading="lazy" decoding="async" src={event.image || '/12-1.webp'}
+                <img loading="lazy" decoding="async" src={event.image ||'/12-1.webp'}
                   alt={event.title}
                   className="w-full h-auto object-cover"
-                  onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
+                  onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
                 />
               </div>
               
-              <div className="flex flex-col gap-6 text-body text-lg leading-relaxed whitespace-pre-wrap">
+              <div className="flex flex-col gap-6  text-lg leading-relaxed whitespace-pre-wrap">
                 {event.desc ? (
                   <p>{event.desc}</p>
                 ) : event.descriptionPart1 ? (
@@ -131,23 +131,23 @@ export default function EventDetail() {
               <motion.div {...inView(0.3)} className="flex flex-col gap-10">
                 {sessions.map((session, idx) => (
                   <div key={idx} className="flex flex-col md:flex-row gap-6 items-start border-b border-subtle pb-8">
-                    <div className="icon-box w-14 h-14 bg-secondary flex-shrink-0 text-white rounded-xl shadow-lg border-none mt-1">
+                    <div className="icon-box w-14 h-14 bg-secondary flex-shrink-0  rounded-xl shadow-lg border-none mt-1">
                       {renderIcon(session.iconType)}
                     </div>
                     <div className="flex flex-col gap-2">
                       <h3 className="h-lg">{session.title}</h3>
                       {session.primaryText && (
                         <div className={`${primaryTextClass} font-semibold text-lg flex items-center gap-2`}>
-                          <span className="text-muted font-normal">{session.primaryLabel || 'Speaker'}:</span> {session.primaryText}
+                          <span className="font-normal">{session.primaryLabel ||'Speaker'}:</span> {session.primaryText}
                         </div>
                       )}
                       {session.secondaryText && (
                         <div className={`${primaryTextClass} font-semibold text-lg flex items-center gap-2`}>
-                          <span className="text-muted font-normal">{session.secondaryLabel || 'Topic'}:</span> {session.secondaryText}
+                          <span className="font-normal">{session.secondaryLabel ||'Topic'}:</span> {session.secondaryText}
                         </div>
                       )}
                       {session.description && (
-                        <p className="text-body mt-2" dangerouslySetInnerHTML={{ __html: session.description }}></p>
+                        <p className="mt-2" dangerouslySetInnerHTML={{ __html: session.description }}></p>
                       )}
                     </div>
                   </div>
@@ -160,23 +160,23 @@ export default function EventDetail() {
                   onClick={() => setCalendarOpen(!calendarOpen)}
                   className="btn-secondary group flex items-center gap-2 bg-surface hover:bg-surface-hover transition-colors"
                 >
-                  <Calendar className="w-4 h-4 text-secondary" />
+                  <Calendar className="w-4 h-4" />
                   <span className={`${primaryTextClass} font-medium`}>Add to calendar</span>
-                  <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${calendarOpen ? 'rotate-180' : 'group-hover:translate-y-0.5'}`} />
+                  <ChevronDown className={`w-4 h-4 opacity-70 transition-transform ${calendarOpen ?'rotate-180' :'group-hover:translate-y-0.5'}`} />
                 </button>
 
                 {calendarOpen && (
                   <div className="absolute top-14 left-0 w-64 bg-white border border-gray-200 shadow-xl rounded-lg overflow-hidden py-1 z-50">
-                    <a href={calendarLinks.google} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                    <a href={calendarLinks.google} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm  hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
                       Google Calendar
                     </a>
-                    <a href={calendarLinks.ics} download="event.ics" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                    <a href={calendarLinks.ics} download="event.ics" className="block w-full px-4 py-2.5 text-sm  hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
                       iCalendar
                     </a>
-                    <a href={calendarLinks.outlook365} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
+                    <a href={calendarLinks.outlook365} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm  hover:bg-gray-50 flex items-center gap-2 border-b border-gray-100">
                       Outlook 365
                     </a>
-                    <a href={calendarLinks.outlookLive} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+                    <a href={calendarLinks.outlookLive} target="_blank" rel="noreferrer" className="block w-full px-4 py-2.5 text-sm  hover:bg-gray-50 flex items-center gap-2">
                       Outlook Live
                     </a>
                   </div>
@@ -194,7 +194,7 @@ export default function EventDetail() {
                       <div className="flex-1">
                         <h4 className={`font-semibold ${primaryTextClass} text-lg`}>{ticket.category}</h4>
                         {ticket.description && (
-                          <p className="text-sm text-muted mt-1 leading-relaxed">{ticket.description}</p>
+                          <p className="text-sm  mt-1 leading-relaxed">{ticket.description}</p>
                         )}
                       </div>
                       <div className="flex items-center gap-6 sm:w-auto w-full justify-between sm:justify-end">
@@ -234,23 +234,23 @@ export default function EventDetail() {
                   <ul className="flex flex-col gap-4 text-sm">
                     {event.month && event.date && (
                       <li className="flex flex-col">
-                        <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Date</span>
+                        <span className="tracking-wider uppercase text-xs font-semibold mb-1">Date</span>
                         <span className={`${primaryTextClass} font-medium flex items-center gap-2`}>
-                          <Calendar className="w-4 h-4 text-secondary"/> {event.month} {event.date} {event.year}
+                          <Calendar className="w-4 h-4"/> {event.month} {event.date} {event.year}
                         </span>
                       </li>
                     )}
                     {event.time && (
                       <li className="flex flex-col">
-                        <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Time</span>
+                        <span className="tracking-wider uppercase text-xs font-semibold mb-1">Time</span>
                         <span className={`${primaryTextClass} font-medium flex items-center gap-2`}>
-                          <Clock className="w-4 h-4 text-secondary"/> {event.time}
+                          <Clock className="w-4 h-4"/> {event.time}
                         </span>
                       </li>
                     )}
                     {event.cost && (
                       <li className="flex flex-col">
-                        <span className="text-muted tracking-wider uppercase text-xs font-semibold mb-1">Cost</span>
+                        <span className="tracking-wider uppercase text-xs font-semibold mb-1">Cost</span>
                         <span className={`${primaryTextClass} font-medium flex items-center gap-1`}>
                           {event.cost}
                         </span>
@@ -277,7 +277,7 @@ export default function EventDetail() {
                     <h4 className={`font-display font-extrabold text-xl ${primaryTextClass} border-b border-gray-200 pb-3 mb-4`}>Venue</h4>
                     <ul className="flex flex-col gap-4 text-sm">
                       <li className={`${primaryTextClass} font-medium leading-relaxed flex items-start gap-2`}>
-                         <MapPin className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+                         <MapPin className="w-5 h-5  flex-shrink-0 mt-0.5" />
                          {event.venue}
                       </li>
                     </ul>
@@ -306,7 +306,7 @@ export default function EventDetail() {
           <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             « Previous Event
           </Link>
-          <div className="hidden sm:block text-muted">LVB PLATINUM CHAPTER</div>
+          <div className="hidden sm:block">LVB PLATINUM CHAPTER</div>
           <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             Next Event »
           </Link>

@@ -1,81 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* Core Brand */
-  --color-primary:        #090E14;   /* Deep Onyx */
-  --color-primary-light:  #15202E;
-  --color-primary-dark:   #04070A;
-  --color-secondary:      #123B5D;   /* Brand Blue */
-  --color-secondary-dark: #0A2236;
-  --color-secondary-light:#1A5485;
-  --color-accent:         #123B5D;
-  --color-dark:           #090E14;
-
+  /* Colors */
+  --color-primary:        #002F6C;   /* Brand Main Color */
+  --color-secondary:      #0ea5e9;   /* Mint/cyan accent -> Using a sky blue/cyan to match #002F6C gracefully */
+  --color-accent:         #0ea5e9;
+  
   /* Backgrounds */
-  --color-bg:             #2d2a2a;   /* Minor light (pure white) */
-  --color-bg-alt:         #252627;
-  --color-bg-dark:        #3a3c3e;
-
+  --color-bg:             #FFFFFF;   /* Pure white */
+  --color-bg-alt:         #FAFAFA;   /* Soft neutral */
+  --color-bg-dark:        #F9FAFB;
+  
   /* Surface / Cards */
-  --color-surface:        #323131;
-  --color-surface-hover:  #3f3d3d;
-
+  --color-surface:        #FFFFFF;
+  --color-surface-hover:  #FAFAFA;
+  
   /* Borders */
-  --color-border:         rgba(255, 255, 255, 0.12);
-  --color-border-subtle:  rgba(255, 255, 255, 0.06);
-
+  --color-border:         #E5E7EB;
+  --color-border-subtle:  #F3F4F6;
+  
   /* Typography Colors */
-  --color-heading:        #F8FAFC;
-  --color-body:           #CBD5E1;   /* Muted Light */
-  --color-muted:          #94A3B8;
+  --color-heading:        #002F6C;   /* Lusion-style primary blue */
+  --color-body:           #475569;   /* Muted steel gray */
+  --color-muted:          #94A3B8;   
+  --color-dark-ui:        #090E14;   /* Dark UI Text */
+  
   --color-on-primary:     #FFFFFF;
   --color-on-secondary:   #FFFFFF;
-
+  
   /* Font Families */
   --font-display: 'Plus Jakarta Sans', sans-serif;
   --font-sans:    'Plus Jakarta Sans', sans-serif;
 }
 
-.theme-dark {
-  --color-primary:        #F8FAFC;
-  --color-primary-light:  #F1F5F9;
-  --color-primary-dark:   #E2E8F0;
-  --color-secondary:      #4FA3D1;   
-  --color-secondary-dark: #123B5D;
-  --color-secondary-light:#7DD3FC;
-  --color-accent:         #7DD3FC;
-  
-  --color-bg:             #090E14;
-  --color-bg-alt:         #15202E;
-  --color-bg-dark:        #04070A;
-  
-  --color-surface:        rgba(255, 255, 255, 0.05);
-  --color-surface-hover:  rgba(255, 255, 255, 0.1);
-  --color-border:         rgba(255, 255, 255, 0.1);
-  --color-border-subtle:  rgba(255, 255, 255, 0.05);
-
-  --color-heading:        #F8FAFC;
-  --color-body:           #94A3B8;
-  --color-muted:          #94A3B8;
-  --color-on-primary:     #090E14;
-  --color-on-secondary:   #090E14;
-}
-
 @theme {
-  --color-primary:         #090E14;
-  --color-primary-light:   #15202E;
-  --color-primary-dark:    #04070A;
-  --color-secondary:       #123B5D;
-  --color-secondary-dark:  #0A2236;
-  --color-secondary-light: #1A5485;
-  --color-accent:          #123B5D;
-  --color-bg:              #F8FAFC;
-  --color-bg-alt:          #F1F5F9;
-  --color-bg-dark:         #E2E8F0;
-  --color-heading:         #090E14;
-  --color-body:            #64748B;
-  --color-muted:           #64748B;
+  --color-primary:         #002F6C;
+  --color-secondary:       #0ea5e9;
+  --color-accent:          #0ea5e9;
+  --color-bg:              #FFFFFF;
+  --color-bg-alt:          #FAFAFA;
+  --color-heading:         #002F6C;
+  --color-body:            #475569;
+  --color-muted:           #94A3B8;
+  --color-dark-ui:         #090E14;
   --font-sans:             'Plus Jakarta Sans', sans-serif;
   --font-display:          'Plus Jakarta Sans', sans-serif;
 }
@@ -86,7 +53,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-body);
   font-family: var(--font-sans);
-  font-size: 18px; /* Standardized 18px body text */
+  font-size: 18px; 
   font-weight: 400;
   line-height: 1.7;
   margin: 0;
@@ -95,14 +62,14 @@ body {
 }
 
 /* Base Typographic Hierarchy */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .text-heading {
   font-family: var(--font-display) !important;
-  color: var(--color-heading);
+  color: var(--color-heading) !important;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.02em;
-  margin: 0;
+  margin-top: 0;
 }
+
 
 /* Standardized Typography Classes as requested */
 .text-hero {
