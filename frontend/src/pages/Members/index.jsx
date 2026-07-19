@@ -49,7 +49,7 @@ export default function MembersDirectory() {
         <div className="max-w-6xl mx-auto flex flex-col items-center">
           <motion.div {...inView(0.1)} className="relative w-full rounded-[40px] overflow-hidden bg-transparent">
             <FoldingImage 
-              src="/gallery/1-1.webp" 
+              src={resolveImageUrl("/gallery/1-1.webp")} 
               alt="Group Meet" 
               className="w-full h-[250px] md:h-[450px]"
             />
@@ -115,17 +115,27 @@ export default function MembersDirectory() {
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
               <div className="flex justify-between items-start mb-8 relative z-10 w-full">
-                <FoldingImage
-                  src={resolveImageUrl(m.photoUrl)} 
-                  alt={m.name} 
-                  className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px]"
-                />
-                <div className="w-[80px] h-[80px] md:w-[90px] md:h-[90px] rounded-[20px] bg-white border border-gray-100 shadow-sm p-3 flex items-center justify-center overflow-hidden flex-shrink-0">
-                  <img loading="lazy" decoding="async" src={resolveImageUrl(m.logoUrl)} 
-                    alt="Company Logo" 
-                    className="w-full h-full object-contain filter-none opacity-100"
-                    onError={(e) => { e.target.style.display ='none'; }}
+                {m.photoUrl ? (
+                  <FoldingImage
+                    src={resolveImageUrl(m.photoUrl)} 
+                    alt={m.name} 
+                    className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px]"
                   />
+                ) : (
+                  <div className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px] bg-gray-50 border border-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400 text-center p-2 uppercase tracking-widest">
+                    No Image
+                  </div>
+                )}
+                <div className="w-[80px] h-[80px] md:w-[90px] md:h-[90px] rounded-[20px] bg-white border border-gray-100 shadow-sm p-3 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {m.logoUrl ? (
+                    <img loading="lazy" decoding="async" src={resolveImageUrl(m.logoUrl)} 
+                      alt="Company Logo" 
+                      className="w-full h-full object-contain filter-none opacity-100"
+                      onError={(e) => { e.target.style.display ='none'; }}
+                    />
+                  ) : (
+                    <span className="text-[9px] font-bold text-gray-300 text-center uppercase tracking-widest">No Logo</span>
+                  )}
                 </div>
               </div>
               

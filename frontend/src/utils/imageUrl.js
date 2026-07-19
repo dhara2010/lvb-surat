@@ -1,5 +1,5 @@
   export const resolveImageUrl = (url) => {
-    if (!url) return '/gallery/placeholder.webp'; // Safe fallback
+    if (!url) return ''; // No fallback image, handled by components
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
     if (url.startsWith('data:image')) return url;
 
