@@ -1,23 +1,19 @@
-  export const resolveImageUrl = (url) => {
-    if (!url) return ''; // No fallback image, handled by components
-    if (url.startsWith('http://') || url.startsWith('https://')) return url;
-    if (url.startsWith('data:image')) return url;
+export function resolveImageUrl(image) {
+    if (!image) {
+        return "/gallery/placeholder.webp";
+    }
 
-    // Normalize slashes
-    let normalizedUrl = url.startsWith('/') ? url : '/' + url;
-    
-    // Backwards compatibility for early admin uploads stored as /gallery/17843...-name.webp
-    if (/^\/gallery\/\d{13,}-[^/]+$/.test(normalizedUrl)) {
-        normalizedUrl = '/uploads' + normalizedUrl;
+    if (image.startsWith("http")) {
+        return image;
     }
-    
-    // Backend uploads get the backend domain
-    if (normalizedUrl.startsWith('/uploads/')) {
-      let baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      baseUrl = baseUrl.replace(/\/+$/, '');
-      return `${baseUrl}${normalizedUrl}`;
+
+    if (image.startsWith("data:image")) {
+        return image;
     }
-    
-    // Frontend statics (/gallery/, /members/) remain relative to be served by Vite/Vercel
-    return normalizedUrl;
-  };
+
+    // Fallback to Render URL in case VITE_API_URL is not set properly on Vercel
+    const API_URL = import.meta.env.VITE_API_URL || "https://lvb-surat.onrender.com";
+    const base = API_URL.replace(/\/+$/, '');
+
+    return `${base}${image.startsWith("/") ? image : "/" + image}`;
+}

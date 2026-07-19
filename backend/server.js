@@ -28,6 +28,8 @@ const attendanceRoutes = require("./routes/attendanceRoutes");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 /* =========================================================
    MIDDLEWARE
 ========================================================= */
@@ -233,6 +235,9 @@ app.get("/api/debug/uploads", (req, res) => {
     });
   }
 });
+
+// Serve uploaded images
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* =========================================================
    DATABASE

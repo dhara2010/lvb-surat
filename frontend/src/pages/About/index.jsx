@@ -23,7 +23,7 @@ export default function About() {
         label="ABOUT US"
         title={
           <>
-            <TypingHeading el="h2" className="text-section font-bold">
+            <TypingHeading el="span" className="text-section font-bold">
               {aboutHero.title}
             </TypingHeading>
             <br className="hidden md:block" />

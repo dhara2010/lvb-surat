@@ -72,7 +72,7 @@ export default function EventDetail() {
       <PageHeader 
         label="EVENT DETAILS"
         title={
-          <TypingHeading el="h2" className="text-section font-bold">
+          <TypingHeading el="span" className="text-section font-bold">
            {event.title ||'Event Title'}
           </TypingHeading>
         }
