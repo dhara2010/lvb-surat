@@ -1,40 +1,51 @@
-import React from'react';
-import { usePrimaryTextClass } from'../../hooks/useTheme';
-import { motion } from'framer-motion';
-import { Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight } from'lucide-react';
-import { Link } from'react-router-dom';
-import { useFetch } from'../../hooks/useFetch';
-import { getMembers } from'../../api/membersApi';
-import PageHeader from'../../components/ui/PageHeader';
-import FoldingImage from'../../components/effects/FoldingImage';
-import { resolveImageUrl } from'../../utils/imageUrl';
+import "react";
+import { usePrimaryTextClass } from "../../hooks/useTheme";
+import { motion } from "framer-motion";
+import {Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight, } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
+import { getMembers } from "../../api/membersApi";
+import PageHeader from "../../components/ui/PageHeader";
 import TypingHeading from '../../components/animations/TypingHeading';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] },
+  whileInView: { opacity: 1, y: 0, },
+  viewport: {once: true,amount: 0.1,},
+  transition: {duration: 0.7,delay,ease: [0.16, 1, 0.3, 1],},
 });
 
 const vacantCategories = [
-  { icon: Diamond, title:'Diamond Merchant' },
-  { icon: Building2, title:'Real Estate Builder' },
-  { icon: Stethoscope, title:'General Physician' },
-  { icon: CalendarDays, title:'Event Management' },
-  { icon: Plane, title:'Travel Agency' }
+  {
+    icon: Diamond,
+    title: "Diamond Merchant",
+  },
+  {
+    icon: Building2,
+    title: "Real Estate Builder",
+  },
+  {
+    icon: Stethoscope,
+    title: "General Physician",
+  },
+  {
+    icon: CalendarDays,
+    title: "Event Management",
+  },
+  {
+    icon: Plane,
+    title: "Travel Agency",
+  },
 ];
 
 export default function MembersDirectory() {
   const primaryTextClass = usePrimaryTextClass();
-
   const { data: membersData, loading, error } = useFetch(getMembers);
   const platinumMembers = membersData || [];
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col font-sans overflow-x-hidden pb-0">
-      
-      <PageHeader 
+      <PageHeader
         label="MEMBERS DIRECTORY"
         title={
           <TypingHeading el="h2" className="text-section font-bold">
@@ -44,115 +55,825 @@ export default function MembersDirectory() {
         description="Meet the elite 50+ professionals forming the core of the Surat Platinum Chapter."
       />
 
-      {/* ─── HERO SECTION ──────────────── */}
-      <section className="relative mt-8 md:mt-10 px-4 md:px-0">
+      <section className="relative mt-8 md:mt-10 px-4 md:px-6">
         <div className="max-w-6xl mx-auto flex flex-col items-center">
-          <motion.div {...inView(0.1)} className="relative w-full rounded-[40px] overflow-hidden bg-transparent">
-            <FoldingImage 
-              src={resolveImageUrl("/gallery/1-1.webp")} 
-              alt="Group Meet" 
-              className="w-full h-[250px] md:h-[450px]"
+          <motion.div
+            {...inView(0.1)}
+            className="
+              relative
+              w-full
+              rounded-[28px]
+              md:rounded-[40px]
+              overflow-hidden
+              bg-gray-100
+              border
+              border-gray-100
+            "
+          >
+            <img
+              src="/gallery/1-1.webp"
+              alt="LVB Surat Platinum Group Meet"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="
+                block
+                w-full
+                h-[280px]
+                sm:h-[350px]
+                md:h-[450px]
+                lg:h-[500px]
+                object-cover
+                object-center
+                opacity-100
+                filter-none
+              "
             />
           </motion.div>
         </div>
       </section>
 
-      {/* ─── STATS BANNER ──────────────── */}
-      <section className="relative -mt-12 md:-mt-20 z-20 px-4">
+      {/* =====================================================
+          STATS BANNER
+      ====================================================== */}
+
+      <section className="relative -mt-10 md:-mt-20 z-20 px-4">
         <div className="max-w-5xl mx-auto">
-          <motion.div 
-            {...inView(0.2)} 
-            className="bg-white rounded-3xl p-8 md:p-6 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] flex flex-col md:flex-row items-center justify-between border border-gray-100 backdrop-blur-xl"
+          <motion.div
+            {...inView(0.2)}
+            className="
+              bg-white
+              rounded-3xl
+              p-8
+              md:p-6
+
+              shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)]
+
+              flex
+              flex-col
+              md:flex-row
+
+              items-center
+              justify-between
+
+              border
+              border-gray-100
+
+              backdrop-blur-xl
+            "
           >
-            <div className="flex-1 text-center md:text-left md:pl-10 mb-8 md:mb-0 border-b md:border-b-0 border-gray-100 pb-8 md:pb-0">
-              <h2 className={`text-2xl md:text-3xl font-black ${primaryTextClass} tracking-tight`}>LVB Surat Platinum</h2>
-              <p className="uppercase tracking-[0.25em] text-[11px] font-black mt-2">Chapter Network</p>
+            {/* Chapter Name */}
+
+            <div
+              className="
+                flex-1
+                text-center
+                md:text-left
+                md:pl-10
+
+                mb-8
+                md:mb-0
+
+                border-b
+                md:border-b-0
+                border-gray-100
+
+                pb-8
+                md:pb-0
+              "
+            >
+              <h2
+                className={`
+                  text-2xl
+                  md:text-3xl
+                  font-black
+                  ${primaryTextClass}
+                  tracking-tight
+                `}
+              >
+                LVB Surat Platinum
+              </h2>
+
+              <p
+                className="
+                  uppercase
+                  tracking-[0.25em]
+                  text-[11px]
+                  font-black
+                  mt-2
+                "
+              >
+                Chapter Network
+              </p>
             </div>
-            
-            <div className="flex-1 flex flex-col md:flex-row items-center justify-around w-full border-l md:border-t-0 border-gray-100 md:pl-6 divide-y md:divide-y-0 md:divide-x divide-gray-100">
-              <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
-                <Users className="mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
-                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>50+</span>
-                <span className="text-[11px] font-bold  uppercase tracking-widest">Professionals</span>
+
+            {/* Stats */}
+
+            <div
+              className="
+                flex-1
+                flex
+                flex-col
+                md:flex-row
+
+                items-center
+                justify-around
+
+                w-full
+
+                md:border-l
+                border-gray-100
+
+                md:pl-6
+
+                divide-y
+                md:divide-y-0
+                md:divide-x
+                divide-gray-100
+              "
+            >
+              {/* Professionals */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  items-center
+
+                  py-5
+                  md:py-0
+
+                  px-6
+
+                  w-full
+
+                  group
+                "
+              >
+                <Users
+                  className="
+                    mb-3
+                    group-hover:-translate-y-1
+                    transition-transform
+                  "
+                  strokeWidth={1.5}
+                  size={28}
+                />
+
+                <span
+                  className={`
+                    text-3xl
+                    font-black
+                    ${primaryTextClass}
+                    mb-1
+                  `}
+                >
+                  50+
+                </span>
+
+                <span
+                  className="
+                    text-[11px]
+                    font-bold
+                    uppercase
+                    tracking-widest
+                  "
+                >
+                  Professionals
+                </span>
               </div>
-              <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
-                <TrendingUp className="mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
-                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>₹500 Cr+</span>
-                <span className="text-[11px] font-bold  uppercase tracking-widest">Business Done</span>
+
+              {/* Business Done */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  items-center
+
+                  py-5
+                  md:py-0
+
+                  px-6
+
+                  w-full
+
+                  group
+                "
+              >
+                <TrendingUp
+                  className="
+                    mb-3
+                    group-hover:-translate-y-1
+                    transition-transform
+                  "
+                  strokeWidth={1.5}
+                  size={28}
+                />
+
+                <span
+                  className={`
+                    text-3xl
+                    font-black
+                    ${primaryTextClass}
+                    mb-1
+                  `}
+                >
+                  ₹500 Cr+
+                </span>
+
+                <span
+                  className="
+                    text-[11px]
+                    font-bold
+                    uppercase
+                    tracking-widest
+                  "
+                >
+                  Business Done
+                </span>
               </div>
-              <div className="flex flex-col items-center py-5 md:py-0 px-6 w-full group">
-                <MessageSquare className="mb-3 group-hover:-translate-y-1 transition-transform" strokeWidth={1.5} size={28}/>
-                <span className={`text-3xl font-black ${primaryTextClass} mb-1`}>12+</span>
-                <span className="text-[11px] font-bold  uppercase tracking-widest">Testimonials</span>
+
+              {/* Testimonials */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+                  items-center
+
+                  py-5
+                  md:py-0
+
+                  px-6
+
+                  w-full
+
+                  group
+                "
+              >
+                <MessageSquare
+                  className="
+                    mb-3
+                    group-hover:-translate-y-1
+                    transition-transform
+                  "
+                  strokeWidth={1.5}
+                  size={28}
+                />
+
+                <span
+                  className={`
+                    text-3xl
+                    font-black
+                    ${primaryTextClass}
+                    mb-1
+                  `}
+                >
+                  12+
+                </span>
+
+                <span
+                  className="
+                    text-[11px]
+                    font-bold
+                    uppercase
+                    tracking-widest
+                  "
+                >
+                  Testimonials
+                </span>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ─── GRID SECTION ──────────────── */}
-      <section className="py-24 px-6 md:px-10 max-w-7xl mx-auto w-full">
-        <motion.div {...inView(0)} className="text-center mb-20">
-          <span className="inline-block  font-extrabold tracking-[0.3em] uppercase text-xs mb-4">Elite Network</span>
-          <h2 className={`text-4xl md:text-5xl font-black ${primaryTextClass} mb-6 tracking-tight leading-[1.1]`}>
-            Meet our <span className="bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Platinum Members</span>
+      {/* =====================================================
+          MEMBERS GRID SECTION
+      ====================================================== */}
+
+      <section
+        className="
+          py-20
+          md:py-24
+
+          px-5
+          md:px-10
+
+          max-w-7xl
+          mx-auto
+
+          w-full
+        "
+      >
+        {/* Heading */}
+
+        <motion.div {...inView(0)} className="text-center mb-14 md:mb-20">
+          <span
+            className="
+              inline-block
+              font-extrabold
+              tracking-[0.3em]
+              uppercase
+              text-xs
+              mb-4
+            "
+          >
+            Elite Network
+          </span>
+
+          <h2
+            className={`
+              text-4xl
+              md:text-5xl
+
+              font-black
+
+              ${primaryTextClass}
+
+              mb-6
+
+              tracking-tight
+
+              leading-[1.1]
+            `}
+          >
+            Meet our{" "}
+            <span
+              className="
+                bg-clip-text
+                text-transparent
+                bg-gradient-to-r
+                from-secondary
+                to-[#4FA3D1]
+              "
+            >
+              Platinum Members
+            </span>
           </h2>
-          <div className="w-16 h-1.5 bg-secondary mx-auto rounded-full"></div>
+
+          <div
+            className="
+              w-16
+              h-1.5
+              bg-secondary
+              mx-auto
+              rounded-full
+            "
+          />
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 min-h-[300px]">
-          {loading && <div className="col-span-full py-20 flex flex-col items-center justify-center  font-bold tracking-[0.2em]">LOADING MEMBERS...</div>}
-          {error && <div className="col-span-full py-20 flex flex-col items-center justify-center  font-bold tracking-[0.2em]">FAILED TO LOAD MEMBERS</div>}
-          {!loading && !error && platinumMembers.length === 0 && <div className="col-span-full py-20 flex flex-col items-center justify-center  font-bold tracking-[0.2em]">NO MEMBERS AVAILABLE</div>}
+        {/* Members Grid */}
+
+        <div
+          className="
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-3
+
+            gap-8
+            md:gap-10
+
+            min-h-[300px]
+          "
+        >
+          {/* Loading */}
+
+          {loading && (
+            <div
+              className="
+                col-span-full
+                py-20
+
+                flex
+                items-center
+                justify-center
+
+                font-bold
+                tracking-[0.2em]
+              "
+            >
+              LOADING MEMBERS...
+            </div>
+          )}
+
+          {/* Error */}
+
+          {error && (
+            <div
+              className="
+                col-span-full
+                py-20
+
+                flex
+                items-center
+                justify-center
+
+                font-bold
+                tracking-[0.2em]
+              "
+            >
+              FAILED TO LOAD MEMBERS
+            </div>
+          )}
+
+          {/* Empty */}
+
+          {!loading && !error && platinumMembers.length === 0 && (
+            <div
+              className="
+                  col-span-full
+                  py-20
+
+                  flex
+                  items-center
+                  justify-center
+
+                  font-bold
+                  tracking-[0.2em]
+                "
+            >
+              NO MEMBERS AVAILABLE
+            </div>
+          )}
+
+          {/* =================================================
+              MEMBER CARDS
+          ================================================== */}
 
           {platinumMembers.map((m, i) => (
             <motion.div
-              key={m.id || i}
+              key={m.id || m._id || i}
               {...inView((i % 9) * 0.05)}
-              className="bg-white rounded-[30px] p-8 border border-gray-100 hover:border-secondary/20 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-400 group flex flex-col hover:-translate-y-2 relative overflow-hidden"
-            >
-              {/* Premium Top Line Accent */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              className="
+                bg-white
 
-              <div className="flex justify-between items-start mb-8 relative z-10 w-full">
-                {m.photoUrl ? (
-                  <FoldingImage
-                    src={resolveImageUrl(m.photoUrl)} 
-                    alt={m.name} 
-                    className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px]"
-                  />
-                ) : (
-                  <div className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px] bg-gray-50 border border-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-400 text-center p-2 uppercase tracking-widest">
-                    No Image
-                  </div>
-                )}
-                <div className="w-[80px] h-[80px] md:w-[90px] md:h-[90px] rounded-[20px] bg-white border border-gray-100 shadow-sm p-3 flex items-center justify-center overflow-hidden flex-shrink-0">
-                  {m.logoUrl ? (
-                    <img loading="lazy" decoding="async" src={resolveImageUrl(m.logoUrl)} 
-                      alt="Company Logo" 
-                      className="w-full h-full object-contain filter-none opacity-100"
-                      onError={(e) => { e.target.style.display ='none'; }}
+                rounded-[30px]
+
+                p-6
+                md:p-8
+
+                border
+                border-gray-100
+
+                hover:border-secondary/20
+
+                shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+
+                hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]
+
+                transition-all
+                duration-500
+
+                group
+
+                flex
+                flex-col
+
+                hover:-translate-y-2
+
+                relative
+
+                overflow-hidden
+              "
+            >
+              {/* Top Accent */}
+
+              <div
+                className="
+                  absolute
+
+                  top-0
+                  left-0
+                  right-0
+
+                  h-1
+
+                  bg-gradient-to-r
+
+                  from-transparent
+                  via-secondary
+                  to-transparent
+
+                  opacity-0
+
+                  group-hover:opacity-100
+
+                  transition-opacity
+                  duration-500
+                "
+              />
+
+              {/* =============================================
+                  PHOTO + LOGO
+              ============================================== */}
+
+              <div
+                className="
+                  flex
+                  justify-between
+                  items-start
+
+                  gap-5
+
+                  mb-8
+
+                  relative
+                  z-10
+
+                  w-full
+                "
+              >
+                {/* MEMBER PHOTO */}
+
+                <div
+                  className="
+                    relative
+
+                    w-[125px]
+                    h-[145px]
+
+                    md:w-[145px]
+                    md:h-[165px]
+
+                    flex-shrink-0
+
+                    rounded-[24px]
+
+                    overflow-hidden
+
+                    bg-gray-100
+
+                    border
+                    border-gray-100
+
+                    shadow-sm
+                  "
+                >
+                  {m.photoUrl ? (
+                    <img
+                      src={m.photoUrl}
+                      alt={m.name || "LVB Member"}
+                      loading="lazy"
+                      decoding="async"
+                      className="
+                        block
+
+                        w-full
+                        h-full
+
+                        object-cover
+                        object-top
+
+                        opacity-100
+
+                        filter-none
+
+                        brightness-100
+                        contrast-100
+                        saturate-100
+
+                        transition-transform
+
+                        duration-700
+
+                        ease-out
+
+                        group-hover:scale-[1.04]
+                      "
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
                     />
                   ) : (
-                    <span className="text-[9px] font-bold text-gray-300 text-center uppercase tracking-widest">No Logo</span>
+                    <div
+                      className="
+                        w-full
+                        h-full
+
+                        flex
+                        items-center
+                        justify-center
+
+                        bg-gray-100
+                      "
+                    >
+                      <Users
+                        size={38}
+                        strokeWidth={1.2}
+                        className="opacity-30"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* COMPANY LOGO */}
+
+                <div
+                  className="
+                    w-[100px]
+                    h-[100px]
+
+                    md:w-[115px]
+                    md:h-[115px]
+
+                    rounded-[20px]
+
+                    bg-white
+
+                    border
+                    border-gray-200
+
+                    shadow-sm
+
+                    p-3
+
+                    flex
+                    items-center
+                    justify-center
+
+                    overflow-hidden
+
+                    flex-shrink-0
+                  "
+                >
+                  {m.logoUrl ? (
+                    <img
+                      src={m.logoUrl}
+                      alt={`${m.businessName || "Company"} Logo`}
+                      loading="lazy"
+                      decoding="async"
+                      className="
+                        block
+
+                        w-full
+                        h-full
+
+                        object-contain
+
+                        opacity-100
+
+                        filter-none
+
+                        brightness-100
+                        contrast-100
+                        saturate-100
+                      "
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    <Building2
+                      size={34}
+                      strokeWidth={1.2}
+                      className="opacity-25"
+                    />
                   )}
                 </div>
               </div>
-              
-              <div className="flex flex-col mt-auto pb-4 border-b border-gray-100">
-                <h3 className={`text-2xl font-black ${primaryTextClass} truncate leading-tight group-hover:text-secondary transition-colors duration-300`}>{m.name}</h3>
-                
-                <div className="mt-3 flex items-center gap-2">
-                  <div className="w-8 h-[2px] shrink-0 bg-secondary rounded-full"></div>
-                  <span className="uppercase text-[11px] font-black tracking-[0.2em]  truncate">{m.businessName}</span>
+
+              {/* =============================================
+                  MEMBER INFORMATION
+              ============================================== */}
+
+              <div
+                className="
+                  flex
+                  flex-col
+
+                  mt-auto
+
+                  pb-4
+
+                  border-b
+                  border-gray-100
+                "
+              >
+                {/* Member Name */}
+
+                <h3
+                  className={`
+                    text-2xl
+
+                    font-black
+
+                    ${primaryTextClass}
+
+                    leading-tight
+
+                    group-hover:text-secondary
+
+                    transition-colors
+                    duration-300
+                  `}
+                >
+                  {m.name}
+                </h3>
+
+                {/* Business */}
+
+                <div
+                  className="
+                    mt-3
+
+                    flex
+                    items-center
+
+                    gap-2
+                  "
+                >
+                  <div
+                    className="
+                      w-8
+                      h-[2px]
+
+                      shrink-0
+
+                      bg-secondary
+
+                      rounded-full
+                    "
+                  />
+
+                  <span
+                    className="
+                      uppercase
+
+                      text-[11px]
+
+                      font-black
+
+                      tracking-[0.15em]
+
+                      line-clamp-2
+                    "
+                  >
+                    {m.businessName}
+                  </span>
                 </div>
               </div>
-              
-              <div className="pt-4 flex justify-between items-center">
-                <span className="inline-block  text-[10px] font-bold uppercase tracking-[0.2em] truncate mr-2">
+
+              {/* =============================================
+                  BUSINESS CATEGORY
+              ============================================== */}
+
+              <div
+                className="
+                  pt-4
+
+                  flex
+
+                  justify-between
+                  items-center
+
+                  gap-3
+                "
+              >
+                <span
+                  className="
+                    inline-block
+
+                    text-[10px]
+
+                    font-bold
+
+                    uppercase
+
+                    tracking-[0.15em]
+
+                    line-clamp-2
+
+                    mr-2
+                  "
+                >
                   {m.businessCategory}
                 </span>
-                <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center  group-hover:bg-secondary group-hover:text-white transition-colors duration-300 flex-shrink-0">
+
+                <div
+                  className="
+                    w-9
+                    h-9
+
+                    rounded-full
+
+                    bg-gray-50
+
+                    flex
+                    items-center
+                    justify-center
+
+                    group-hover:bg-secondary
+                    group-hover:text-white
+
+                    transition-all
+                    duration-300
+
+                    flex-shrink-0
+                  "
+                >
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
@@ -161,48 +882,248 @@ export default function MembersDirectory() {
         </div>
       </section>
 
-      {/* ─── VACANT CATEGORIES ──────────────── */}
-      <section className="bg-gray-50 py-24 relative overflow-hidden border-t border-gray-100">
-        
-        
-        
-        <div className="max-w-6xl mx-auto px-6 md:px-10 relative z-10 flex flex-col items-center">
+      {/* =====================================================
+          VACANT CATEGORIES
+      ====================================================== */}
+
+      <section
+        className="
+          bg-gray-50
+
+          py-20
+          md:py-24
+
+          relative
+
+          overflow-hidden
+
+          border-t
+          border-gray-100
+        "
+      >
+        <div
+          className="
+            max-w-6xl
+
+            mx-auto
+
+            px-6
+            md:px-10
+
+            relative
+            z-10
+
+            flex
+            flex-col
+            items-center
+          "
+        >
+          {/* Heading */}
+
           <motion.div {...inView(0)} className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-black ${primaryTextClass} mb-6 tracking-tight leading-[1.1]`}>
+            <h2
+              className={`
+                text-4xl
+                md:text-5xl
+
+                font-black
+
+                ${primaryTextClass}
+
+                mb-6
+
+                tracking-tight
+
+                leading-[1.1]
+              `}
+            >
               Top Vacant Categories
             </h2>
-            <div className="w-16 h-1.5 bg-secondary mx-auto rounded-full"></div>
-            <p className="mt-8 max-w-lg mx-auto text-[15px] leading-relaxed font-medium">
-              We exclusively allow one profession per category. Lock out your competition by filling one of our vacant seats today.
+
+            <div
+              className="
+                w-16
+                h-1.5
+
+                bg-secondary
+
+                mx-auto
+
+                rounded-full
+              "
+            />
+
+            <p
+              className="
+                mt-8
+
+                max-w-lg
+
+                mx-auto
+
+                text-[15px]
+
+                leading-relaxed
+
+                font-medium
+              "
+            >
+              We exclusively allow one profession per category. Lock out your
+              competition by filling one of our vacant seats today.
             </p>
           </motion.div>
 
-          <div className="w-full grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl">
-            {vacantCategories.map((v, i) => (
-              <motion.div 
-                key={i}
-                {...inView(i * 0.1)}
-                className={`flex flex-col items-center group bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-400 ${i === 4 ?'col-span-2 lg:col-span-1' :''}`}
-              >
-                <div className="w-16 h-16 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-6  group-hover:bg-secondary group-hover:text-white transition-all duration-300">
-                  <v.icon size={26} strokeWidth={1.5}/>
-                </div>
-                <h4 className={`${primaryTextClass} font-extrabold text-center text-[13px] md:text-[15px] leading-tight`}>
-                  {v.title}
-                </h4>
-              </motion.div>
-            ))}
+          {/* Categories */}
+
+          <div
+            className="
+              w-full
+
+              grid
+
+              grid-cols-2
+              lg:grid-cols-5
+
+              gap-4
+              md:gap-6
+
+              max-w-5xl
+            "
+          >
+            {vacantCategories.map((v, i) => {
+              const Icon = v.icon;
+
+              return (
+                <motion.div
+                  key={v.title}
+                  {...inView(i * 0.1)}
+                  className={`
+                    flex
+                    flex-col
+                    items-center
+
+                    group
+
+                    bg-white
+
+                    rounded-3xl
+
+                    p-6
+                    md:p-8
+
+                    border
+                    border-gray-100
+
+                    shadow-[0_4px_20px_rgb(0,0,0,0.02)]
+
+                    hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)]
+
+                    hover:-translate-y-2
+
+                    transition-all
+                    duration-500
+
+                    ${i === 4 ? "col-span-2 lg:col-span-1" : ""}
+                  `}
+                >
+                  <div
+                    className="
+                      w-16
+                      h-16
+
+                      rounded-2xl
+
+                      bg-gray-50
+
+                      border
+                      border-gray-100
+
+                      flex
+                      items-center
+                      justify-center
+
+                      mb-6
+
+                      group-hover:bg-secondary
+                      group-hover:text-white
+
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <Icon size={26} strokeWidth={1.5} />
+                  </div>
+
+                  <h4
+                    className={`
+                      ${primaryTextClass}
+
+                      font-extrabold
+
+                      text-center
+
+                      text-[13px]
+                      md:text-[15px]
+
+                      leading-tight
+                    `}
+                  >
+                    {v.title}
+                  </h4>
+                </motion.div>
+              );
+            })}
           </div>
-          
+
+          {/* Apply Button */}
+
           <motion.div {...inView(0.4)} className="mt-16">
-            <Link to="/contact" className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl px-10 py-5 font-bold uppercase tracking-[0.2em] text-[12px]  bg-primary transition-all duration-300 hover:bg-secondary hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)] hover:-translate-y-1">
+            <Link
+              to="/contact"
+              className="
+                group
+
+                relative
+
+                inline-flex
+                items-center
+
+                gap-3
+
+                overflow-hidden
+
+                rounded-2xl
+
+                px-10
+                py-5
+
+                font-bold
+
+                uppercase
+
+                tracking-[0.2em]
+
+                text-[12px]
+
+                bg-primary
+
+                transition-all
+                duration-300
+
+                hover:bg-secondary
+
+                hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)]
+
+                hover:-translate-y-1
+              "
+            >
               <span className="relative z-10">Apply For A Seat</span>
+
               <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
         </div>
       </section>
-
     </div>
   );
 }
