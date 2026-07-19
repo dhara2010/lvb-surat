@@ -30,7 +30,7 @@ export default function EventsSection() {
               <div className="w-12 h-[2px]" style={{ backgroundColor:'#4FA3D1' }}></div>
             </span>
             <TypingHeading el="h2" className="text-section font-bold">
-              Upcoming <span className="bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent">Events</span>
+              Upcoming Events
             </TypingHeading>
           </div>
         </ScrollReveal3D>

@@ -1,10 +1,11 @@
-import React, { useState } from'react';
-import { usePrimaryTextClass } from'../../hooks/useTheme';
-import { motion, AnimatePresence } from'framer-motion';
-import { Plus, Clock, MapPin, Mail, ArrowRight } from'lucide-react';
-import { faqs } from'../../data';
-import { submitContactForm } from'../../api/contactApi';
-import PageHeader from'../../components/ui/PageHeader';
+import React, { useState } from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
+import { faqs } from '../../data';
+import { submitContactForm } from '../../api/contactApi';
+import PageHeader from '../../components/ui/PageHeader';
+import TypingHeading from '../../components/animations/TypingHeading';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -14,9 +15,9 @@ const inView = (delay = 0) => ({
 });
 
 const contactDetails = [
-  { icon: Clock, label:'Every Wednesday', sub:'7:30 AM – 9:30 AM IST' },
-  { icon: MapPin, label:'5-Star Hotel, Surat', sub:'Grand Ballroom, Gujarat' },
-  { icon: Mail, label:'info@lvbsuratplatinum.com', sub:'Membership inquiries' },
+  { icon: Clock, label: 'Every Wednesday', sub: '7:30 AM – 9:30 AM IST' },
+  { icon: MapPin, label: '5-Star Hotel, Surat', sub: 'Grand Ballroom, Gujarat' },
+  { icon: Mail, label: 'info@lvbsuratplatinum.com', sub: 'Membership inquiries' },
 ];
 
 export default function Contact() {
@@ -24,7 +25,7 @@ export default function Contact() {
 
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name:'', email:'', phone:'', company:'', category:'', referral:'', message:'' });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -37,16 +38,16 @@ export default function Contact() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
-        message:`Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
+        message: `Company: ${formData.company} | Category: ${formData.category} | Referral: ${formData.referral} \n\n ${formData.message}`
       });
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
-        setFormData({ name:'', email:'', phone:'', company:'', category:'', referral:'', message:'' });
+        setFormData({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
       }, 4000);
     } catch (err) {
       console.error(err);
-      setError(err.message ||'Failed to submit the form.');
+      setError(err.message || 'Failed to submit the form.');
     } finally {
       setIsSubmitting(false);
     }
@@ -56,19 +57,23 @@ export default function Contact() {
     <div id="contact" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader
         label="CONTACT US"
-        title="Get In Touch"
+        title={
+          <TypingHeading el="h2" className="text-section font-bold">
+            Get In Touch
+          </TypingHeading>
+        }
         description="Whether you have questions about membership, upcoming events, or how we operate, our team is ready to answer all your questions."
       />
       <div className="container-xl section-padding flex flex-col gap-24 pt-10 md:pt-16">
 
         {/* ─── Contact Section ──────────── */}
         <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 pl-1 pr-1">
-          
+
           {/* Left Column: Info Panel */}
           <motion.div {...inView(0)} className="lg:col-span-2 flex flex-col justify-between rounded-[40px] bg-gray-50 p-10 md:p-14 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
             {/* Decorative background shapes */}
-            
-            
+
+
 
             <div className="relative z-10 flex flex-col gap-6">
               <div>
@@ -77,10 +82,10 @@ export default function Contact() {
                   <span className="font-extrabold tracking-[0.25em] uppercase text-xs">Reach Out</span>
                 </div>
                 <h2 className={`text-4xl md:text-5xl lg:text-[2.75rem] font-black ${primaryTextClass} tracking-tight leading-[1.15]`}>
-                  Let's Start a <br/><span className="bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
+                  Let's Start a <br /><span className="bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
                 </h2>
               </div>
-              
+
               <p className="text-[15px] leading-[1.8] font-medium mt-2">
                 Interested in joining Surat's most exclusive business network? Contact our committee directly to arrange a guest pass or discuss membership criteria.
               </p>
@@ -107,7 +112,7 @@ export default function Contact() {
             <div className="relative z-10 mt-14 pt-8 border-t border-gray-200">
               <p className={`text-[11px] font-black ${primaryTextClass} uppercase tracking-[0.2em] mb-4`}>Connect with us</p>
               <div className="flex gap-5">
-                {['LinkedIn','Twitter','Instagram'].map((social, i) => (
+                {['LinkedIn', 'Twitter', 'Instagram'].map((social, i) => (
                   <a key={i} href="#" className="text-sm font-bold  hover:text-secondary hover:-translate-y-0.5 transition-all">
                     {social}
                   </a>
@@ -118,10 +123,10 @@ export default function Contact() {
 
           {/* Right Column: Premium Form */}
           <motion.div {...inView(0.1)} className="lg:col-span-3 rounded-[40px] bg-white p-10 md:p-14 border border-gray-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] relative">
-            
+
             <AnimatePresence mode="wait">
               {submitted ? (
-                 <motion.div
+                <motion.div
                   key="success"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -218,9 +223,8 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`mt-6 w-full sm:w-auto sm:self-end bg-primary  font-extrabold uppercase tracking-[0.2em] text-[13px] px-10 py-5 rounded-2xl flex items-center justify-center gap-3 hover:bg-secondary border border-transparent hover:border-secondary-light shadow-lg hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)] hover:-translate-y-1 transition-all duration-400 ${isSubmitting ?'opacity-70 cursor-not-allowed' :''}`}
-                  >
-                    {isSubmitting ?'Processing...' :'Submit Inquiry'}
+                    className={`mt-6 w-full sm:w-auto sm:self-end inline-flex items-center justify-center gap-3 rounded-[12px] bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white font-bold text-[13px] md:text- uppercase tracking-widest xl:py-3.5 xl:px-10 py-3 px-8 border border-transparent transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}>
+                    {isSubmitting ? "Processing..." : "Submit Inquiry"}
                     <ArrowRight className="w-5 h-5 flex-shrink-0" aria-hidden />
                   </button>
                 </motion.form>
@@ -248,7 +252,7 @@ export default function Contact() {
                 <motion.div
                   key={i}
                   {...inView(i * 0.05)}
-                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ?'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]' :'shadow-sm hover:shadow-md'}`}
+                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ? 'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]' : 'shadow-sm hover:shadow-md'}`}
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : i)}
@@ -259,7 +263,7 @@ export default function Contact() {
                     </span>
                     <motion.div
                       animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration: 0.3, ease:'backOut' }}
+                      transition={{ duration: 0.3, ease: 'backOut' }}
                       className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ml-4 bg-secondary/10"
                     >
                       <Plus className="w-4 h-4" />
@@ -269,9 +273,9 @@ export default function Contact() {
                     {isOpen && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
-                        animate={{ height:'auto', opacity: 1 }}
+                        animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease:'easeInOut' }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
                       >
                         <div className="px-6 pb-6 text-[14px] leading-relaxed  border-t border-gray-100 mx-6 pt-5">
                           {faq.a}

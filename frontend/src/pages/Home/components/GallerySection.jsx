@@ -12,6 +12,8 @@ import LuxuryButton from'../../../components/ui/LuxuryButton';
 import LuxuryCard from'../../../components/ui/LuxuryCard';
 import GlassSection from'../../../components/ui/GlassSection';
 import GalleryStraps from'../../../components/effects/GalleryStraps';
+import { resolveImageUrl } from'../../../utils/imageUrl';
+
 
 export default function GallerySection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -97,7 +99,7 @@ export default function GallerySection() {
               <div className="w-12 h-[2px]" style={{ backgroundColor:'#4FA3D1' }}></div>
             </span>
             <TypingHeading el="h2" className="text-section font-bold">
-              Our <span className="bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent">Gallery</span>
+              Our Gallery
             </TypingHeading>
           </div>
         </ScrollReveal3D>
@@ -148,7 +150,7 @@ export default function GallerySection() {
                           <img
                             loading="lazy"
                             decoding="async"
-                            src={img}
+                            src={resolveImageUrl(img)}
                             alt="Gallery Event"
                             className="w-full h-full object-cover transition duration-700 group-hover:scale-110" 
                             onError={(e) => { e.target.src ="/KVS_3369-scaled.webp"; }} 

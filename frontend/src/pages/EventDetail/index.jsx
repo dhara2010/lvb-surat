@@ -6,6 +6,9 @@ import { Link, useParams } from'react-router-dom';
 import { useFetch } from'../../hooks/useFetch';
 import { getEvent } from'../../api/eventsApi';
 import PageHeader from'../../components/ui/PageHeader';
+import { resolveImageUrl } from'../../utils/imageUrl';
+import TypingHeading from '../../components/animations/TypingHeading';
+
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -68,7 +71,11 @@ export default function EventDetail() {
     <div className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader 
         label="EVENT DETAILS"
-        title={event.title ||'Event Title'}
+        title={
+          <TypingHeading el="h2" className="text-section font-bold">
+           {event.title ||'Event Title'}
+          </TypingHeading>
+        }
         description={event.desc ? event.desc.substring(0, 160) + (event.desc.length > 160 ?"..." :"") :"Join us for an inspiring event. Connect with like-minded individuals and gain practical insights."}
       />
       
@@ -103,7 +110,7 @@ export default function EventDetail() {
                 className="w-full rounded-2xl overflow-hidden mb-8"
                style={{ border:'1px solid var(--color-border)', boxShadow:'var(--shadow-card)' }}
               >
-                <img loading="lazy" decoding="async" src={event.image ||'/12-1.webp'}
+                <img loading="lazy" decoding="async" src={resolveImageUrl(event.image ||'/12-1.webp')}
                   alt={event.title}
                   className="w-full h-auto object-cover"
                   onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}

@@ -3,7 +3,12 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../frontend/public/gallery'));
+    const fs = require('fs');
+    const dir = path.join(__dirname, '../uploads/gallery');
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);

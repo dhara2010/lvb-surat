@@ -4,6 +4,8 @@ import { X, ZoomIn } from'lucide-react';
 import { useFetch } from'../../hooks/useFetch';
 import { getGalleryImages } from'../../api/galleryApi';
 import PageHeader from'../../components/ui/PageHeader';
+import { resolveImageUrl } from'../../utils/imageUrl';
+import TypingHeading from '../../components/animations/TypingHeading';
 
 export default function Showcase() {
   const [lightbox, setLightbox] = useState(null);
@@ -16,13 +18,16 @@ export default function Showcase() {
     <div id="showcase" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
       <PageHeader 
         label="Chapter Gallery"
-        title="Moments From Our Meetings"
+        title={
+          <TypingHeading el="h2" className="text-section font-bold">
+            Moments From Our Meeting
+          </TypingHeading>
+        }
         description="A glimpse inside the premium weekly assemblies, conclaves, and award ceremonies of the Surat Platinum Chapter."
       />
       
       <div className="container-xl section-padding pt-0 md:pt-4">
 
-        {/* ─── Gallery Grid ─────────────────── */}
         {loading && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">LOADING GALLERY...</div>}
         {error && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">FAILED TO LOAD GALLERY</div>}
         {!loading && !error && gallery.length === 0 && <div className="py-20 flex justify-center w-full  font-bold tracking-widest">NO IMAGES AVAILABLE</div>}
@@ -43,7 +48,7 @@ export default function Showcase() {
               tabIndex={0}
               onKeyDown={(e) => e.key ==='Enter' && setLightbox(src)}
             >
-              <img loading="lazy" decoding="async" src={src}
+              <img loading="lazy" decoding="async" src={resolveImageUrl(src)}
                 alt={`Gallery image ${i + 1}`}
                 className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
                 onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
@@ -98,7 +103,7 @@ export default function Showcase() {
               >
                 <X className="w-4 h-4" />
               </button>
-              <img loading="lazy" decoding="async" src={lightbox}
+              <img loading="lazy" decoding="async" src={resolveImageUrl(lightbox)}
                 alt="Expanded Gallery Image"
                 className="w-full max-h-[85vh] object-contain bg-black/5"
                 onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}

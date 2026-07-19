@@ -24,9 +24,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve static gallery folder
-app.use('/gallery', express.static(path.join(__dirname, '../frontend/public/gallery')));
-
+// Backend purely serves uploads from its own disk
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Boot Database Connect
 connectDB();
 

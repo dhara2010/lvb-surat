@@ -36,7 +36,7 @@ export default function ChapterSection() {
                 Chapter Network
               </span>
               <TypingHeading el="h2" className="text-section font-bold mb-6 leading-[1.1] tracking-tight">
-                LVB Surat <br /><span className="bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent">Platinum Chapter</span>
+                LVB Surat <br />Platinum Chapter
               </TypingHeading>
               <div className="space-y-6 font-sans font-light opacity-90 leading-relaxed">
                 <TextReveal delay={0.2} splitBy="word" el="p">Established on 17 October 2020, LVB Surat Platinum Chapter is a premium business networking community under LVB that brings together entrepreneurs, professionals, and business leaders on a trusted platform. The chapter focuses on meaningful connections, quality referrals, and collaborative growth, helping members expand their business through strong relationships and structured networking.</TextReveal>

@@ -7,6 +7,8 @@ import { useFetch } from'../../hooks/useFetch';
 import { getMembers } from'../../api/membersApi';
 import PageHeader from'../../components/ui/PageHeader';
 import FoldingImage from'../../components/effects/FoldingImage';
+import { resolveImageUrl } from'../../utils/imageUrl';
+import TypingHeading from '../../components/animations/TypingHeading';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -34,7 +36,11 @@ export default function MembersDirectory() {
       
       <PageHeader 
         label="MEMBERS DIRECTORY"
-        title={<>Relationships That <br className="md:hidden" /><span className="">Grow Business</span></>}
+        title={
+          <TypingHeading el="h2" className="text-section font-bold">
+            Relationships That Grow Business
+          </TypingHeading>
+        }
         description="Meet the elite 50+ professionals forming the core of the Surat Platinum Chapter."
       />
 
@@ -110,12 +116,12 @@ export default function MembersDirectory() {
 
               <div className="flex justify-between items-start mb-8 relative z-10 w-full">
                 <FoldingImage
-                  src={m.photoUrl} 
+                  src={resolveImageUrl(m.photoUrl)} 
                   alt={m.name} 
                   className="w-[100px] h-[100px] md:w-[120px] md:h-[120px] rounded-[24px]"
                 />
                 <div className="w-[80px] h-[80px] md:w-[90px] md:h-[90px] rounded-[20px] bg-white border border-gray-100 shadow-sm p-3 flex items-center justify-center overflow-hidden flex-shrink-0">
-                  <img loading="lazy" decoding="async" src={m.logoUrl} 
+                  <img loading="lazy" decoding="async" src={resolveImageUrl(m.logoUrl)} 
                     alt="Company Logo" 
                     className="w-full h-full object-contain filter-none opacity-100"
                     onError={(e) => { e.target.style.display ='none'; }}

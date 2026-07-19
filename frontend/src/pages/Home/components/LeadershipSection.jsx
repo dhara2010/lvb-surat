@@ -8,6 +8,8 @@ import { useFetch } from'../../../hooks/useFetch';
 import { getLeaders } from'../../../api/leadersApi';
 import LuxuryCard from'../../../components/ui/LuxuryCard';
 import GlassSection from'../../../components/ui/GlassSection';
+import { resolveImageUrl } from'../../../utils/imageUrl';
+
 
 export default function LeadershipSection() {
   const { data: leadersData, loading, error } = useFetch(getLeaders);
@@ -114,7 +116,7 @@ export default function LeadershipSection() {
             style={{ width:`${cardWidth}px`, height:`${cardHeight}px` }}
           >
             <div className="w-full h-[65%] md:h-[75%] rounded-[24px] overflow-hidden relative">
-              <img src={leader.img}
+              <img src={resolveImageUrl(leader.img)}
                 alt={leader.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=09475f&textColor=fff`; }}
@@ -135,10 +137,6 @@ export default function LeadershipSection() {
 
   return (
     <GlassSection>
-      {/* Decorative Blur Backgrounds */}
-      
-      
-
       <div className="relative z-10 w-full flex flex-col items-center">
         
         <div className="flex flex-col items-center text-center max-w-2xl mb-12">
@@ -151,7 +149,7 @@ export default function LeadershipSection() {
           </ScrollReveal3D>
           <ScrollReveal3D delay={0.1}>
             <TypingHeading el="h2" className="text-section font-extrabold tracking-tight">
-              Meet Our Leadership <span className='bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent'>Team</span>
+              Meet Our Leadership Team
             </TypingHeading>
           </ScrollReveal3D>
           <ScrollReveal3D delay={0.2}>

@@ -15,12 +15,7 @@ export default function AboutSection() {
     <div className="relative">
       <VerticalRiverStraps className="absolute inset-y-0 w-full h-[150%] opacity-20 pointer-events-none" />
       <GlassSection id="about">
-        {/* Soft animated gradient background & lighting */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        
-        
-
-        {/* Subtle Blue/White Particles (CSS) */}
         <div className="absolute top-1/4 left-1/3 w-2 h-2 rounded-full bg-secondary/60 animate-[float_4s_ease-in-out_infinite] shadow-[0_0_10px_rgba(18,59,93,0.8)]"></div>
         <div className="absolute bottom-1/3 right-1/4 w-3 h-3 rounded-full bg-secondary/40 animate-[float_6s_ease-in-out_infinite_1s] shadow-[0_0_15px_rgba(18,59,93,0.6)]"></div>
         <div className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full bg-primary/40 animate-[float_5s_ease-in-out_infinite_0.5s]"></div>
@@ -44,9 +39,9 @@ export default function AboutSection() {
             </ScrollReveal3D>
 
             <TypingHeading delay={0.2} el="h2" className="mt-8 font-extrabold leading-[1.1] tracking-tight" style={{ fontSize:"clamp(42px, 5vw, 72px)" }}>
-              Building Powerful
+              Building Powerful Business Connections
               <br className="max-sm:hidden" />
-              <span className="bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent"> Business Connections</span>.
+              {/* <span className="bg-clip-text bg-gradient-to-r from-[#4FA3D1] to-[#7DD3FC] text-transparent"> Business Connections</span>. */}
             </TypingHeading>
 
             <TextReveal delay={0.5} splitBy="word" el="p" className="mt-8 font-medium max-w-2xl leading-[1.8]" style={{ fontSize:"18px" }}>

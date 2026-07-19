@@ -1,28 +1,23 @@
-/**
- * ══════════════════════════════════════════
- *  MEETING — Structure + Upcoming Events
- *  All colors via design-system utilities.
- * ══════════════════════════════════════════
- */
-import React, { useState, useEffect } from'react';
-import { usePrimaryTextClass } from'../../hooks/useTheme';
-import { motion } from'framer-motion';
-import { Calendar, MapPin, ArrowRight } from'lucide-react';
-import { Link } from'react-router-dom';
-import { useFetch } from'../../hooks/useFetch';
-import { getEvents } from'../../api/eventsApi';
-import PageHeader from'../../components/ui/PageHeader';
+import React, { useState, useEffect } from 'react';
+import { usePrimaryTextClass } from '../../hooks/useTheme';
+import { motion } from 'framer-motion';
+import { Calendar, MapPin, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useFetch } from '../../hooks/useFetch';
+import { getEvents } from '../../api/eventsApi';
+import PageHeader from '../../components/ui/PageHeader';
+import TypingHeading from '../../components/animations/TypingHeading';
 
 const inView = (delay = 0) => ({
-  initial:     { opacity: 0, y: 50 },
-  whileInView: { opacity: 1, y: 0  },
-  viewport:    { once: false, amount: 0.2 },
-  transition:  { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
+  initial: { opacity: 0, y: 50 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: false, amount: 0.2 },
+  transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
 const meetingDetails = [
-  { icon: Calendar, label:'Every Wednesday',      sub:'7:30 AM – 9:30 AM IST' },
-  { icon: MapPin,   label:'Premium Venue, Surat', sub:'5-Star Hotel, Grand Ballroom' },
+  { icon: Calendar, label: 'Every Wednesday', sub: '7:30 AM – 9:30 AM IST' },
+  { icon: MapPin, label: 'Premium Venue, Surat', sub: '5-Star Hotel, Grand Ballroom' },
 ];
 
 export default function Meeting() {
@@ -33,15 +28,19 @@ export default function Meeting() {
 
   return (
     <div id="meeting" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
-      <PageHeader 
+      <PageHeader
         label="EVENTS & MEETINGS"
-        title="How & When We Meet"
+        title=
+        {
+          <TypingHeading el="h2" className="text-section font-bold">
+            How & When We Meet
+          </TypingHeading>
+        }
         description="Consistency builds credibility. Explore our structured meeting systems and upcoming chapter agendas."
       />
 
       <div className="container-xl section-padding flex flex-col gap-20 pt-0 md:pt-4">
 
-        {/* ─── Chapter Profile ──────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
 
           {/* Photo */}
@@ -49,14 +48,14 @@ export default function Meeting() {
             <div
               className="rounded-2xl overflow-hidden"
               style={{
-                border:'1px solid var(--color-border)',
-                boxShadow:'var(--shadow-card)',
+                border: '1px solid var(--color-border)',
+                boxShadow: 'var(--shadow-card)',
               }}
             >
               <img loading="lazy" decoding="async" src="/12-1.webp"
                 alt="LVB Platinum Chapter weekly meeting"
                 className="w-full aspect-[4/3] object-cover"
-                onError={(e) => { e.target.src ='/KVS_3369-scaled.webp'; }}
+                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
               />
             </div>
           </motion.div>
@@ -88,7 +87,7 @@ export default function Meeting() {
                     >
                       <Icon
                         className="w-5 h-5"
-                        
+
                         aria-hidden
                       />
                     </div>

@@ -129,10 +129,24 @@ export const PremiumTable = ({ headers, rows, emptyText }) => (
   </div>
 );
 
-// Helper function to resolve dynamic image paths
+// Helper function to resolve dynamic image paths based on domain isolation
 export const resolveImageUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-  return `${baseUrl}${url}`;
+  if (url.startsWith('data:image')) return url;
+
+  let normalizedUrl = url.startsWith('/') ? url : '/' + url;
+  
+  // Backwards compatibility for early admin uploads
+  if (/^\/gallery\/\d{13,}-[^/]+$/.test(normalizedUrl)) {
+      normalizedUrl = '/uploads' + normalizedUrl;
+  }
+  
+  if (normalizedUrl.startsWith('/uploads/')) {
+    let baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    baseUrl = baseUrl.replace(/\/+$/, '');
+    return `${baseUrl}${normalizedUrl}`;
+  }
+  
+  return normalizedUrl;
 };

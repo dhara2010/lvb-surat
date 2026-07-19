@@ -7,6 +7,8 @@ import { ChevronRight, ChevronLeft, Quote, Star } from'lucide-react';
 import { testimonials } from'../../../data';
 import LuxuryCard from'../../../components/ui/LuxuryCard';
 import GlassSection from'../../../components/ui/GlassSection';
+import { resolveImageUrl } from'../../../utils/imageUrl';
+
 
 export default function TestimonialsSection() {
   const [cards, setCards] = useState(testimonials.map((t, i) => ({ ...t, id: i })));
@@ -117,7 +119,7 @@ export default function TestimonialsSection() {
             <div className="flex -space-x-4">
               {testimonials.slice(0,3).map((t, idx) => (
                 <div key={idx} className="relative w-12 h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden shadow-sm z-10 border-white">
-                   <img src={t.img} alt={t.name} className="w-full h-full object-cover" 
+                   <img src={resolveImageUrl(t.img)} alt={t.name} className="w-full h-full object-cover" 
                     onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${t.name}&backgroundColor=090E14&textColor=fff`; }} />
                 </div>
               ))}
@@ -188,7 +190,7 @@ export default function TestimonialsSection() {
                       {/* Member Profile */}
                       <div className="flex items-center gap-3 sm:gap-4 mt-6 md:mt-8">
                         <div className={`relative overflow-hidden w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ?'group-hover:scale-110' :''}`} style={{ borderColor: isTop ?'#4FA3D1' :'transparent' }}>
-                          <img loading="lazy" decoding="async" src={card.img}
+                          <img loading="lazy" decoding="async" src={resolveImageUrl(card.img)}
                             alt={card.name}
                             className={`w-full h-full object-cover ${isTop ?'' :'grayscale opacity-70'}`}
                             onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${card.name}&backgroundColor=ffffff&textColor=000`; }}
