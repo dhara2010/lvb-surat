@@ -58,7 +58,7 @@ export default function Contact() {
       <PageHeader
         label="CONTACT US"
         title={
-          <TypingHeading el="h2" className="text-section font-bold">
+          <TypingHeading el="span" className="text-section font-bold">
             Get In Touch
           </TypingHeading>
         }

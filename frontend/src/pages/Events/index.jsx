@@ -32,7 +32,7 @@ export default function Meeting() {
         label="EVENTS & MEETINGS"
         title=
         {
-          <TypingHeading el="h2" className="text-section font-bold">
+          <TypingHeading el="span" className="text-section font-bold">
             How & When We Meet
           </TypingHeading>
         }

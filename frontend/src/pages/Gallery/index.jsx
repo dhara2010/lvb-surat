@@ -19,7 +19,7 @@ export default function Showcase() {
       <PageHeader 
         label="Chapter Gallery"
         title={
-          <TypingHeading el="h2" className="text-section font-bold">
+          <TypingHeading el="span" className="text-section font-bold">
             Moments From Our Meeting
           </TypingHeading>
         }

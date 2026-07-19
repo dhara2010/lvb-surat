@@ -1,4 +1,4 @@
-import "react";
+import React, { useEffect } from "react";
 import { usePrimaryTextClass } from "../../hooks/useTheme";
 import { motion } from "framer-motion";
 import {Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight, } from "lucide-react";
@@ -7,6 +7,7 @@ import { useFetch } from "../../hooks/useFetch";
 import { getMembers } from "../../api/membersApi";
 import PageHeader from "../../components/ui/PageHeader";
 import TypingHeading from '../../components/animations/TypingHeading';
+import { resolveImageUrl } from "../../utils/imageUrl";
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -43,12 +44,16 @@ export default function MembersDirectory() {
   const { data: membersData, loading, error } = useFetch(getMembers);
   const platinumMembers = membersData || [];
 
+  useEffect(() => {
+    console.log("Member API response", membersData);
+  }, [membersData]);
+
   return (
     <div className="w-full min-h-screen bg-white flex flex-col font-sans overflow-x-hidden pb-0">
       <PageHeader
         label="MEMBERS DIRECTORY"
         title={
-          <TypingHeading el="h2" className="text-section font-bold">
+          <TypingHeading el="span" className="text-section font-bold">
             Relationships That Grow Business
           </TypingHeading>
         }
@@ -503,7 +508,11 @@ export default function MembersDirectory() {
               MEMBER CARDS
           ================================================== */}
 
-          {platinumMembers.map((m, i) => (
+          {platinumMembers.map((m, i) => {
+            const finalPhotoUrl = m.photoUrl ? resolveImageUrl(m.photoUrl) : "";
+            const finalLogoUrl = m.logoUrl ? resolveImageUrl(m.logoUrl) : "";
+            console.log(`Final image URL for ${m.name}:`, { finalPhotoUrl, finalLogoUrl });
+            return (
             <motion.div
               key={m.id || m._id || i}
               {...inView((i % 9) * 0.05)}
@@ -614,7 +623,7 @@ export default function MembersDirectory() {
                 >
                   {m.photoUrl ? (
                     <img
-                      src={m.photoUrl}
+                      src={finalPhotoUrl}
                       alt={m.name || "LVB Member"}
                       loading="lazy"
                       decoding="async"
@@ -701,7 +710,7 @@ export default function MembersDirectory() {
                 >
                   {m.logoUrl ? (
                     <img
-                      src={m.logoUrl}
+                      src={finalLogoUrl}
                       alt={`${m.businessName || "Company"} Logo`}
                       loading="lazy"
                       decoding="async"
@@ -878,7 +887,8 @@ export default function MembersDirectory() {
                 </div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
