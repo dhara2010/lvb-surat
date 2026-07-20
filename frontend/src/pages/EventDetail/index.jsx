@@ -192,7 +192,7 @@ export default function EventDetail() {
 
             {/* Tickets */}
             {tickets.length > 0 && (
-              <motion.div {...inView(0.5)} className="rounded-[24px] bg-gray-50 border border-gray-100 shadow-sm p-8 mt-4">
+              <motion.div {...inView(0.5)} className="rounded-lg bg-gray-50 border border-gray-100 shadow-sm p-8 mt-4">
                 <h3 className={`text-2xl font-extrabold ${primaryTextClass} mb-6 pb-4 border-b border-gray-200`}>Tickets</h3>
                 <div className="flex flex-col gap-6">
                   
@@ -234,7 +234,7 @@ export default function EventDetail() {
           <div className="lg:col-span-1">
             <motion.div {...inView(0.3)} className="sticky top-28 flex flex-col gap-8">
               
-              <div className="rounded-[24px] bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 p-8 flex flex-col gap-8">
+              <div className="rounded-lg bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300 p-8 flex flex-col gap-8">
                 {/* Details */}
                 <div>
                   <h4 className={`font-display font-extrabold text-xl ${primaryTextClass} border-b border-gray-200 pb-3 mb-4`}>Details</h4>

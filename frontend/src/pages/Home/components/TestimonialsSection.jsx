@@ -119,7 +119,7 @@ export default function TestimonialsSection() {
             <div className="flex -space-x-4">
               {testimonials.slice(0,3).map((t, idx) => (
                 <div key={idx} className="relative w-12 h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden shadow-sm z-10 border-white">
-                   <img src={resolveImageUrl(t.img)} alt={t.name} className="w-full h-full object-cover" 
+                   <img src={resolveImageUrl(t.img)} alt={t.name} className="w-full h-full object-cover" loading="lazy" decoding="async"
                     onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${t.name}&backgroundColor=090E14&textColor=fff`; }} />
                 </div>
               ))}

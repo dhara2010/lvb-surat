@@ -7,6 +7,8 @@ import { useFetch } from '../../hooks/useFetch';
 import { getEvents } from '../../api/eventsApi';
 import PageHeader from '../../components/ui/PageHeader';
 import TypingHeading from '../../components/animations/TypingHeading';
+import FoldingImage from '../../components/effects/FoldingImage';
+import TiltCard from '../../components/animations/TiltCard';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -45,19 +47,20 @@ export default function Meeting() {
 
           {/* Photo */}
           <motion.div {...inView(0.1)}>
-            <div
-              className="rounded-2xl overflow-hidden"
-              style={{
-                border: '1px solid var(--color-border)',
-                boxShadow: 'var(--shadow-card)',
-              }}
-            >
-              <img loading="lazy" decoding="async" src="/12-1.webp"
-                alt="LVB Platinum Chapter weekly meeting"
-                className="w-full aspect-[4/3] object-cover"
-                onError={(e) => { e.target.src = '/KVS_3369-scaled.webp'; }}
-              />
-            </div>
+            <TiltCard tiltMax={8} scaleMax={1.03}>
+              <div
+                className="relative rounded-xl overflow-hidden transition-all duration-500"
+                style={{
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-card)',
+                }}
+              >
+                <FoldingImage src="/12-1.webp"
+                  alt="LVB Platinum Chapter weekly meeting"
+                  className="w-full aspect-[4/3] object-cover rounded-xl overflow-hidden"
+                />
+              </div>
+            </TiltCard>
           </motion.div>
 
           {/* Text */}

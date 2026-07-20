@@ -146,7 +146,7 @@ export default function GallerySection() {
                   {chunkedGallery[activeIndex].map((img, index) => (
                     <TiltCard key={index} tiltMax={12} scaleMax={1.03} className="h-full">
                       <LuxuryCard className="relative group overflow-hidden p-2 h-full transition-all duration-500">
-                        <div className="relative overflow-hidden rounded-[18px] w-full h-full aspect-[4/3]">
+                        <div className="relative overflow-hidden rounded-md w-full h-full aspect-[4/3]">
                           <img
                             loading="lazy"
                             decoding="async"
@@ -180,7 +180,7 @@ export default function GallerySection() {
         <ScrollReveal3D delay={0.1}>
           <div className="flex justify-center mt-12 w-full">
             <Link to="/gallery">
-                <div className="inline-flex items-center justify-center rounded-[12px] font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
+                <div className="inline-flex items-center justify-center rounded-md font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
                   View Full Experiences
                 </div>
               </Link>

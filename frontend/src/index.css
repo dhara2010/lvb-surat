@@ -2,13 +2,13 @@
 
 :root {
   /* Colors */
-  --color-primary:        #002F6C;   /* Brand Main Color */
-  --color-secondary:      #0ea5e9;   /* Mint/cyan accent -> Using a sky blue/cyan to match #002F6C gracefully */
+  --color-primary:        #002F6C;   
+  --color-secondary:      #0ea5e9;   
   --color-accent:         #0ea5e9;
   
   /* Backgrounds */
-  --color-bg:             #FFFFFF;   /* Pure white */
-  --color-bg-alt:         #FAFAFA;   /* Soft neutral */
+  --color-bg:             #FFFFFF;   
+  --color-bg-alt:         #FAFAFA;   
   --color-bg-dark:        #F9FAFB;
   
   /* Surface / Cards */
@@ -20,99 +20,149 @@
   --color-border-subtle:  #F3F4F6;
   
   /* Typography Colors */
-  --color-heading:        #002F6C;   /* Lusion-style primary blue */
-  --color-body:           #475569;   /* Muted steel gray */
+  --color-heading:        #002F6C;   
+  --color-body:           #475569;   
   --color-muted:          #94A3B8;   
-  --color-dark-ui:        #090E14;   /* Dark UI Text */
+  --color-dark-ui:        #090E14;   
   
   --color-on-primary:     #FFFFFF;
   --color-on-secondary:   #FFFFFF;
   
   /* Font Families */
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-sans:    'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans:    'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Premium Easing for Micro-Interactions (Apple/Linear Style) */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Standardized Border Radii */
+  /* Ensures consistent rounding globally */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-2xl: 48px;
+  --radius-3xl: 64px;
+  
+  /* Layered Premium Shadows (Stripe/Vercel Style) */
+  --shadow-sm: 0 2px 4px rgba(0, 47, 108, 0.02), 0 1px 2px rgba(0, 47, 108, 0.03);
+  --shadow-md: 0 8px 16px rgba(0, 47, 108, 0.04), 0 4px 8px rgba(0, 47, 108, 0.02);
+  --shadow-lg: 0 16px 32px rgba(0, 47, 108, 0.05), 0 8px 16px rgba(0, 47, 108, 0.03);
+  --shadow-xl: 0 24px 48px rgba(0, 47, 108, 0.06), 0 12px 24px rgba(0, 47, 108, 0.04);
+  --shadow-float: 0 32px 64px -12px rgba(0, 47, 108, 0.08), 0 16px 32px -8px rgba(0, 47, 108, 0.04);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 47, 108, 0.04);
 }
 
 @theme {
-  --color-primary:         #002F6C;
-  --color-secondary:       #0ea5e9;
-  --color-accent:          #0ea5e9;
-  --color-bg:              #FFFFFF;
-  --color-bg-alt:          #FAFAFA;
-  --color-heading:         #002F6C;
-  --color-body:            #475569;
-  --color-muted:           #94A3B8;
-  --color-dark-ui:         #090E14;
-  --font-sans:             'Plus Jakarta Sans', sans-serif;
-  --font-display:          'Plus Jakarta Sans', sans-serif;
+  --color-primary:         var(--color-primary);
+  --color-secondary:       var(--color-secondary);
+  --color-accent:          var(--color-accent);
+  --color-bg:              var(--color-bg);
+  --color-bg-alt:          var(--color-bg-alt);
+  --color-heading:         var(--color-heading);
+  --color-body:            var(--color-body);
+  --color-muted:           var(--color-muted);
+  --color-dark-ui:         var(--color-dark-ui);
+  --font-sans:             var(--font-sans);
+  --font-display:          var(--font-display);
+  
+  /* Override default tailwind radii with our consistent scale */
+  --radius-sm:             var(--radius-sm);
+  --radius-md:             var(--radius-md);
+  --radius-lg:             var(--radius-lg);
+  --radius-xl:             var(--radius-xl);
+  --radius-2xl:            var(--radius-2xl);
+  --radius-3xl:            var(--radius-3xl);
+  
+  /* Override default tailwind shadows for professional depth */
+  --shadow-sm:             var(--shadow-sm);
+  --shadow-md:             var(--shadow-md);
+  --shadow-lg:             var(--shadow-lg);
+  --shadow-xl:             var(--shadow-xl);
+  --shadow-2xl:            var(--shadow-float);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after { 
+  box-sizing: border-box; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background-color: var(--color-bg);
   color: var(--color-body);
   font-family: var(--font-sans);
-  font-size: 18px; 
+  font-size: 16px; 
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.6;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-/* Base Typographic Hierarchy */
+/* Fluid Typographic Hierarchy */
 h1, h2, h3, h4, h5, h6, .text-heading {
   font-family: var(--font-display) !important;
   color: var(--color-heading) !important;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
   margin-top: 0;
+  letter-spacing: -0.02em;
 }
 
-
-/* Standardized Typography Classes as requested */
+/* Premium Typography Scale with clamp() for dynamic resizing */
 .text-hero {
-  font-size: 44px !important;
-}
-@media (min-width: 768px) {
-  .text-hero { font-size: 72px !important; }
+  font-size: clamp(2.75rem, 5vw + 1rem, 4.5rem) !important; /* 44px to 72px */
+  letter-spacing: -0.03em !important;
 }
 
 .text-section {
-  font-size: 32px !important;
-}
-@media (min-width: 768px) {
-  .text-section { font-size: 48px !important; }
+  font-size: clamp(2rem, 3vw + 1rem, 3rem) !important; /* 32px to 48px */
+  letter-spacing: -0.02em !important;
 }
 
 .text-card {
-  font-size: 24px !important;
+  font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem) !important; /* 20px to 24px */
   font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
 }
 
 .text-body {
-  font-size: 16px !important;
-}
-@media (min-width: 768px) {
-  .text-body { font-size: 18px !important; }
+  font-size: clamp(1rem, 0.5vw + 0.8rem, 1.125rem) !important; /* 16px to 18px */
+  line-height: 1.7 !important;
 }
 
-/* Glassmorphism Classes */
+/* Glassmorphism Classes - Enhanced with modern textures */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(11, 25, 44, 0.05);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--shadow-glass);
+  border-radius: var(--radius-xl);
+  transition: all 0.5s var(--ease-out-expo);
+}
+
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-float);
+  transform: translateY(-2px);
 }
 
 .glass-dark {
   background: rgba(11, 25, 44, 0.6);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(18, 59, 93, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  border-radius: var(--radius-xl);
+  transition: all 0.5s var(--ease-out-expo);
 }
 
 /* Animations */
@@ -126,44 +176,56 @@ h1, h2, h3, h4, h5, h6, .text-heading {
   100% { transform: translateX(200%); }
 }
 
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Smooth Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
-::-webkit-scrollbar-thumb { background: var(--color-primary-light); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-secondary); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-xl); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-muted); }
 
 ::selection {
   background-color: var(--color-secondary);
-  color: var(--color-primary-dark);
+  color: var(--color-on-secondary);
 }
 
-/* Video Background specific requirements (Removed due to global layout conflicts) */
-
-/* Global Container Standardization */
+/* Global Container Standardization (Perfect 8px system alignment) */
 .container-xl {
   width: 100%;
-  max-width: 80rem; /* max-w-7xl */
+  max-width: 80rem; /* 1280px */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem; /* px-6 */
-  padding-right: 1.5rem; /* px-6 */
-}
-@media (min-width: 768px) {
-  .container-xl {
-    padding-left: 2.5rem; /* px-10 */
-    padding-right: 2.5rem; /* px-10 */
-  }
+  padding-left: clamp(1rem, 5vw, 2.5rem); 
+  padding-right: clamp(1rem, 5vw, 2.5rem); 
 }
 
+/* Consistent Whitespace & Section Transitions */
 .section-padding {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: clamp(4rem, 8vw, 8rem);
+  padding-bottom: clamp(4rem, 8vw, 8rem);
 }
-@media (min-width: 768px) {
-  .section-padding {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
-  }
+
+/* Micro-interactions & Helpers */
+.hover-lift {
+  transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s var(--ease-out-expo);
+}
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: var(--shadow-float);
+}
+
+.hover-glow {
+  transition: box-shadow 0.5s var(--ease-out-expo);
+}
+.hover-glow:hover {
+  box-shadow: 0 0 24px rgba(14, 165, 233, 0.4);
+}
+
+.subtle-transition {
+  transition: all 0.4s var(--ease-out-expo);
 }
 
 /* Global Typography Overrides for White Theme Inner Pages */
@@ -201,5 +263,22 @@ body.theme-inner {
     header, header *
   ) {
     color: #164e63 !important;
+  }
+}
+
+/* Custom Premium Cursor Only on Desktop */
+@media (hover: hover) and (pointer: fine) {
+  body, body *, a, button, input {
+    cursor: none !important;
+  }
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -8,6 +8,8 @@ import { getMembers } from "../../api/membersApi";
 import PageHeader from "../../components/ui/PageHeader";
 import TypingHeading from '../../components/animations/TypingHeading';
 import { resolveImageUrl } from "../../utils/imageUrl";
+import FoldingImage from '../../components/effects/FoldingImage';
+import TiltCard from '../../components/animations/TiltCard';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -64,36 +66,17 @@ export default function MembersDirectory() {
         <div className="max-w-6xl mx-auto flex flex-col items-center">
           <motion.div
             {...inView(0.1)}
-            className="
-              relative
-              w-full
-              rounded-[28px]
-              md:rounded-[40px]
-              overflow-hidden
-              bg-gray-100
-              border
-              border-gray-100
-            "
+            className="w-full"
           >
-            <img
-              src="/gallery/1-1.webp"
-              alt="LVB Surat Platinum Group Meet"
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="
-                block
-                w-full
-                h-[280px]
-                sm:h-[350px]
-                md:h-[450px]
-                lg:h-[500px]
-                object-cover
-                object-center
-                opacity-100
-                filter-none
-              "
-            />
+            <TiltCard tiltMax={8} scaleMax={1.03}>
+              <div className="relative w-full rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 border border-gray-100 transition-all duration-500">
+                <FoldingImage
+                  src="/gallery/1-1.webp"
+                  alt="LVB Surat Platinum Group Meet"
+                  className="w-full h-[280px] sm:h-[350px] md:h-[450px] lg:h-[500px] object-cover rounded-xl overflow-hidden"
+                />
+              </div>
+            </TiltCard>
           </motion.div>
         </div>
       </section>
@@ -112,7 +95,7 @@ export default function MembersDirectory() {
               p-8
               md:p-6
 
-              shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)]
+              shadow-xl
 
               flex
               flex-col
@@ -509,9 +492,17 @@ export default function MembersDirectory() {
           ================================================== */}
 
           {platinumMembers.map((m, i) => {
-            const finalPhotoUrl = m.photoUrl ? resolveImageUrl(m.photoUrl) : "";
-            const finalLogoUrl = m.logoUrl ? resolveImageUrl(m.logoUrl) : "";
-            console.log(`Final image URL for ${m.name}:`, { finalPhotoUrl, finalLogoUrl });
+            const photoSrc =
+                m.photoUrl && m.photoUrl.trim() !== ""
+                    ? resolveImageUrl(m.photoUrl)
+                    : "/members/logo.png";
+
+            const logoSrc =
+                m.logoUrl && m.logoUrl.trim() !== ""
+                    ? resolveImageUrl(m.logoUrl)
+                    : "/members/logo.png";
+
+            console.log(`Final image URL for ${m.name}:`, { photoSrc, logoSrc });
             return (
             <motion.div
               key={m.id || m._id || i}
@@ -519,7 +510,7 @@ export default function MembersDirectory() {
               className="
                 bg-white
 
-                rounded-[30px]
+                rounded-xl
 
                 p-6
                 md:p-8
@@ -529,9 +520,9 @@ export default function MembersDirectory() {
 
                 hover:border-secondary/20
 
-                shadow-[0_8px_30px_rgb(0,0,0,0.04)]
+                shadow-md
 
-                hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)]
+                hover:shadow-xl
 
                 transition-all
                 duration-500
@@ -609,7 +600,7 @@ export default function MembersDirectory() {
 
                     flex-shrink-0
 
-                    rounded-[24px]
+                    rounded-lg
 
                     overflow-hidden
 
@@ -621,61 +612,32 @@ export default function MembersDirectory() {
                     shadow-sm
                   "
                 >
-                  {m.photoUrl ? (
-                    <img
-                      src={finalPhotoUrl}
-                      alt={m.name || "LVB Member"}
-                      loading="lazy"
-                      decoding="async"
-                      className="
-                        block
-
-                        w-full
-                        h-full
-
-                        object-cover
-                        object-top
-
-                        opacity-100
-
-                        filter-none
-
-                        brightness-100
-                        contrast-100
-                        saturate-100
-
-                        transition-transform
-
-                        duration-700
-
-                        ease-out
-
-                        group-hover:scale-[1.04]
-                      "
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <div
-                      className="
-                        w-full
-                        h-full
-
-                        flex
-                        items-center
-                        justify-center
-
-                        bg-gray-100
-                      "
-                    >
-                      <Users
-                        size={38}
-                        strokeWidth={1.2}
-                        className="opacity-30"
-                      />
-                    </div>
-                  )}
+                  <img
+                    src={photoSrc}
+                    alt={m.name || "LVB Member"}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/members/logo.png";
+                    }}
+                    className="
+                      block
+                      w-full
+                      h-full
+                      object-cover
+                      object-top
+                      opacity-100
+                      filter-none
+                      brightness-100
+                      contrast-100
+                      saturate-100
+                      transition-transform
+                      duration-700
+                      ease-out
+                      group-hover:scale-[1.04]
+                    "
+                  />
                 </div>
 
                 {/* COMPANY LOGO */}
@@ -688,7 +650,7 @@ export default function MembersDirectory() {
                     md:w-[115px]
                     md:h-[115px]
 
-                    rounded-[20px]
+                    rounded-lg
 
                     bg-white
 
@@ -708,39 +670,27 @@ export default function MembersDirectory() {
                     flex-shrink-0
                   "
                 >
-                  {m.logoUrl ? (
-                    <img
-                      src={finalLogoUrl}
-                      alt={`${m.businessName || "Company"} Logo`}
-                      loading="lazy"
-                      decoding="async"
-                      className="
-                        block
-
-                        w-full
-                        h-full
-
-                        object-contain
-
-                        opacity-100
-
-                        filter-none
-
-                        brightness-100
-                        contrast-100
-                        saturate-100
-                      "
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <Building2
-                      size={34}
-                      strokeWidth={1.2}
-                      className="opacity-25"
-                    />
-                  )}
+                  <img
+                    src={logoSrc}
+                    alt={`${m.businessName || "Company"} Logo`}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "/members/logo.png";
+                    }}
+                    className="
+                      block
+                      w-full
+                      h-full
+                      object-contain
+                      opacity-100
+                      filter-none
+                      brightness-100
+                      contrast-100
+                      saturate-100
+                    "
+                  />
                 </div>
               </div>
 
@@ -1024,9 +974,9 @@ export default function MembersDirectory() {
                     border
                     border-gray-100
 
-                    shadow-[0_4px_20px_rgb(0,0,0,0.02)]
+                    shadow-sm
 
-                    hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)]
+                    hover:shadow-xl
 
                     hover:-translate-y-2
 
@@ -1122,7 +1072,7 @@ export default function MembersDirectory() {
 
                 hover:bg-secondary
 
-                hover:shadow-[0_15px_30px_rgba(18,59,93,0.3)]
+                hover:shadow-xl
 
                 hover:-translate-y-1
               "

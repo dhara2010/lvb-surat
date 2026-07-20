@@ -70,7 +70,7 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 pl-1 pr-1">
 
           {/* Left Column: Info Panel */}
-          <motion.div {...inView(0)} className="lg:col-span-2 flex flex-col justify-between rounded-[40px] bg-gray-50 p-10 md:p-14 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden">
+          <motion.div {...inView(0)} className="lg:col-span-2 flex flex-col justify-between rounded-2xl bg-gray-50 p-10 md:p-14 border border-gray-100 shadow-md relative overflow-hidden">
             {/* Decorative background shapes */}
 
 
@@ -95,7 +95,7 @@ export default function Contact() {
                   const Icon = d.icon;
                   return (
                     <div key={i} className="flex items-start gap-4 group cursor-default">
-                      <div className="w-14 h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center shrink-0 shadow-sm group-hover:border-secondary/30 group-hover:shadow-[0_8px_20px_rgba(18,59,93,0.12)] transition-all duration-400 group-hover:-translate-y-1">
+                      <div className="w-14 h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center shrink-0 shadow-sm group-hover:border-secondary/30 group-hover:shadow-lg hover-lift transition-all duration-400 group-hover:-translate-y-1">
                         <Icon className="w-6 h-6" strokeWidth={1.5} aria-hidden />
                       </div>
                       <div className="flex flex-col justify-center pt-2">
@@ -122,7 +122,7 @@ export default function Contact() {
           </motion.div>
 
           {/* Right Column: Premium Form */}
-          <motion.div {...inView(0.1)} className="lg:col-span-3 rounded-[40px] bg-white p-10 md:p-14 border border-gray-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] relative">
+          <motion.div {...inView(0.1)} className="lg:col-span-3 rounded-2xl bg-white p-10 md:p-14 border border-gray-100 shadow-xl relative">
 
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -133,7 +133,7 @@ export default function Contact() {
                   exit={{ opacity: 0 }}
                   className="flex flex-col items-center justify-center h-full gap-5 py-20 text-center"
                 >
-                  <div className="w-20 h-20 rounded-[24px] bg-green-50 border-2 border-green-400 flex items-center justify-center mb-4 shadow-[0_10px_30px_rgba(74,222,128,0.2)]">
+                  <div className="w-20 h-20 rounded-lg bg-green-50 border-2 border-green-400 flex items-center justify-center mb-4 shadow-[0_10px_30px_rgba(74,222,128,0.2)]">
                     <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -223,7 +223,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`mt-6 w-full sm:w-auto sm:self-end inline-flex items-center justify-center gap-3 rounded-[12px] bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white font-bold text-[13px] md:text- uppercase tracking-widest xl:py-3.5 xl:px-10 py-3 px-8 border border-transparent transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}>
+                    className={`mt-6 w-full sm:w-auto sm:self-end inline-flex items-center justify-center gap-3 rounded-md bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-white font-bold text-[13px] md:text- uppercase tracking-widest xl:py-3.5 xl:px-10 py-3 px-8 border border-transparent transition-all duration-300 shadow-sm hover:shadow-md hover:scale-105 ${isSubmitting ? "opacity-70 cursor-not-allowed" : ""}`}>
                     {isSubmitting ? "Processing..." : "Submit Inquiry"}
                     <ArrowRight className="w-5 h-5 flex-shrink-0" aria-hidden />
                   </button>
@@ -252,7 +252,7 @@ export default function Contact() {
                 <motion.div
                   key={i}
                   {...inView(i * 0.05)}
-                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ? 'shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]' : 'shadow-sm hover:shadow-md'}`}
+                  className={`rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 ${isOpen ? 'shadow-xl' : 'shadow-sm hover:shadow-md'}`}
                 >
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : i)}

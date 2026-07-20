@@ -115,9 +115,9 @@ export default function LeadershipSection() {
             className={`flex flex-col p-4 md:p-5 transition-all duration-700 ${isActive ?'' :'shadow-none grayscale filter pointer-events-none'}`}
             style={{ width:`${cardWidth}px`, height:`${cardHeight}px` }}
           >
-            <div className="w-full h-[65%] md:h-[75%] rounded-[24px] overflow-hidden relative">
+            <div className="w-full h-[65%] md:h-[75%] rounded-lg overflow-hidden relative">
               <img src={resolveImageUrl(leader.img)}
-                alt={leader.name}
+                alt={leader.name} loading="lazy" decoding="async"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${leader.name}&backgroundColor=09475f&textColor=fff`; }}
               />

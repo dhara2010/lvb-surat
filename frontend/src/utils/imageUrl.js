@@ -1,6 +1,6 @@
 export function resolveImageUrl(image) {
     if (!image) {
-        return "/gallery/placeholder.webp";
+        return "";
     }
 
     if (image.startsWith("http")) {

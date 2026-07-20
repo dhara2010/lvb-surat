@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useState, useEffect, Suspense, Component } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion, useInView } from 'framer-motion';
@@ -22,27 +22,40 @@ const vertexShader = `
     vUv = uv;
     vec3 pos = position;
 
-    // 1. REVEAL UNFOLDING (Paper unfolding from center)
+    // 1. TISSUE PAPER WAVE UNFOLDING (Rippled reveal)
     // Curvature logic: fold the edges towards the middle
-    float fold = pow(abs(pos.x * 2.0), 2.0) * (1.0 - uReveal) * 2.0;    
+    float fold = pow(abs(pos.x * 2.0), 2.0) * (1.0 - uReveal) * 2.5;    
+    
+    // Intense crumpled tissue wave when hidden (uReveal = 0)
+    float crinkleWave = sin(uv.x * 20.0) * cos(uv.y * 20.0) * 0.8 * (1.0 - uReveal);
+    
     pos.z -= fold;
+    pos.z += crinkleWave;
     
     // Scale on reveal
-    pos *= mix(0.5, 1.0, uReveal);
+    pos *= mix(0.7, 1.0, uReveal);
 
-    // 2. MOUSE BEND DEFORMATION
+    // 2. CONTINUOUS TISSUE PAPER FLUTTER 
+    // Always active rippling surface structural waves representing thin tissue
+    float tissueX = sin(uv.x * PI * 4.0 + uTime * 0.8) * 0.04;
+    float tissueY = cos(uv.y * PI * 3.0 + uTime * 0.6) * 0.04;
+    pos.z += tissueX + tissueY;
+
+    // 3. MOUSE INTENSE HOVER DEFORMATION 
     // Track distance to mouse pointer locally
     float distToMouse = distance(uv, uMouse);
-    float mouseReact = exp(-distToMouse * 3.0) * 0.2 * uHover;
     
-    // Slight overall wave lifting the paper towards the cursor
-    float wave = sin(uv.x * PI + uTime) * cos(uv.y * PI + uTime) * 0.05 * uHover;
+    // Intense localized magnetic ripple reacting to mouse movement across surface
+    float hoverRipple = sin((distToMouse * 40.0) - (uTime * 20.0)) * 0.06 * exp(-distToMouse * 6.0) * uHover;
     
-    // Bend logic: corners react opposite to center mass
+    // Deep suction pulling the paper up towards the mouse pointer
+    float suction = exp(-distToMouse * 5.0) * 0.25 * uHover;
+    
+    // Bend logic: corners heavily drop backward to simulate the paper being grabbed
     vec2 centerDist = uv - 0.5;
-    float cornerBend = dot(centerDist, centerDist) * -0.5 * uHover;
+    float cornerBend = dot(centerDist, centerDist) * -0.8 * uHover;
     
-    pos.z += mouseReact + wave + cornerBend;
+    pos.z += suction + hoverRipple + cornerBend;
 
     vElevation = pos.z;
 
@@ -78,6 +91,7 @@ const fragmentShader = `
 const PaperPlane = ({ src, inView }) => {
   const meshRef = useRef();
   const texture = useTexture(src);
+  const { viewport } = useThree();
   
   // Track continuous target values for spring inertia
   const target = useRef({
@@ -96,8 +110,20 @@ const PaperPlane = ({ src, inView }) => {
     uTexture: { value: texture }
   }), [texture]);
 
-  // Adjust aspect ratio manually
-  const aspect = texture.image ? texture.image.width / texture.image.height : 1;
+  // Dynamic object-cover sizing calculation
+  const imageAspect = texture.image ? texture.image.width / texture.image.height : 1;
+  const viewportAspect = viewport.width / viewport.height;
+  
+  let scaleX, scaleY;
+  if (imageAspect > viewportAspect) {
+    // Image is wider than viewport -> match height
+    scaleY = viewport.height;
+    scaleX = scaleY * imageAspect;
+  } else {
+    // Viewport is wider than image -> match width
+    scaleX = viewport.width;
+    scaleY = scaleX / imageAspect;
+  }
 
   useEffect(() => {
     // When section enters viewport, trigger unfold parameter
@@ -139,7 +165,7 @@ const PaperPlane = ({ src, inView }) => {
         target.current.rotY = 0;
       }}
       onPointerMove={handlePointerMove}
-      scale={[aspect * 4, 4, 1]}
+      scale={[scaleX, scaleY, 1]}
     >
       {/* High division plane to allow dense vertex bending */}
       <planeGeometry args={[1, 1, 64, 64]} />
@@ -220,8 +246,8 @@ export default function FoldingImage({ src, alt, className = '' }) {
   return (
     <div 
       ref={containerRef} 
-      className={`interactive-img-container relative group bg-transparent ${className}`}
-      style={{ minHeight: '1px' }} // prevent zero-height collapse
+      className={`interactive-img-container relative group bg-transparent overflow-hidden ${className}`}
+      style={{ minHeight: '1px', transform: 'translateZ(0)', WebkitMaskImage: '-webkit-radial-gradient(white, black)' }} // forces hardware composite layer strict clipping
     >
       {webGLState === 'unsupported' && FallbackImage}
       

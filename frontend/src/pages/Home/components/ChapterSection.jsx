@@ -20,8 +20,8 @@ export default function ChapterSection() {
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20 mb-20">
             <ScrollReveal3D className="flex-1 w-full relative">
               <TiltCard tiltMax={8} scaleMax={1.03}>
-                <div className="relative rounded-[32px] overflow-hidden transition-all duration-500">
-                  <FoldingImage src="/29-1.webp" alt="LVB Meeting" className="w-full h-[400px] md:h-[500px] rounded-[24px] overflow-hidden" />
+                <div className="relative rounded-xl overflow-hidden transition-all duration-500">
+                  <FoldingImage src="/29-1.webp" alt="LVB Meeting" className="w-full h-[400px] md:h-[500px] rounded-lg overflow-hidden" />
                   <div className="absolute bottom-6 left-6 z-20 flex items-center gap-3 bg-black/50 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full">
                     <MapPin className="w-5 h-5" />
                     <span className="text-sm font-semibold tracking-wider uppercase">Surat, Gujarat</span>
@@ -44,7 +44,7 @@ export default function ChapterSection() {
               </div>
 
               <Link to="/about">
-                <div className="inline-flex items-center justify-center rounded-[12px] font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
+                <div className="inline-flex items-center justify-center rounded-md font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
                  Explore More
                 </div>
               </Link>
@@ -54,13 +54,11 @@ export default function ChapterSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
             {stats2.map((s, i) => (
               <ScrollReveal3D delay={i * 0.15} key={i}>
-                <TiltCard tiltMax={10}>
                   <LuxuryCard className="p-8 flex flex-col items-center justify-center text-center group h-full">
                     <s.icon className="w-10 h-10 mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:text-gray-400" strokeWidth={1.5} />
                     <div className="text-section  font-display font-black mb-2 tracking-tight">{s.value}</div>
                     <div className="text-xs uppercase tracking-[0.2em] font-bold transition-colors group-hover:text-gray-400" >{s.label}</div>
                   </LuxuryCard>
-                </TiltCard>
               </ScrollReveal3D>
             ))}
           </div>

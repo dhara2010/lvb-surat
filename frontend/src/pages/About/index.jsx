@@ -10,6 +10,7 @@ import { aboutHero, coreValues, founders, founderMessage } from '../../data/abou
 import { Quote } from 'lucide-react';
 import VerticalRiverStraps from '../../components/effects/VerticalRiverStraps';
 import FoldingImage from '../../components/effects/FoldingImage';
+import TiltCard from '../../components/animations/TiltCard';
 import { resolveImageUrl } from '../../utils/imageUrl';
 import TypingHeading from '../../components/animations/TypingHeading';
 
@@ -26,23 +27,29 @@ export default function About() {
             <TypingHeading el="span" className="text-section font-bold">
               {aboutHero.title}
             </TypingHeading>
-            <br className="hidden md:block" />
-            <span className="bg-clip-text bg-gradient-to-r from-secondary to-teal-400">
-              {aboutHero.highlight}
-            </span>
           </>
         }
-        description={aboutHero.description}
+        description={
+          <>
+            <span className="text-2xl text-secondary font-semibold">
+              {aboutHero.highlight}
+            </span>
+            <br />
+            {aboutHero.description}
+          </>
+        }
       />
       <div className="relative z-10 w-full mb-16 md:mb-24 mt-10">
         <ScrollReveal3D delay={0.3}>
-          <div className="relative w-full max-w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden">
-            <FoldingImage
-              src={resolveImageUrl("/about/KVS_3369-2048x1365.webp")}
-              alt="LVB Surat Community"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <TiltCard tiltMax={8} scaleMax={1.03}>
+            <div className="relative w-full max-w-full aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden transition-all duration-500">
+              <FoldingImage
+                src={resolveImageUrl("/about/KVS_3369-2048x1365.webp")}
+                alt="LVB Surat Community"
+                className="w-full h-full object-cover rounded-xl overflow-hidden"
+              />
+            </div>
+          </TiltCard>
         </ScrollReveal3D>
       </div>
 
@@ -76,7 +83,7 @@ export default function About() {
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 max-w-5xl mx-auto mb-20">
             {founders.map((founder, i) => (
               <ScrollReveal3D delay={0.2 + (i * 0.2)} key={i}>
-                <div className="group relative rounded-[30px] overflow-hidden bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
+                <div className="group relative rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="aspect-[4/5] w-full overflow-visible bg-gray-200">
                     <FoldingImage
                       src={resolveImageUrl(founder.img)}
@@ -94,7 +101,7 @@ export default function About() {
           </div>
 
           <ScrollReveal3D delay={0.4} className="max-w-4xl mx-auto text-center">
-            <div className="relative p-10 md:p-14 bg-white shadow-2xl rounded-[40px] shadow-2xl overflow-hidden">
+            <div className="relative p-10 md:p-14 bg-white shadow-2xl rounded-2xl shadow-2xl overflow-hidden">
 
               <Quote className="w-16 h-16  absolute top-8 left-8 -scale-x-100" />
               <Quote className="w-16 h-16  absolute bottom-8 right-8" />
@@ -105,7 +112,7 @@ export default function About() {
 
               <div className="mt-10 relative z-10">
                 <Link to="/members">
-                  <div className="inline-flex items-center justify-center rounded-[12px] font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
+                  <div className="inline-flex items-center justify-center rounded-md font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
                     View All Members
                   </div>
                 </Link>

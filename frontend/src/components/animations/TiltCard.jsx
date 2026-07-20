@@ -1,72 +1,48 @@
-import React, { useRef, useState } from "react";
-import { motion, useMotionTemplate, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
-const TiltCard = ({ children, className = "", scaleMax = 1.05, tiltMax = 15, themeVariant = "dark" }) => {
-  const ref = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
+export default function TiltCard({ children, tiltMax = 15, scaleMax = 1.02, className = '' }) {
+  const cardRef = useRef(null);
   
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // 3D Tilt Spring
+  const rotateX = useSpring(0, { stiffness: 400, damping: 30 });
+  const rotateY = useSpring(0, { stiffness: 400, damping: 30 });
 
-  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [tiltMax, -tiltMax]), { stiffness: 300, damping: 40 });
-  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-tiltMax, tiltMax]), { stiffness: 300, damping: 40 });
-  const scale = useSpring(isHovered ? scaleMax : 1, { stiffness: 300, damping: 30 });
-  
-  const background = useMotionTemplate`radial-gradient(400px circle at ${mouseX}px ${mouseY}px, ${themeVariant === 'dark' ? 'rgba(14,165,168,0.15)' : 'rgba(14,165,168,0.1)'}, transparent 80%)`;
-
-  const handleMouseMove = (e) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
+  function handleMouseMove(e) {
+    if (!cardRef.current) return;
+    const { left, top, width, height } = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
     
-    // For tilt
-    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
-    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
+    // Maps x and y coordinates relative to center
+    const mappedX = (x / width - 0.5) * tiltMax; 
+    const mappedY = (y / height - 0.5) * -tiltMax; 
     
-    // For glow
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
-  };
+    rotateX.set(mappedY);
+    rotateY.set(mappedX);
+  }
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    x.set(0);
-    y.set(0);
-  };
+  function handleMouseLeave() {
+    rotateX.set(0);
+    rotateY.set(0);
+  }
 
   return (
     <motion.div
-      ref={ref}
+      ref={cardRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX,
-        rotateY,
-        scale,
-        transformStyle: "preserve-3d",
+          perspective: 1200,
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d" // IMPORTANT for nested 3D components like FoldingImage
       }}
-      className={`relative w-full group ${className}`}
+      whileHover={{ scale: scaleMax }}
+      transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+      className={`relative ${className}`}
     >
-      {/* Animated Glow Border */}
-      <motion.div
-        className="absolute -inset-[2px] rounded-[inherit] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background }}
-      />
-      
-      {/* Main minimal floating card */}
-      <div 
-        style={{ transform: "translateZ(30px)", transformStyle: "preserve-3d" }} 
-        className={`relative w-full h-full shadow-[0_15px_30px_rgb(0,0,0,0.03)] rounded-[inherit] overflow-hidden bg-white border border-[#E5E7EB] hover:border-gray-200 transition-colors duration-300`}
-      >
-        <motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background }} />
-        {children}
-      </div>
+      {children}
     </motion.div>
   );
-};
-
-export default TiltCard;
+}

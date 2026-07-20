@@ -56,7 +56,7 @@ export default function EventsSection() {
                       <LuxuryCard className="h-full group p-6 sm:p-8">
                         
                         <div className="flex items-start justify-between mb-6">
-                          <div className="flex flex-col items-center justify-center rounded-[16px] w-16 h-16 shadow-lg shrink-0 transition-all duration-500 group-hover:bg-transparent" style={{ backgroundColor:'#090E14' }}>
+                          <div className="flex flex-col items-center justify-center rounded-md w-16 h-16 shadow-lg shrink-0 transition-all duration-500 group-hover:bg-transparent" style={{ backgroundColor:'#090E14' }}>
                             <span className="text-xl font-black leading-none transition-colors group-hover:text-primary" >{e.date ||'17'}</span>
                             <span className="text-[10px] font-bold uppercase  mt-1 tracking-widest transition-colors" >{e.month ||'OCT'}</span>
                           </div>
