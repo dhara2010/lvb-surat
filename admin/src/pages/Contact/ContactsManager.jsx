@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeader } from '../../components/AdminUI';
 
-export default function ContactsManager({ token }) {
+export default function ContactsManager({ token, showToast }) {
   const [data, setData] = useState([]);
   
   useEffect(() => {
@@ -11,7 +11,10 @@ export default function ContactsManager({ token }) {
     })
       .then(res => res.json())
       .then(setData)
-      .catch(err => console.error(err));
+      .catch(err => {
+        console.error(err);
+        if (showToast) showToast('Failed to load inquiries', 'error');
+      });
   }, [token]);
 
   return (

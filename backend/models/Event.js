@@ -17,6 +17,12 @@ const EventSchema = new mongoose.Schema({
   descriptionPart1: String,
   descriptionPart2: String,
   
+  // Attendance settings
+  eventDate: { type: String }, // YYYY-MM-DD
+  attendanceEnabled: { type: Boolean, default: true },
+  attendanceOpenTime: { type: String, default: '07:00' }, // HH:mm (IST)
+  attendanceCloseTime: { type: String, default: '08:00' }, // HH:mm (IST)
+  
   sessions: [{
     iconType: String,
     title: String,
@@ -30,7 +36,9 @@ const EventSchema = new mongoose.Schema({
   tickets: [{
     category: String,
     description: String,
-    price: String
+    price: String,
+    status: { type: String, default: 'Available' },
+    bookingUrl: String
   }]
 }, { timestamps: true });
 

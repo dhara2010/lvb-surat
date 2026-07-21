@@ -9,7 +9,7 @@ const parseJwt = (token) => {
   }
 };
 
-export default function AdminsManager({ token }) {
+export default function AdminsManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({ username: '', password: '' });
   const [editingId, setEditingId] = useState(null);
@@ -47,9 +47,10 @@ export default function AdminsManager({ token }) {
       if (res.ok) {
         setEditingId(null);
         setForm({ username: '', password: '' });
+        showToast('Admin account updated successfully', 'success');
       } else {
         const errData = await res.json();
-        alert(errData.message || 'Failed to update admin account');
+        showToast(errData.message || 'Failed to update admin account', 'error');
       }
     } else {
       const res = await fetch(`${apiUrl}/api/auth/admins`, {
@@ -59,9 +60,10 @@ export default function AdminsManager({ token }) {
       });
       if (res.ok) {
         setForm({ username: '', password: '' });
+        showToast('Admin account registered successfully', 'success');
       } else {
         const errData = await res.json();
-        alert(errData.message || 'Failed to create admin account');
+        showToast(errData.message || 'Failed to create admin account', 'error');
       }
     }
     loadData();
@@ -70,11 +72,12 @@ export default function AdminsManager({ token }) {
   const handleEdit = (d) => {
     setEditingId(d.id);
     setForm({ username: d.username, password: '' }); // keep password empty for edit unless they change it
+    if (scrollToTop) scrollToTop();
   };
 
   const handleDelete = async (id) => {
     if (id === currentAdminInfo.id) {
-      alert("You cannot delete the account you are currently logged in with!");
+      showToast("You cannot delete the account you are currently logged in with!", 'error');
       return;
     }
     if (!window.confirm('Delete this admin account?')) return;
@@ -84,10 +87,11 @@ export default function AdminsManager({ token }) {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {
+      showToast('Admin account deleted successfully', 'success');
       loadData();
     } else {
       const errData = await res.json();
-      alert(errData.message || 'Failed to delete account');
+      showToast(errData.message || 'Failed to delete account', 'error');
     }
   };
 

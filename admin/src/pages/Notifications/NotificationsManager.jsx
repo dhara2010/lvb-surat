@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SectionHeader, InputGroup, TextareaGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn } from '../../components/AdminUI';
 
-export default function NotificationsManager({ token }) {
+export default function NotificationsManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({ title: '', message: '', type: 'info' });
   const [editingId, setEditingId] = useState(null);
@@ -20,37 +20,63 @@ export default function NotificationsManager({ token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    if (editingId) {
-      await fetch(`${apiUrl}/api/notifications/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(form)
-      });
-      setEditingId(null);
-    } else {
-      await fetch(`${apiUrl}/api/notifications`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(form)
-      });
+    try {
+      if (editingId) {
+        const res = await fetch(`${apiUrl}/api/notifications/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(form)
+        });
+        if (res.ok) {
+          showToast('Announcement updated successfully', 'success');
+        } else {
+          showToast('Failed to update announcement', 'error');
+        }
+        setEditingId(null);
+      } else {
+        const res = await fetch(`${apiUrl}/api/notifications`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(form)
+        });
+        if (res.ok) {
+          showToast('Announcement broadcasted successfully', 'success');
+        } else {
+          showToast('Failed to broadcast announcement', 'error');
+        }
+      }
+      setForm({ title: '', message: '', type: 'info' });
+      loadData();
+    } catch (err) {
+      console.error(err);
+      showToast('An unexpected error occurred', 'error');
     }
-    setForm({ title: '', message: '', type: 'info' });
-    loadData();
   };
 
   const handleEdit = (d) => {
     setEditingId(d.id);
     setForm({ title: d.title, message: d.message, type: d.type || 'info' });
+    if (scrollToTop) scrollToTop();
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete announcement?')) return;
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    await fetch(`${apiUrl}/api/notifications/${id}`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    loadData();
+    try {
+      const res = await fetch(`${apiUrl}/api/notifications/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        showToast('Announcement deleted successfully', 'success');
+        loadData();
+      } else {
+        showToast('Failed to delete announcement', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to delete announcement', 'error');
+    }
   };
 
   return (

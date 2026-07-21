@@ -4,10 +4,11 @@ import { SectionHeader, InputGroup, TextareaGroup, SubmitButton, PremiumTable, D
 const initialForm = {
   title: '', date: '', month: '', year: '', time: '', cost: '',
   venue: '', mapLink: '', organizer: '', image: '', descriptionPart1: '', descriptionPart2: '',
+  eventDate: '', attendanceEnabled: true, attendanceOpenTime: '07:00', attendanceCloseTime: '08:00',
   sessions: [], tickets: []
 };
 
-export default function EventsManager({ token }) {
+export default function EventsManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
   const [form, setForm] = useState(initialForm);
   const [editingId, setEditingId] = useState(null);
@@ -27,46 +28,68 @@ export default function EventsManager({ token }) {
     e.preventDefault();
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const payload = { ...form };
+      delete payload.id;
+      delete payload._id;
+      delete payload.attendanceInfo;
+      delete payload.attendanceStatus;
+
       if (editingId) {
         const res = await fetch(`${apiUrl}/api/events/${editingId}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(form)
+          body: JSON.stringify(payload)
         });
+        const errData = await res.json().catch(() => ({}));
         if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || errData.message || 'Failed to update event');
+          if (res.status === 401 || res.status === 403) {
+            throw new Error(errData.error || 'Your admin session has expired. Please logout and log back in.');
+          }
+          throw new Error(errData.error || errData.message || `HTTP ${res.status}: Failed to update event`);
         }
         setEditingId(null);
-        alert('Event updated successfully');
+        showToast('Event updated successfully', 'success');
       } else {
         const res = await fetch(`${apiUrl}/api/events`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-          body: JSON.stringify(form)
+          body: JSON.stringify(payload)
         });
+        const errData = await res.json().catch(() => ({}));
         if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || errData.message || 'Failed to create event');
+          if (res.status === 401 || res.status === 403) {
+            throw new Error(errData.error || 'Your admin session has expired. Please logout and log back in.');
+          }
+          throw new Error(errData.error || errData.message || `HTTP ${res.status}: Failed to create event`);
         }
-        alert('Event created successfully');
+        showToast('Event created successfully', 'success');
       }
       setForm(initialForm);
       loadData();
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   };
 
   const handleEdit = (d) => {
     setEditingId(d.id);
+    const cleanForm = { ...d };
+    delete cleanForm.id;
+    delete cleanForm._id;
+    delete cleanForm.attendanceInfo;
+    delete cleanForm.attendanceStatus;
+
     setForm({
       ...initialForm,
-      ...d,
+      ...cleanForm,
+      attendanceEnabled: d.attendanceEnabled !== undefined ? d.attendanceEnabled : true,
+      attendanceOpenTime: d.attendanceOpenTime !== undefined && d.attendanceOpenTime !== null && d.attendanceOpenTime !== '' ? d.attendanceOpenTime : '07:00',
+      attendanceCloseTime: d.attendanceCloseTime !== undefined && d.attendanceCloseTime !== null && d.attendanceCloseTime !== '' ? d.attendanceCloseTime : '08:00',
+      eventDate: d.eventDate || '',
       sessions: d.sessions || [],
       tickets: d.tickets || []
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (scrollToTop) scrollToTop();
   };
 
   const handleDelete = async (id) => {
@@ -77,51 +100,58 @@ export default function EventsManager({ token }) {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!res.ok) throw new Error('Failed to delete event');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        if (res.status === 401 || res.status === 403) {
+          throw new Error(errData.error || 'Your admin session has expired. Please logout and log back in.');
+        }
+        throw new Error(errData.error || errData.message || 'Failed to delete event');
+      }
+      showToast('Event deleted successfully', 'success');
       loadData();
     } catch (err) {
-      alert(err.message);
+      showToast(err.message, 'error');
     }
   };
 
   const addSession = () => {
     setForm({
       ...form,
-      sessions: [
-        ...form.sessions,
-        { iconType: 'mic', title: '', primaryLabel: '', primaryText: '', secondaryLabel: '', secondaryText: '', description: '' }
-      ]
+      sessions: [...form.sessions, { iconType: 'mic', title: '', primaryLabel: '', primaryText: '', secondaryLabel: '', secondaryText: '', description: '' }]
     });
   };
 
-  const rmSession = (i) => {
-    setForm({ ...form, sessions: form.sessions.filter((_, idx) => idx !== i) });
+  const rmSession = (index) => {
+    setForm({
+      ...form,
+      sessions: form.sessions.filter((_, i) => i !== index)
+    });
   };
 
-  const updateSession = (i, field, val) => {
-    const s = [...form.sessions];
-    s[i][field] = val;
-    setForm({ ...form, sessions: s });
+  const updateSession = (index, field, val) => {
+    const next = [...form.sessions];
+    next[index][field] = val;
+    setForm({ ...form, sessions: next });
   };
 
   const addTicket = () => {
     setForm({
       ...form,
-      tickets: [
-        ...form.tickets,
-        { category: '', description: '', price: 0 }
-      ]
+      tickets: [...form.tickets, { category: '', description: '', price: 0, status: 'Available', bookingUrl: '' }]
     });
   };
 
-  const rmTicket = (i) => {
-    setForm({ ...form, tickets: form.tickets.filter((_, idx) => idx !== i) });
+  const rmTicket = (index) => {
+    setForm({
+      ...form,
+      tickets: form.tickets.filter((_, i) => i !== index)
+    });
   };
 
-  const updateTicket = (i, field, val) => {
-    const t = [...form.tickets];
-    t[i][field] = val;
-    setForm({ ...form, tickets: t });
+  const updateTicket = (index, field, val) => {
+    const next = [...form.tickets];
+    next[index][field] = val;
+    setForm({ ...form, tickets: next });
   };
 
   const handleImageUpload = async (e) => {
@@ -129,39 +159,51 @@ export default function EventsManager({ token }) {
     if (!file) return;
     const formData = new FormData();
     formData.append('image', file);
+
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/upload', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
       });
-      const uploadData = await res.json();
+      const data = await res.json();
       if (res.ok) {
-        setForm(prev => ({ ...prev, image: uploadData.imageUrl }));
+        setForm(prev => ({ ...prev, image: data.imageUrl }));
+        showToast('Image uploaded successfully', 'success');
       } else {
-        alert(uploadData.message || 'Upload failed');
+        showToast(data.message || 'Upload failed', 'error');
       }
     } catch (err) {
       console.error(err);
-      alert('Upload error');
+      showToast('Upload error', 'error');
     }
   };
 
   return (
     <div className="flex flex-col gap-6 pb-20 text-slate-100">
-      <SectionHeader title="Event Schedule" desc="Manage robust event details, timelines, sessions, and pricing configurations." />
-      
+      <SectionHeader 
+        title="Event Schedule" 
+        desc="Manage robust event details, timelines, attendance rules, sessions, and pricing configurations." 
+      />
+
       <div className="bg-slate-900/30 border border-slate-800 p-6 rounded-3xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          
           <h3 className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-slate-800 pb-2">Basic Info</h3>
+          
           <div className="flex flex-col md:flex-row flex-wrap gap-4 items-end">
             <InputGroup label="Title" placeholder="Event Title" val={form.title} setVal={v => setForm({ ...form, title: v })} w="flex-1 w-full" />
             <InputGroup label="Organizer" placeholder="LVB Surat" val={form.organizer} setVal={v => setForm({ ...form, organizer: v })} w="w-full md:w-1/3" req={false} />
             <div className="flex flex-col gap-1.5 w-full md:w-1/4">
               <label className="text-xs font-bold uppercase tracking-wider pl-1 text-slate-400">Event Image</label>
               <div className="flex items-center gap-2">
-                <input type="text" value={form.image || ''} onChange={e => setForm({ ...form, image: e.target.value })} placeholder="/gallery/events.webp" className="flex-1 bg-slate-900/50 border border-slate-700/50 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 focus:bg-slate-900 transition-all font-medium text-sm" />
+                <input 
+                  type="text" 
+                  value={form.image || ''} 
+                  onChange={e => setForm({ ...form, image: e.target.value })} 
+                  placeholder="/gallery/events.webp" 
+                  className="flex-1 bg-slate-900/50 border border-slate-700/50 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 focus:bg-slate-900 transition-all font-medium text-sm"
+                />
                 <label className="cursor-pointer bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 px-3 py-3 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
                   Upload
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
@@ -183,6 +225,41 @@ export default function EventsManager({ token }) {
             <InputGroup label="Map Embed URL (iframe src)" placeholder="https://maps.google.com/..." val={form.mapLink} setVal={v => setForm({ ...form, mapLink: v })} w="w-full" req={false} />
             <TextareaGroup label="Description Part 1 (HTML allowed)" placeholder="Join us for..." val={form.descriptionPart1} setVal={v => setForm({ ...form, descriptionPart1: v })} />
             <TextareaGroup label="Description Part 2 (HTML allowed)" placeholder="Whether you are..." val={form.descriptionPart2} setVal={v => setForm({ ...form, descriptionPart2: v })} />
+          </div>
+
+          {/* ATTENDANCE SETTINGS */}
+          <div className="mt-4 bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <h3 className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-slate-800 pb-2 mb-4">Attendance Rules & IST Timings</h3>
+            <div className="flex flex-wrap gap-4 items-center">
+              <div className="flex flex-col gap-1.5 w-full md:w-auto">
+                <label className="text-xs font-bold uppercase tracking-wider pl-1 text-slate-400">Attendance Enabled</label>
+                <div className="flex items-center gap-3 bg-slate-900 border border-slate-700/60 p-3 rounded-xl">
+                  <input 
+                    type="checkbox" 
+                    id="attendanceEnabled" 
+                    checked={form.attendanceEnabled} 
+                    onChange={e => setForm({ ...form, attendanceEnabled: e.target.checked })}
+                    className="w-4 h-4 text-cyan-500 rounded focus:ring-cyan-500 cursor-pointer"
+                  />
+                  <label htmlFor="attendanceEnabled" className="text-sm font-semibold cursor-pointer text-slate-200">
+                    {form.attendanceEnabled ? 'Enabled' : 'Disabled'}
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5 flex-1 min-w-[180px]">
+                <label className="text-xs font-bold uppercase tracking-wider pl-1 text-slate-400">Event Date (YYYY-MM-DD)</label>
+                <input 
+                  type="date" 
+                  value={form.eventDate || ''} 
+                  onChange={e => setForm({ ...form, eventDate: e.target.value })} 
+                  className="bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 font-medium text-sm"
+                />
+              </div>
+
+              <InputGroup label="Open Time (IST 24hr)" placeholder="07:00" val={form.attendanceOpenTime} setVal={v => setForm({ ...form, attendanceOpenTime: v })} w="w-[140px]" req={false} />
+              <InputGroup label="Close Time (IST 24hr)" placeholder="08:00" val={form.attendanceCloseTime} setVal={v => setForm({ ...form, attendanceCloseTime: v })} w="w-[140px]" req={false} />
+            </div>
           </div>
           
           {/* SESSIONS SECTION */}
@@ -227,9 +304,16 @@ export default function EventsManager({ token }) {
             <div className="flex flex-col gap-4">
               {form.tickets.map((t, i) => (
                 <div key={i} className="flex flex-wrap gap-3 items-start bg-slate-900/50 p-5 rounded-2xl border border-slate-800 relative">
-                  <InputGroup label="Category Name" placeholder="Meeting Fees for Visitors" val={t.category} setVal={v => updateTicket(i, 'category', v)} w="flex-1" req={false} />
+                  <InputGroup label="Category Name" placeholder="Meeting Fees for Visitors" val={t.category} setVal={v => updateTicket(i, 'category', v)} w="flex-1 min-w-[200px]" req={false} />
                   <InputGroup label="Price" placeholder="2500" val={t.price} setVal={v => updateTicket(i, 'price', v)} w="w-[120px]" req={false} />
-                  <InputGroup label="Info Description" placeholder="Includes breakfast..." val={t.description} setVal={v => updateTicket(i, 'description', v)} w="w-[45%]" req={false} />
+                  <div className="flex flex-col gap-1.5 w-[130px]">
+                    <label className="text-xs font-bold uppercase tracking-wider pl-1 text-slate-400">Status</label>
+                    <select value={t.status || 'Available'} onChange={e => updateTicket(i, 'status', e.target.value)} className="w-full bg-slate-900 border border-slate-700 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 font-medium text-sm">
+                      <option value="Available">Available</option>
+                      <option value="Sold Out">Sold Out</option>
+                    </select>
+                  </div>
+                  <InputGroup label="Info Description" placeholder="Includes breakfast..." val={t.description} setVal={v => updateTicket(i, 'description', v)} w="flex-1 min-w-[200px]" req={false} />
                   <button type="button" onClick={() => rmTicket(i)} className="bg-rose-500/10 text-rose-400 px-4 py-3.5 mt-6 rounded-xl hover:bg-rose-500 hover:text-white transition-all font-bold">X</button>
                 </div>
               ))}
@@ -248,7 +332,7 @@ export default function EventsManager({ token }) {
       </div>
 
       <PremiumTable 
-        headers={['Date Block', 'Event Description', 'Action']}
+        headers={['Date Block', 'Event Description', 'Attendance Rule', 'Action']}
         rows={data.map(d => (
           <tr key={d.id} className="border-b border-slate-800/50 hover:bg-slate-900/20 transition-colors">
             <td className="p-5 font-black text-lg text-slate-100 w-40">
@@ -259,6 +343,16 @@ export default function EventsManager({ token }) {
               <div className="text-xs bg-slate-800 inline-block px-2 py-0.5 mt-1 rounded border border-slate-700/50 text-slate-400">
                 {d.sessions?.length || 0} Sessions | {d.tickets?.length || 0} Tickets
               </div>
+            </td>
+            <td className="p-5 text-xs font-semibold text-slate-400">
+              {d.attendanceEnabled !== false ? (
+                <div className="flex flex-col gap-1">
+                  <span className="text-emerald-400 font-bold">Enabled</span>
+                  <span>{(d.attendanceOpenTime !== undefined && d.attendanceOpenTime !== null && d.attendanceOpenTime !== '') ? d.attendanceOpenTime : '07:00'} - {(d.attendanceCloseTime !== undefined && d.attendanceCloseTime !== null && d.attendanceCloseTime !== '') ? d.attendanceCloseTime : '08:00'} IST</span>
+                </div>
+              ) : (
+                <span className="text-rose-400 font-bold">Disabled</span>
+              )}
             </td>
             <td className="p-5 w-32 text-right">
               <EditBtn onClick={() => handleEdit(d)} />

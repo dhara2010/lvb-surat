@@ -33,96 +33,7 @@ const initialForm = {
   chapter: "",
 };
 
-/* =========================================================
-   TOAST COMPONENT
-========================================================= */
 
-function Toast({ toast, onClose }) {
-  if (!toast) return null;
-
-  const isSuccess = toast.type === "success";
-
-  return (
-    <div
-      className="
-        fixed
-        top-5
-        right-5
-        z-[999999]
-
-        w-[calc(100%-40px)]
-        max-w-[390px]
-
-        animate-[toastIn_0.3s_ease-out]
-      "
-    >
-      <div
-        className={`
-          flex
-          items-start
-          gap-3
-
-          rounded-2xl
-
-          border
-
-          px-4
-          py-4
-
-          shadow-2xl
-          backdrop-blur-xl
-
-          ${isSuccess
-            ? "bg-emerald-950/95 border-emerald-700/60 text-emerald-100"
-            : "bg-red-950/95 border-red-700/60 text-red-100"
-          }
-        `}
-      >
-        <div className="mt-0.5 shrink-0">
-          {isSuccess ? (
-            <CheckCircle2 size={22} className="text-emerald-400" />
-          ) : (
-            <XCircle size={22} className="text-red-400" />
-          )}
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <p className="font-black text-sm">
-            {isSuccess ? "Success" : "Something went wrong"}
-          </p>
-
-          <p
-            className={`
-              text-xs
-              mt-1
-              leading-relaxed
-
-              ${isSuccess ? "text-emerald-200/80" : "text-red-200/80"}
-            `}
-          >
-            {toast.message}
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={onClose}
-          className="
-            shrink-0
-            p-1
-            rounded-lg
-            opacity-60
-            hover:opacity-100
-            hover:bg-white/10
-            transition
-          "
-        >
-          <X size={17} />
-        </button>
-      </div>
-    </div>
-  );
-}
 
 /* =========================================================
    IMAGE PREVIEW
@@ -270,7 +181,7 @@ function getDisplayMemberId(member) {
    MEMBERS MANAGER
 ========================================================= */
 
-export default function MembersManager({ token }) {
+export default function MembersManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
 
   const [form, setForm] = useState(initialForm);
@@ -283,40 +194,11 @@ export default function MembersManager({ token }) {
 
   const [deletingId, setDeletingId] = useState(null);
 
-  const [toast, setToast] = useState(null);
-
   /* =======================================================
      API URL
   ======================================================= */
 
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-  /* =======================================================
-     SHOW TOAST
-  ======================================================= */
-
-  const showToast = (message, type = "success") => {
-    setToast({
-      message,
-      type,
-    });
-  };
-
-  /*
-    Auto close toast after 4 seconds.
-  */
-
-  useEffect(() => {
-    if (!toast) return;
-
-    const timer = setTimeout(() => {
-      setToast(null);
-    }, 4000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [toast]);
 
   /* =======================================================
      LOAD MEMBERS
@@ -450,8 +332,8 @@ export default function MembersManager({ token }) {
 
           ...(token
             ? {
-              Authorization: `Bearer ${token}`,
-            }
+                Authorization: `Bearer ${token}`,
+              }
             : {}),
         },
 
@@ -478,8 +360,8 @@ export default function MembersManager({ token }) {
 
         throw new Error(
           responseData?.message ||
-          responseData?.error ||
-          `Request failed with status ${response.status}`,
+            responseData?.error ||
+            `Request failed with status ${response.status}`,
         );
       }
 
@@ -535,6 +417,7 @@ export default function MembersManager({ token }) {
       chapter: member.chapter || "",
     });
 
+<<<<<<< HEAD
     /*
       Scroll smoothly to form regardless of container constraints.
     */
@@ -550,6 +433,10 @@ export default function MembersManager({ token }) {
         top: 0,
         behavior: "smooth",
       });
+=======
+    if (scrollToTop) {
+      scrollToTop();
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
     }
   };
 
@@ -579,8 +466,8 @@ export default function MembersManager({ token }) {
         headers: {
           ...(token
             ? {
-              Authorization: `Bearer ${token}`,
-            }
+                Authorization: `Bearer ${token}`,
+              }
             : {}),
         },
       });
@@ -598,8 +485,8 @@ export default function MembersManager({ token }) {
       if (!response.ok) {
         throw new Error(
           responseData?.message ||
-          responseData?.error ||
-          `Delete failed with status ${response.status}`,
+            responseData?.error ||
+            `Delete failed with status ${response.status}`,
         );
       }
 
@@ -630,11 +517,7 @@ export default function MembersManager({ token }) {
 
   return (
     <div className="flex flex-col gap-6 pb-20">
-      {/* ===================================================
-          TOP RIGHT TOAST
-      ==================================================== */}
 
-      <Toast toast={toast} onClose={() => setToast(null)} />
 
       {/* ===================================================
           HEADER
@@ -1227,9 +1110,10 @@ export default function MembersManager({ token }) {
                     className={`
                       inline-flex
 
-                      ${deletingId === rowId
-                        ? "opacity-50 pointer-events-none"
-                        : ""
+                      ${
+                        deletingId === rowId
+                          ? "opacity-50 pointer-events-none"
+                          : ""
                       }
                     `}
                   >

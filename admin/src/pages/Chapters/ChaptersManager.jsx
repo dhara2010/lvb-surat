@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn, resolveImageUrl } from '../../components/AdminUI';
 
-export default function ChaptersManager({ token }) {
+export default function ChaptersManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({ name: '', city: '', memberCount: '', foundedYear: '', image: '' });
   const [editingId, setEditingId] = useState(null);
@@ -25,37 +25,63 @@ export default function ChaptersManager({ token }) {
       memberCount: Number(form.memberCount) || 0,
       foundedYear: Number(form.foundedYear) || undefined
     };
-    if (editingId) {
-      await fetch(`${apiUrl}/api/chapters/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(payload)
-      });
-      setEditingId(null);
-    } else {
-      await fetch(`${apiUrl}/api/chapters`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(payload)
-      });
+    try {
+      if (editingId) {
+        const res = await fetch(`${apiUrl}/api/chapters/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          showToast('Chapter updated successfully', 'success');
+        } else {
+          showToast('Failed to update chapter', 'error');
+        }
+        setEditingId(null);
+      } else {
+        const res = await fetch(`${apiUrl}/api/chapters`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          showToast('Chapter created successfully', 'success');
+        } else {
+          showToast('Failed to create chapter', 'error');
+        }
+      }
+      setForm({ name: '', city: '', memberCount: '', foundedYear: '', image: '' });
+      loadData();
+    } catch (err) {
+      console.error(err);
+      showToast('An unexpected error occurred', 'error');
     }
-    setForm({ name: '', city: '', memberCount: '', foundedYear: '', image: '' });
-    loadData();
   };
 
   const handleEdit = (d) => {
     setEditingId(d.id);
     setForm({ name: d.name, city: d.city, memberCount: String(d.memberCount), foundedYear: String(d.foundedYear || ''), image: d.image || '' });
+    if (scrollToTop) scrollToTop();
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete chapter?')) return;
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    await fetch(`${apiUrl}/api/chapters/${id}`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    loadData();
+    try {
+      const res = await fetch(`${apiUrl}/api/chapters/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        showToast('Chapter deleted successfully', 'success');
+        loadData();
+      } else {
+        showToast('Failed to delete chapter', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to delete chapter', 'error');
+    }
   };
 
   return (
@@ -71,7 +97,7 @@ export default function ChaptersManager({ token }) {
             <InputGroup label="Founded Year" placeholder="e.g. 2020" type="number" val={form.foundedYear} setVal={v => setForm({ ...form, foundedYear: v })} w="w-full md:w-[150px]" req={false} />
           </div>
           <div className="flex flex-col md:flex-row gap-4 items-end">
-            <FileInputGroup label="Banner Image URL" placeholder="/gallery/29-1.webp" val={form.image} setVal={v => setForm({ ...form, image: v })} token={token} w="flex-1 w-full" req={false} />
+            <FileInputGroup label="Banner Image URL" placeholder="/gallery/29-1.webp" val={form.image} setVal={v => setForm({ ...form, image: v })} token={token} showToast={showToast} w="flex-1 w-full" req={false} />
             <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
               <SubmitButton editing={editingId !== null} />
               {editingId && (

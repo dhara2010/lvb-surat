@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Users, Calendar, Image as ImageIcon, MessageSquare, 
   MapPin, BookOpen, Bell, Settings, LogOut, ShieldCheck, 
   Shield, LayoutDashboard, Menu, X, Sun, Moon, Lock,
-  Eye, EyeOff, UserCheck
+  Eye, EyeOff, UserCheck, CheckCircle2, AlertCircle, Info
 } from 'lucide-react';
 
 import logoImg from './assets/LVB_Platinum-removebg-preview.png';
@@ -23,6 +23,68 @@ import AdminsManager from './pages/Admins/AdminsManager';
 import AttendanceManager from './pages/Attendance/AttendanceManager';
 import EventAttendanceManager from './pages/EventAttendance/EventAttendanceManager';
 import Preloader from './components/Preloader';
+
+const NAV_ITEMS = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'members', label: 'Members', icon: Users },
+  { id: 'attendance', label: 'Attendance', icon: UserCheck },
+  { id: 'events', label: 'Events', icon: Calendar },
+  { id: 'gallery', label: 'Gallery', icon: ImageIcon },
+  { id: 'leaders', label: 'Leaders', icon: Shield },
+  { id: 'contacts', label: 'Visitor Inquiries', icon: MessageSquare },
+  { id: 'chapters', label: 'Chapters', icon: MapPin },
+  { id: 'blogs', label: 'Blogs', icon: BookOpen },
+  { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'admins', label: 'Admin Accounts', icon: Lock },
+  { id: 'settings', label: 'Settings', icon: Settings },
+];
+
+const SidebarContent = ({ isMobile, setMobileMenuOpen, activeTab, handleNavClick, logout }) => (
+  <>
+    <div className="p-6 flex items-center justify-between border-b border-border shrink-0">
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-cyan-600 to-blue-500">
+          <ShieldCheck size={20} className="text-white" />
+        </div>
+        <div className="flex flex-col">
+          <span className="font-extrabold text-sm tracking-widest text-heading leading-none">LVB ADMIN</span>
+          <span className="text-[10px] text-cyan-400 uppercase tracking-widest mt-1 font-bold">Workspace</span>
+        </div>
+      </div>
+      {isMobile && (
+        <button onClick={() => setMobileMenuOpen(false)} className="text-muted hover:text-heading p-2">
+          <X size={20} />
+        </button>
+      )}
+    </div>
+
+    <div className="flex flex-col p-4 gap-2 overflow-y-auto flex-grow">
+      <div className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2 pl-3">Menu Controls</div>
+      {NAV_ITEMS.map((item) => {
+        const Icon = item.icon;
+        const isActive = activeTab === item.id;
+        return (
+          <button
+            key={item.id}
+            onClick={() => handleNavClick(item.id)}
+            className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 w-full text-left group
+              ${isActive ? 'bg-cyan-500/10 text-cyan-400 font-bold' : 'text-body hover:bg-surface hover:text-heading'}
+            `}
+          >
+            <Icon size={18} className={isActive ? 'text-cyan-400' : 'text-muted group-hover:text-body'} strokeWidth={isActive ? 2.5 : 2} />
+            <span className="text-sm font-semibold">{item.label}</span>
+          </button>
+        )
+      })}
+    </div>
+
+    <div className="p-6 border-t border-border shrink-0">
+      <button onClick={logout} className="w-full py-3.5 px-4 flex items-center justify-center gap-2 rounded-xl text-rose-100 font-bold bg-rose-500/10 hover:bg-rose-500/20 transition-colors">
+        <LogOut size={16} /> Logout
+      </button>
+    </div>
+  </>
+);
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem('adminToken') || '');
@@ -58,6 +120,28 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = 'success') => {
+    setToast({ message, type });
+  };
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => {
+      setToast(null);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const mainRef = useRef(null);
+
+  const scrollToTop = () => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
@@ -71,11 +155,11 @@ export default function App() {
         setTempToken(data.token);
         setShowLoader(true);
       } else {
-        alert(data.message || 'Invalid Credentials. Please try again.');
+        showToast(data.message || 'Invalid Credentials. Please try again.', 'error');
       }
     } catch (err) {
       console.error(err);
-      alert('Login failed. Please verify the backend is running.');
+      showToast('Login failed. Please verify the backend is running.', 'error');
     }
   };
 
@@ -194,6 +278,7 @@ export default function App() {
     );
   }
 
+<<<<<<< HEAD
   const NAV_ITEMS = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'members', label: 'Members', icon: Users },
@@ -210,64 +295,67 @@ export default function App() {
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
+=======
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
   const handleNavClick = (id) => {
     setActiveTab(id);
     if (isMobile) setMobileMenuOpen(false);
   };
 
-  const SidebarContent = () => (
-    <>
-      <div className="p-6 flex items-center justify-between border-b border-border shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-tr from-cyan-600 to-blue-500">
-            <ShieldCheck size={20} className="text-white" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-extrabold text-sm tracking-widest text-heading leading-none">LVB ADMIN</span>
-            <span className="text-[10px] text-cyan-400 uppercase tracking-widest mt-1 font-bold">Workspace</span>
-          </div>
-        </div>
-        {isMobile && (
-          <button onClick={() => setMobileMenuOpen(false)} className="text-muted hover:text-heading p-2">
-            <X size={20} />
-          </button>
-        )}
-      </div>
-
-      <div className="flex flex-col p-4 gap-2 overflow-y-auto flex-grow">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-muted mb-2 pl-3">Menu Controls</div>
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => handleNavClick(item.id)}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 w-full text-left group
-                ${isActive ? 'bg-cyan-500/10 text-cyan-400 font-bold' : 'text-body hover:bg-surface hover:text-heading'}
-              `}
-            >
-              <Icon size={18} className={isActive ? 'text-cyan-400' : 'text-muted group-hover:text-body'} strokeWidth={isActive ? 2.5 : 2} />
-              <span className="text-sm font-semibold">{item.label}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      <div className="p-6 border-t border-border shrink-0">
-        <button onClick={logout} className="w-full py-3.5 px-4 flex items-center justify-center gap-2 rounded-xl text-rose-100 font-bold bg-rose-500/10 hover:bg-rose-500/20 transition-colors">
-          <LogOut size={16} /> Logout
-        </button>
-      </div>
-    </>
-  );
-
   return (
     <div className="min-h-screen flex bg-bg font-sans overflow-hidden text-body transition-colors duration-300">
       
+      {/* ─── TOAST NOTIFICATION ────────── */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.9, x: 20 }}
+            animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95, x: 10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-6 right-6 z-[999999] w-[calc(100%-48px)] max-w-sm pointer-events-auto"
+          >
+            <div className={`flex items-start gap-3 rounded-2xl border p-4 shadow-xl backdrop-blur-xl ${
+              toast.type === 'success' 
+                ? 'bg-emerald-950/95 border-emerald-800/80 text-emerald-100' 
+                : toast.type === 'error'
+                ? 'bg-rose-950/95 border-rose-800/80 text-rose-100'
+                : 'bg-slate-900/95 border-slate-800/80 text-slate-100'
+            }`}>
+              <div className="mt-0.5 shrink-0 animate-pulse">
+                {toast.type === 'success' && <CheckCircle2 size={20} className="text-emerald-400" />}
+                {toast.type === 'error' && <AlertCircle size={20} className="text-rose-400" />}
+                {toast.type === 'info' && <Info size={20} className="text-cyan-400" />}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-extrabold text-sm capitalize leading-none mb-1">
+                  {toast.type === 'success' ? 'Success' : toast.type === 'error' ? 'Error' : 'Notification'}
+                </p>
+                <p className="text-xs mt-1 leading-relaxed opacity-90">
+                  {toast.message}
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onClick={() => setToast(null)}
+                className="shrink-0 p-1 rounded-lg opacity-60 hover:opacity-100 hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       {/* ─── DESKTOP SIDEBAR ───────────────── */}
       <div className="hidden lg:flex w-[260px] h-screen shrink-0 flex-col bg-bg-alt border-r border-border shadow-xl relative z-20">
-        <SidebarContent />
+        <SidebarContent 
+          isMobile={isMobile}
+          setMobileMenuOpen={setMobileMenuOpen}
+          activeTab={activeTab}
+          handleNavClick={handleNavClick}
+          logout={logout}
+        />
       </div>
 
       {/* ─── MOBILE OVERLAY SIDEBAR ────────── */}
@@ -284,7 +372,13 @@ export default function App() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed inset-y-0 left-0 w-[260px] bg-bg-alt shadow-2xl z-50 flex flex-col lg:hidden border-r border-border"
             >
-              <SidebarContent />
+              <SidebarContent 
+                isMobile={isMobile}
+                setMobileMenuOpen={setMobileMenuOpen}
+                activeTab={activeTab}
+                handleNavClick={handleNavClick}
+                logout={logout}
+              />
             </motion.div>
           </>
         )}
@@ -322,7 +416,7 @@ export default function App() {
         </header>
 
         {/* Content Area */}
-        <main className="flex-grow overflow-y-auto p-4 md:p-8 bg-bg-alt/10 scroll-smooth transition-colors duration-300">
+        <main ref={mainRef} className="flex-grow overflow-y-auto p-4 md:p-8 bg-bg-alt/10 scroll-smooth transition-colors duration-300">
           <div className="max-w-7xl mx-auto w-full">
             <AnimatePresence mode="wait">
               <motion.div
@@ -333,6 +427,7 @@ export default function App() {
                 transition={{ duration: 0.2 }}
                 className="w-full"
               >
+<<<<<<< HEAD
                 {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} />}
                 { activeTab === 'members' && <MembersManager token={token} /> }
                 { activeTab === 'attendance' && <AttendanceManager token={token} /> }
@@ -346,6 +441,20 @@ export default function App() {
                 {activeTab === 'notifications' && <NotificationsManager token={token} />}
                 {activeTab === 'admins' && <AdminsManager token={token} />}
                 {activeTab === 'settings' && <SettingsManager token={token} />}
+=======
+                {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} showToast={showToast} />}
+                {activeTab === 'members' && <MembersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'attendance' && <AttendanceManager token={token} showToast={showToast} />}
+                {activeTab === 'events' && <EventsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'gallery' && <GalleryManager token={token} showToast={showToast} />}
+                {activeTab === 'leaders' && <LeadersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'contacts' && <ContactsManager token={token} showToast={showToast} />}
+                {activeTab === 'chapters' && <ChaptersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'blogs' && <BlogsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'notifications' && <NotificationsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'admins' && <AdminsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'settings' && <SettingsManager token={token} showToast={showToast} />}
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
               </motion.div>
             </AnimatePresence>
           </div>

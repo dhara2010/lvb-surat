@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { SectionHeader, PasswordInputGroup } from '../../components/AdminUI';
 
-export default function SettingsManager({ token }) {
+export default function SettingsManager({ token, showToast }) {
   const [passwords, setPasswords] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
-  const [msg, setMsg] = useState('');
-  const [error, setError] = useState('');
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
-    setMsg('');
-    setError('');
     
     if (passwords.newPassword !== passwords.confirmPassword) {
-      setError("New passwords do not match.");
+      showToast("New passwords do not match.", "error");
       return;
     }
     
@@ -30,14 +26,14 @@ export default function SettingsManager({ token }) {
       });
       const data = await res.json();
       if (res.ok) {
-        setMsg(data.message || "Password updated successfully.");
+        showToast(data.message || "Password updated successfully.", "success");
         setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
       } else {
-        setError(data.message || "Failed to update password.");
+        showToast(data.message || "Failed to update password.", "error");
       }
     } catch (err) {
       console.error(err);
-      setError("An unexpected error occurred.");
+      showToast("An unexpected error occurred.", "error");
     }
   };
 
@@ -52,9 +48,6 @@ export default function SettingsManager({ token }) {
           <PasswordInputGroup label="Current Password" placeholder="••••••••" val={passwords.currentPassword} setVal={v => setPasswords({ ...passwords, currentPassword: v })} />
           <PasswordInputGroup label="New Password" placeholder="••••••••" val={passwords.newPassword} setVal={v => setPasswords({ ...passwords, newPassword: v })} />
           <PasswordInputGroup label="Confirm New Password" placeholder="••••••••" val={passwords.confirmPassword} setVal={v => setPasswords({ ...passwords, confirmPassword: v })} />
-          
-          {msg && <p className="text-emerald-400 text-sm font-bold mt-2">{msg}</p>}
-          {error && <p className="text-rose-400 text-sm font-bold mt-2">{error}</p>}
           
           <button type="submit" className="mt-4 w-full h-[46px] bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl font-bold uppercase tracking-wider transition-all shadow-md">
             Update Password

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SectionHeader, InputGroup, FileInputGroup, SubmitButton, PremiumTable, DeleteBtn, EditBtn, resolveImageUrl } from '../../components/AdminUI';
 
-export default function LeadersManager({ token }) {
+export default function LeadersManager({ token, showToast, scrollToTop }) {
   const [data, setData] = useState([]);
   const [form, setForm] = useState({ name: '', role: '', img: '' });
   const [editingId, setEditingId] = useState(null);
@@ -20,37 +20,63 @@ export default function LeadersManager({ token }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    if (editingId) {
-      await fetch(`${apiUrl}/api/leaders/${editingId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(form)
-      });
-      setEditingId(null);
-    } else {
-      await fetch(`${apiUrl}/api/leaders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-        body: JSON.stringify(form)
-      });
+    try {
+      if (editingId) {
+        const res = await fetch(`${apiUrl}/api/leaders/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(form)
+        });
+        if (res.ok) {
+          showToast('Leadership member updated successfully', 'success');
+        } else {
+          showToast('Failed to update leadership member', 'error');
+        }
+        setEditingId(null);
+      } else {
+        const res = await fetch(`${apiUrl}/api/leaders`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify(form)
+        });
+        if (res.ok) {
+          showToast('Leadership member added successfully', 'success');
+        } else {
+          showToast('Failed to add leadership member', 'error');
+        }
+      }
+      setForm({ name: '', role: '', img: '' });
+      loadData();
+    } catch (err) {
+      console.error(err);
+      showToast('An unexpected error occurred', 'error');
     }
-    setForm({ name: '', role: '', img: '' });
-    loadData();
   };
 
   const handleEdit = (d) => {
     setEditingId(d.id);
     setForm({ name: d.name, role: d.role, img: d.img });
+    if (scrollToTop) scrollToTop();
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete leadership member?')) return;
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    await fetch(`${apiUrl}/api/leaders/${id}`, {
-      method: 'DELETE',
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    loadData();
+    try {
+      const res = await fetch(`${apiUrl}/api/leaders/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        showToast('Leadership member deleted successfully', 'success');
+        loadData();
+      } else {
+        showToast('Failed to delete leadership member', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to delete leadership member', 'error');
+    }
   };
 
   return (
@@ -61,7 +87,7 @@ export default function LeadersManager({ token }) {
         <form onSubmit={handleSubmit} className="flex flex-col md:flex-row flex-wrap gap-4 items-end">
           <InputGroup label="Full Name" placeholder="e.g. John Doe" val={form.name} setVal={v => setForm({ ...form, name: v })} w="flex-1 w-full" />
           <InputGroup label="Position" placeholder="e.g. Chapter Director" val={form.role} setVal={v => setForm({ ...form, role: v })} w="flex-1 w-full" />
-          <FileInputGroup label="Portrait Image URL" placeholder="/members/john.png" val={form.img} setVal={v => setForm({ ...form, img: v })} token={token} w="flex-1 w-full" />
+          <FileInputGroup label="Portrait Image URL" placeholder="/members/john.png" val={form.img} setVal={v => setForm({ ...form, img: v })} token={token} showToast={showToast} w="flex-1 w-full" />
           <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
             <SubmitButton editing={editingId !== null} />
             {editingId && (
