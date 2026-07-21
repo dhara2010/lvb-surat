@@ -83,8 +83,8 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
       ...initialForm,
       ...cleanForm,
       attendanceEnabled: d.attendanceEnabled !== undefined ? d.attendanceEnabled : true,
-      attendanceOpenTime: d.attendanceOpenTime || '07:00',
-      attendanceCloseTime: d.attendanceCloseTime || '08:00',
+      attendanceOpenTime: d.attendanceOpenTime !== undefined && d.attendanceOpenTime !== null && d.attendanceOpenTime !== '' ? d.attendanceOpenTime : '07:00',
+      attendanceCloseTime: d.attendanceCloseTime !== undefined && d.attendanceCloseTime !== null && d.attendanceCloseTime !== '' ? d.attendanceCloseTime : '08:00',
       eventDate: d.eventDate || '',
       sessions: d.sessions || [],
       tickets: d.tickets || []
@@ -117,41 +117,41 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
   const addSession = () => {
     setForm({
       ...form,
-      sessions: [
-        ...form.sessions,
-        { iconType: 'mic', title: '', primaryLabel: '', primaryText: '', secondaryLabel: '', secondaryText: '', description: '' }
-      ]
+      sessions: [...form.sessions, { iconType: 'mic', title: '', primaryLabel: '', primaryText: '', secondaryLabel: '', secondaryText: '', description: '' }]
     });
   };
 
-  const rmSession = (i) => {
-    setForm({ ...form, sessions: form.sessions.filter((_, idx) => idx !== i) });
+  const rmSession = (index) => {
+    setForm({
+      ...form,
+      sessions: form.sessions.filter((_, i) => i !== index)
+    });
   };
 
-  const updateSession = (i, field, val) => {
-    const s = [...form.sessions];
-    s[i][field] = val;
-    setForm({ ...form, sessions: s });
+  const updateSession = (index, field, val) => {
+    const next = [...form.sessions];
+    next[index][field] = val;
+    setForm({ ...form, sessions: next });
   };
 
   const addTicket = () => {
     setForm({
       ...form,
-      tickets: [
-        ...form.tickets,
-        { category: '', description: '', price: 0, status: 'Available', bookingUrl: '' }
-      ]
+      tickets: [...form.tickets, { category: '', description: '', price: 0, status: 'Available', bookingUrl: '' }]
     });
   };
 
-  const rmTicket = (i) => {
-    setForm({ ...form, tickets: form.tickets.filter((_, idx) => idx !== i) });
+  const rmTicket = (index) => {
+    setForm({
+      ...form,
+      tickets: form.tickets.filter((_, i) => i !== index)
+    });
   };
 
-  const updateTicket = (i, field, val) => {
-    const t = [...form.tickets];
-    t[i][field] = val;
-    setForm({ ...form, tickets: t });
+  const updateTicket = (index, field, val) => {
+    const next = [...form.tickets];
+    next[index][field] = val;
+    setForm({ ...form, tickets: next });
   };
 
   const handleImageUpload = async (e) => {
@@ -159,18 +159,20 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
     if (!file) return;
     const formData = new FormData();
     formData.append('image', file);
+
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/upload', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/upload`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData
       });
-      const uploadData = await res.json();
+      const data = await res.json();
       if (res.ok) {
-        setForm(prev => ({ ...prev, image: uploadData.imageUrl }));
+        setForm(prev => ({ ...prev, image: data.imageUrl }));
         showToast('Image uploaded successfully', 'success');
       } else {
-        showToast(uploadData.message || 'Upload failed', 'error');
+        showToast(data.message || 'Upload failed', 'error');
       }
     } catch (err) {
       console.error(err);
@@ -180,19 +182,28 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
 
   return (
     <div className="flex flex-col gap-6 pb-20 text-slate-100">
-      <SectionHeader title="Event Schedule" desc="Manage robust event details, timelines, attendance rules, sessions, and pricing configurations." />
-      
+      <SectionHeader 
+        title="Event Schedule" 
+        desc="Manage robust event details, timelines, attendance rules, sessions, and pricing configurations." 
+      />
+
       <div className="bg-slate-900/30 border border-slate-800 p-6 rounded-3xl">
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          
           <h3 className="text-cyan-400 font-bold uppercase tracking-wider text-sm border-b border-slate-800 pb-2">Basic Info</h3>
+          
           <div className="flex flex-col md:flex-row flex-wrap gap-4 items-end">
             <InputGroup label="Title" placeholder="Event Title" val={form.title} setVal={v => setForm({ ...form, title: v })} w="flex-1 w-full" />
             <InputGroup label="Organizer" placeholder="LVB Surat" val={form.organizer} setVal={v => setForm({ ...form, organizer: v })} w="w-full md:w-1/3" req={false} />
             <div className="flex flex-col gap-1.5 w-full md:w-1/4">
               <label className="text-xs font-bold uppercase tracking-wider pl-1 text-slate-400">Event Image</label>
               <div className="flex items-center gap-2">
-                <input type="text" value={form.image || ''} onChange={e => setForm({ ...form, image: e.target.value })} placeholder="/gallery/events.webp" className="flex-1 bg-slate-900/50 border border-slate-700/50 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 focus:bg-slate-900 transition-all font-medium text-sm" />
+                <input 
+                  type="text" 
+                  value={form.image || ''} 
+                  onChange={e => setForm({ ...form, image: e.target.value })} 
+                  placeholder="/gallery/events.webp" 
+                  className="flex-1 bg-slate-900/50 border border-slate-700/50 p-3 rounded-xl text-slate-100 outline-none focus:border-cyan-500 focus:bg-slate-900 transition-all font-medium text-sm"
+                />
                 <label className="cursor-pointer bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 px-3 py-3 rounded-xl transition-all font-semibold text-sm whitespace-nowrap">
                   Upload
                   <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
@@ -337,7 +348,7 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
               {d.attendanceEnabled !== false ? (
                 <div className="flex flex-col gap-1">
                   <span className="text-emerald-400 font-bold">Enabled</span>
-                  <span>{d.attendanceOpenTime || '07:00'} - {d.attendanceCloseTime || '08:00'} IST</span>
+                  <span>{(d.attendanceOpenTime !== undefined && d.attendanceOpenTime !== null && d.attendanceOpenTime !== '') ? d.attendanceOpenTime : '07:00'} - {(d.attendanceCloseTime !== undefined && d.attendanceCloseTime !== null && d.attendanceCloseTime !== '') ? d.attendanceCloseTime : '08:00'} IST</span>
                 </div>
               ) : (
                 <span className="text-rose-400 font-bold">Disabled</span>
