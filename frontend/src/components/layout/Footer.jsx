@@ -39,80 +39,89 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 bg-[#f6f7f9] px-0 pt-8 text-[#334155]">
-      <div className="relative mx-auto w-full overflow-hidden rounded-t-[54px] bg-white">
+    <footer className="relative z-10 bg-[#f6f7f9] px-3 sm:px-8 pt-6 pb-6 text-[#334155]">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative mx-auto w-full max-w-[1500px] overflow-hidden rounded-[36px] md:rounded-[54px] bg-white border border-[#e2e8f0] shadow-[0_15px_45px_rgba(0,0,0,0.04)]"
+      >
+        {/* Exact Cyan Dot Grid Background Pattern */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-80"
+          className="absolute inset-0 pointer-events-none opacity-60"
           style={{
-            backgroundImage: `
-              radial-gradient(circle, rgba(14,165,233,0.55) 0 2.5px, transparent 3px),
-              linear-gradient(rgba(14,165,233,0.055) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(14,165,233,0.055) 1px, transparent 1px)
-            `,
-            backgroundSize: '100px 100px, 100px 100px, 100px 100px',
-            backgroundPosition: '62px 22px, 62px 22px, 62px 22px',
+            backgroundImage: `radial-gradient(circle, #38bdf8 0 2.2px, transparent 2.5px)`,
+            backgroundSize: '38px 38px',
+            backgroundPosition: '19px 19px',
           }}
         />
 
-        <div className="relative mx-auto max-w-[1500px] px-6 py-16 sm:px-10 md:py-20 lg:px-20">
-          <div className="grid grid-cols-1 gap-14 md:grid-cols-[minmax(0,1fr)_360px] md:gap-20 lg:gap-32">
+        <div className="relative mx-auto max-w-[1400px] px-6 py-12 sm:px-12 md:py-16 lg:px-16">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_320px] lg:gap-24">
+            
+            {/* Brand Info Column */}
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6 }}
               className="flex flex-col items-start"
             >
               <Link to="/" aria-label="LVB Surat Platinum Homepage" className="cursor-click inline-flex">
                 <img
                   src="/LVB_Platinum.svg"
                   alt="LVB Surat Platinum"
-                  className="h-14 w-auto object-contain sm:h-16"
+                  className="h-12 w-auto object-contain sm:h-14"
                 />
               </Link>
 
-              <p className="mt-10 max-w-[460px] text-[20px] leading-[1.58] text-[#475569] sm:text-[22px]">
+              <p className="mt-6 max-w-[440px] text-sm sm:text-base leading-relaxed text-[#475569] font-normal">
                 Surat's invite-only elite networking chapter for top entrepreneurs, manufacturers, and trade leaders.
                 Empowering business growth through powerful connections.
               </p>
 
-              <div className="mt-10 flex items-center gap-5">
+              {/* 3D Interactive Social Icons */}
+              <div className="mt-8 flex items-center gap-4">
                 {socialLinks.map(({ label, href, icon: Icon }) => (
-                  <a
+                  <motion.a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="cursor-click flex h-14 w-14 items-center justify-center rounded-[14px] border border-[#dfe7ef] bg-white text-[#0b3f73] shadow-[0_3px_8px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#7dd3fc] hover:text-[#0ea5e9] hover:shadow-[0_12px_26px_rgba(14,165,233,0.22)]"
+                    whileHover={{ scale: 1.1, y: -3, rotateZ: 2 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="cursor-click flex h-11 w-11 items-center justify-center rounded-[12px] border border-[#dfe7ef] bg-white text-[#0b3f73] shadow-sm transition-all duration-300 hover:border-[#38bdf8] hover:text-[#0ea5e9] hover:shadow-md"
                   >
-                    <Icon className="h-6 w-6" strokeWidth={2.2} />
-                  </a>
+                    <Icon className="h-5 w-5" strokeWidth={2.2} />
+                  </motion.a>
                 ))}
               </div>
             </motion.div>
 
+            {/* Quick Links Column */}
             <motion.nav
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.1 }}
               aria-label="Footer quick links"
               className="md:justify-self-start"
             >
-              <h2 className="text-[26px] font-extrabold uppercase tracking-wide text-[#0b3f73]">
+              <h2 className="text-base sm:text-lg font-extrabold uppercase tracking-wide text-[#0b3f73]">
                 Quick Links
               </h2>
-              <div className="mt-4 h-[3px] w-12 bg-[#0ea5e9]" />
+              <div className="mt-2 h-[3px] w-10 rounded-full bg-[#0ea5e9]" />
 
-              <ul className="mt-8 flex flex-col gap-6">
+              <ul className="mt-6 flex flex-col gap-3.5">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
                     <Link
                       to={link.href}
-                      className="cursor-click group inline-flex items-center gap-3 text-[22px] font-medium text-[#475569] transition-colors duration-300 hover:text-[#0b3f73]"
+                      className="cursor-click group inline-flex items-center gap-2 text-sm sm:text-base font-medium text-[#475569] transition-colors duration-300 hover:text-[#0b3f73]"
                     >
-                      <ChevronRight className="h-5 w-5 text-[#0ea5e9] transition-transform duration-300 group-hover:translate-x-1" />
+                      <ChevronRight className="h-4 w-4 text-[#0ea5e9] transition-transform duration-300 group-hover:translate-x-1" />
                       {link.label}
                     </Link>
                   </li>
@@ -121,8 +130,9 @@ export default function Footer() {
             </motion.nav>
           </div>
 
-          <div className="mt-10 border-t border-[#d7dee8] pt-10 md:mt-12">
-            <div className="flex flex-col gap-5 text-[15px] font-medium text-[#64748b] md:flex-row md:items-center md:justify-between">
+          {/* Bottom Bar */}
+          <div className="mt-10 border-t border-[#e2e8f0] pt-8 md:mt-12">
+            <div className="flex flex-col gap-4 text-xs sm:text-sm font-medium text-[#64748b] md:flex-row md:items-center md:justify-between">
               <p>© 2026 LVB Surat Platinum. All Rights Reserved.</p>
               <p>
                 Design & Developed by{' '}
@@ -130,7 +140,7 @@ export default function Footer() {
                   href="https://kpglobalbusiness.com/"
                   target="_blank"
                   rel="noreferrer"
-                  className="cursor-click font-extrabold text-[#0ea5e9] transition-colors duration-300 hover:text-[#0b3f73]"
+                  className="cursor-click font-extrabold text-[#0ea5e9] transition-colors duration-300 hover:text-[#0b3f73] hover:underline"
                 >
                   KP Global Business
                 </a>
@@ -138,7 +148,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }
