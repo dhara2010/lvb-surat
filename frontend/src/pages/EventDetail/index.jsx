@@ -1,3 +1,19 @@
+<<<<<<< HEAD
+import React, { useState } from'react';
+import { usePrimaryTextClass } from'../../hooks/useTheme';
+import { motion } from'framer-motion';
+import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle } from'lucide-react';
+import { Link, useParams } from'react-router-dom';
+import { useFetch } from'../../hooks/useFetch';
+import { getEvents, bookTicket } from '../../api/eventsApi';
+import { slugify } from '../../utils/slugify';
+import { sortEvents } from '../../utils/sortEvents';
+import NotFound from '../NotFound/index.jsx';
+import PageHeader from'../../components/ui/PageHeader';
+import { resolveImageUrl } from'../../utils/imageUrl';
+import TypingHeading from '../../components/animations/TypingHeading';
+
+=======
 import React, { useState, useEffect } from 'react';
 import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
@@ -10,6 +26,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { getEvent, checkAttendance, markEventAttendance } from '../../api/eventsApi';
 import { getMembers } from '../../api/membersApi';
 import PageHeader from '../../components/ui/PageHeader';
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -19,9 +36,14 @@ const inView = (delay = 0) => ({
 
 export default function EventDetail() {
   const primaryTextClass = usePrimaryTextClass();
+<<<<<<< HEAD
+
+  const { slug } = useParams();
+=======
   const { eventId } = useParams();
 
   // State
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [ticketModalOpen, setTicketModalOpen] = useState(false);
@@ -64,7 +86,55 @@ export default function EventDetail() {
   const [attMessageType, setAttMessageType] = useState('info'); // 'info' | 'success' | 'error'
 
   // Fetch event data
-  const { data: event, loading, error } = useFetch(getEvent, eventId);
+  const { data: eventsData, loading, error } = useFetch(getEvents);
+  const events = eventsData ? sortEvents(eventsData) : null;
+  
+  const currentIndex = events ? events.findIndex(e => slugify(e.title) === slug) : -1;
+  const event = currentIndex >= 0 ? events[currentIndex] : null;
+  
+  const prevEvent = events && currentIndex > 0 ? events[currentIndex - 1] : null;
+  const nextEvent = events && currentIndex >= 0 && currentIndex < events.length - 1 ? events[currentIndex + 1] : null;
+
+  const [bookingStatus, setBookingStatus] = useState({ loading: false, error: null, success: false });
+
+  const getEventStatus = () => {
+    if (!event || !event.year || !event.month || !event.date) return 'Upcoming';
+    
+    // ensure valid date parsing
+    const eventDateStr = `${event.month} ${event.date}, ${event.year}`;
+    const eventDateObj = new Date(eventDateStr);
+    
+    // if invalid date, fallback to upcoming
+    if (isNaN(eventDateObj.getTime())) return 'Upcoming';
+    
+    const today = new Date();
+    
+    eventDateObj.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    
+    const diff = eventDateObj.getTime() - today.getTime();
+    if (diff < 0) return 'Ended';
+    if (diff === 0) return 'Today';
+    return 'Upcoming';
+  };
+
+  const handleBookTicket = async () => {
+    setBookingStatus({ loading: true, error: null, success: false });
+    try {
+      if (!event || !event.id) {
+        throw new Error("Event ID not found.");
+      }
+      const response = await bookTicket(event.id, { tickets: ticketQuantities });
+      if (response && response.error) {
+        throw new Error(response.error);
+      }
+      setBookingStatus({ loading: false, error: null, success: true });
+    } catch (err) {
+      setBookingStatus({ loading: false, error: err.message || 'Failed to book ticket.', success: false });
+    }
+  };
+
+  const eventStatus = event ? getEventStatus() : 'Upcoming';
 
   // Check if current member has already marked attendance from API & localStorage
   useEffect(() => {
@@ -206,6 +276,10 @@ export default function EventDetail() {
     );
   }
 
+<<<<<<< HEAD
+  if (error || (!loading && !event)) {
+    return <NotFound />;
+=======
   if (error || !event) {
     return (
       <div className="section-white min-h-screen pt-32 pb-20 flex flex-col justify-center items-center gap-4">
@@ -214,6 +288,7 @@ export default function EventDetail() {
         <Link to="/events" className="btn-secondary mt-4">Go Back to Events</Link>
       </div>
     );
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
   }
 
   const sessions = event.sessions || [];
@@ -259,6 +334,32 @@ export default function EventDetail() {
         </motion.div>
 
         <motion.div {...inView(0.1)} className="mb-0 flex justify-between items-center flex-wrap gap-4 pt-4 border-t border-gray-100">
+<<<<<<< HEAD
+          <div className={`flex flex-wrap items-center gap-4`}>
+            <div className={`flex flex-wrap items-center gap-2 ${primaryTextClass} font-medium text-lg`}>
+              <span className="flex items-center gap-2">
+                {event.month && event.date ?`${event.month} ${event.date}` :'Date TBD'}{event.year ?`, ${event.year}` :''} {event.time ?`@ ${event.time}` :''}
+              </span>
+              {event.cost && (
+                <>
+                  <span className="hidden md:inline">|</span>
+                  <span className="flex items-center">
+                    {event.cost}
+                  </span>
+                </>
+              )}
+            </div>
+            
+            <div className={`px-4 py-1.5 rounded-full text-sm font-semibold border flex items-center gap-1.5 ${
+              eventStatus === 'Ended' ? 'bg-red-50 text-red-700 border-red-200 shadow-sm' :
+              eventStatus === 'Today' ? 'bg-blue-50 text-blue-700 border-blue-200 shadow-sm' :
+              'bg-green-50 text-green-700 border-green-200 shadow-sm'
+            }`}>
+              {eventStatus === 'Ended' ? '🔴 Event Ended' :
+               eventStatus === 'Today' ? '🔵 Today' :
+               '🟢 Upcoming'}
+            </div>
+=======
           <div className={`flex flex-wrap items-center gap-2 ${primaryTextClass} font-medium text-lg`}>
             <span className="flex items-center gap-2">
               {event.month && event.date ? `${event.month} ${event.date}` : 'Date TBD'}{event.year ? `, ${event.year}` : ''} {event.time ? `@ ${event.time}` : ''}
@@ -271,6 +372,7 @@ export default function EventDetail() {
                 </span>
               </>
             )}
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
           </div>
         </motion.div>
 
@@ -534,6 +636,40 @@ export default function EventDetail() {
                   </span>
                 </div>
 
+<<<<<<< HEAD
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-end gap-4">
+                  {bookingStatus.error && (
+                    <div className="text-red-500 font-medium text-sm flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4" />
+                      {bookingStatus.error}
+                    </div>
+                  )}
+                  {bookingStatus.success && (
+                    <div className="text-green-600 font-medium text-sm flex items-center gap-2">
+                      Tickets booked successfully!
+                    </div>
+                  )}
+                  
+                  {eventStatus === 'Ended' ? (
+                    <div className="flex flex-col items-end gap-2 text-right">
+                      <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-50/80 border border-red-200 rounded-full shadow-sm text-red-700 font-semibold backdrop-blur-sm">
+                        <Calendar className="w-4 h-4" />
+                        ❌ Tickets Not Available
+                      </div>
+                      <p className="text-sm font-medium text-gray-500 max-w-sm mt-1">
+                        This event has concluded. Please explore our upcoming events.
+                      </p>
+                    </div>
+                  ) : (
+                    <button 
+                      onClick={handleBookTicket}
+                      disabled={bookingStatus.loading}
+                      className="btn-primary w-full sm:w-auto text-base py-3 px-8 shadow-md"
+                    >
+                      {bookingStatus.loading ? 'Booking...' : 'Book Ticket'}
+                    </button>
+                  )}
+=======
                 <div className="flex flex-col gap-6">
                   {tickets.map((ticket, idx) => {
                     const isSoldOut = ticket.status === 'Sold Out';
@@ -585,6 +721,7 @@ export default function EventDetail() {
                   >
                     Get Tickets
                   </button>
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
                 </div>
               </motion.div>
             )}
@@ -670,6 +807,23 @@ export default function EventDetail() {
 
         {/* Footer Navigation */}
         <motion.div {...inView(0.6)} className="mt-16 border-t border-subtle pt-6 flex justify-between items-center text-sm font-medium">
+<<<<<<< HEAD
+          {prevEvent ? (
+            <Link to={`/events/${slugify(prevEvent.title || '')}`} className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
+              « Previous Event
+            </Link>
+          ) : (
+            <div className="w-[120px]"></div>
+          )}
+          <div className="hidden sm:block">LVB PLATINUM CHAPTER</div>
+          {nextEvent ? (
+            <Link to={`/events/${slugify(nextEvent.title || '')}`} className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
+              Next Event »
+            </Link>
+          ) : (
+            <div className="w-[120px]"></div>
+          )}
+=======
           <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             « Previous Event
           </Link>
@@ -677,6 +831,7 @@ export default function EventDetail() {
           <Link to="/events" className={`${primaryTextClass} hover:text-secondary flex items-center gap-2 transition-colors`}>
             Next Event »
           </Link>
+>>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
         </motion.div>
 
       </div>

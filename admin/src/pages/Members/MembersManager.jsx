@@ -419,6 +419,14 @@ export default function MembersManager({ token, showToast, scrollToTop }) {
 
     if (scrollToTop) {
       scrollToTop();
+    } else {
+      const formElement = document.getElementById("members-form-top");
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
     }
   };
 
@@ -513,6 +521,8 @@ export default function MembersManager({ token, showToast, scrollToTop }) {
       {/* ===================================================
           FORM
       ==================================================== */}
+
+      <div id="members-form-top" className="scroll-mt-6"></div>
 
       <div
         className="

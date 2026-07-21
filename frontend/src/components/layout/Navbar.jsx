@@ -17,7 +17,6 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   /* ── Scroll shadow ──────────────── */
@@ -70,40 +69,11 @@ export default function Navbar() {
             className="flex items-center gap-2 shrink-0 group cursor-pointer"
             aria-label="LVB Surat Platinum — Homepage"
           >
-            {logoError ? (
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-extrabold tracking-wider"
-                  style={{
-                    background:'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
-                    border:'1px solid var(--color-border)',
-                  }}
-                >
-                  LVB
-                </div>
-                <div className="flex flex-col leading-none">
-                  <span
-                    className="font-bold tracking-wider text-xs md:text-sm"
-                    style={{ fontFamily:'var(--font-sans)' }}
-                  >
-                    LVB SURAT
-                  </span>
-                  <span
-                    className="text-[8px] md:text-[9px] tracking-[0.1em] md:tracking-[0.18em] uppercase mt-0.5"
-                    style={{ fontFamily:'var(--font-sans)' }}
-                  >
-                    Platinum Chapter
-                  </span>
-                </div>
-              </div>
-            ) : (
               <img
                 src="/LVB_Platinum.svg"
                 alt="LVB Surat Platinum"
-                className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                onError={() => setLogoError(true)}
+                className="h-10 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
               />
-            )}
           </Link>
 
           {/* ── Desktop Navigation ───────────── */}

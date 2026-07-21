@@ -21,6 +21,7 @@ import NotificationsManager from './pages/Notifications/NotificationsManager';
 import SettingsManager from './pages/Settings/SettingsManager';
 import AdminsManager from './pages/Admins/AdminsManager';
 import AttendanceManager from './pages/Attendance/AttendanceManager';
+import EventAttendanceManager from './pages/EventAttendance/EventAttendanceManager';
 import Preloader from './components/Preloader';
 
 const NAV_ITEMS = [
@@ -277,6 +278,20 @@ export default function App() {
     );
   }
 
+  const NAV_ITEMS = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'members', label: 'Members', icon: Users },
+    { id: 'attendance', label: 'Attendance', icon: UserCheck },
+    { id: 'events', label: 'Events', icon: Calendar },
+    { id: 'gallery', label: 'Gallery', icon: ImageIcon },
+    { id: 'leaders', label: 'Leaders', icon: Shield },
+    { id: 'contacts', label: 'Visitor Inquiries', icon: MessageSquare },
+    { id: 'chapters', label: 'Chapters', icon: MapPin },
+    { id: 'blogs', label: 'Blogs', icon: BookOpen },
+    { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'admins', label: 'Admin Accounts', icon: Lock },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ];
   const handleNavClick = (id) => {
     setActiveTab(id);
     if (isMobile) setMobileMenuOpen(false);

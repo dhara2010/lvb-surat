@@ -6,6 +6,8 @@ import { Target, Clock, ArrowRight } from'lucide-react';
 import { useFetch } from'../../../hooks/useFetch';
 import { getEvents } from'../../../api/eventsApi';
 import { Link } from'react-router-dom';
+import { slugify } from '../../../utils/slugify';
+import { sortEvents } from '../../../utils/sortEvents';
 import TiltCard from'../../../components/animations/TiltCard';
 import LuxuryCard from'../../../components/ui/LuxuryCard';
 import GlassSection from'../../../components/ui/GlassSection';
@@ -13,7 +15,7 @@ import VerticalRiverStraps from'../../../components/effects/VerticalRiverStraps'
 
 export default function EventsSection() {
   const { data: eventsData, loading, error } = useFetch(getEvents);
-  const events = eventsData ? [...eventsData].reverse().slice(0, 3) : [];
+  const events = eventsData ? sortEvents(eventsData).slice(0, 3) : [];
 
   return (
     <GlassSection>
@@ -52,7 +54,7 @@ export default function EventsSection() {
                   </div>
 
                   <div className="w-full lg:w-1/2 flex justify-center">
-                    <Link to={`/events/${e.id || i}`} className="block w-full max-w-[600px] mx-auto">
+                    <Link to={`/events/${slugify(e.title || '')}`} className="block w-full max-w-[600px] mx-auto">
                       <LuxuryCard className="h-full group p-6 sm:p-8">
                         
                         <div className="flex items-start justify-between mb-6">

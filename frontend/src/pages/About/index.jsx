@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Container from '../../components/layout/Container';
 import SectionHeading from '../../components/ui/SectionHeading';
 import PageHeader from '../../components/ui/PageHeader';
@@ -11,7 +10,7 @@ import { Quote } from 'lucide-react';
 import VerticalRiverStraps from '../../components/effects/VerticalRiverStraps';
 import FoldingImage from '../../components/effects/FoldingImage';
 import TiltCard from '../../components/animations/TiltCard';
-import { resolveImageUrl } from '../../utils/imageUrl';
+
 import TypingHeading from '../../components/animations/TypingHeading';
 
 
@@ -44,7 +43,7 @@ export default function About() {
           <TiltCard tiltMax={8} scaleMax={1.03}>
             <div className="relative w-full max-w-full aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden transition-all duration-500">
               <FoldingImage
-                src={resolveImageUrl("/about/KVS_3369-2048x1365.webp")}
+                src="/about/KVS_3369-2048x1365.webp"
                 alt="LVB Surat Community"
                 className="w-full h-full object-cover rounded-xl overflow-hidden"
               />
@@ -82,19 +81,28 @@ export default function About() {
           />
           <div className="grid md:grid-cols-2 gap-10 lg:gap-16 max-w-5xl mx-auto mb-20">
             {founders.map((founder, i) => (
-              <ScrollReveal3D delay={0.2 + (i * 0.2)} key={i}>
-                <div className="group relative rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
-                  <div className="aspect-[4/5] w-full overflow-visible bg-gray-200">
-                    <FoldingImage
-                      src={resolveImageUrl(founder.img)}
-                      alt={founder.name}
-                      className="w-full h-full"
-                    />
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-16 z-20">
-                    <h4 className="text-2xl font-extrabold text-white drop-shadow-md">{founder.name}</h4>
-                    <p className="font-bold text-sm tracking-widest uppercase mt-1 text-white drop-shadow-sm">{founder.role}</p>
-                  </div>
+              <ScrollReveal3D delay={0.2 + (i * 0.2)} key={i} className="h-full">
+                <div className="group relative rounded-xl overflow-hidden bg-gray-50 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col h-full">
+                  {founder?.img && (
+                    <div className="aspect-[4/5] w-full overflow-hidden bg-gray-200 relative">
+                      <FoldingImage
+                        src={founder.img}
+                        alt={founder.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent pt-16 z-20">
+                        <h4 className="text-2xl font-extrabold text-white drop-shadow-md">{founder.name}</h4>
+                        <p className="font-bold text-sm tracking-widest uppercase mt-1 text-white drop-shadow-sm">{founder.role}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {!founder?.img && (
+                    <div className="p-10 flex-1 flex flex-col items-center justify-center text-center">
+                      <h4 className="text-2xl font-extrabold text-gray-900 drop-shadow-sm">{founder.name}</h4>
+                      <p className="font-bold text-sm tracking-widest uppercase mt-2 text-primary drop-shadow-sm">{founder.role}</p>
+                    </div>
+                  )}
                 </div>
               </ScrollReveal3D>
             ))}
@@ -102,14 +110,11 @@ export default function About() {
 
           <ScrollReveal3D delay={0.4} className="max-w-4xl mx-auto text-center">
             <div className="relative p-10 md:p-14 bg-white shadow-2xl rounded-2xl shadow-2xl overflow-hidden">
-
               <Quote className="w-16 h-16  absolute top-8 left-8 -scale-x-100" />
               <Quote className="w-16 h-16  absolute bottom-8 right-8" />
-
               <p className="relative p-10 z-10 text-lg md:text-xl/relaxed  italic font-light">
                 {founderMessage}
               </p>
-
               <div className="mt-10 relative z-10">
                 <Link to="/members">
                   <div className="inline-flex items-center justify-center rounded-md font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">

@@ -22,7 +22,7 @@ export default function AppRoutes() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="events" element={<Events />} />
-          <Route path="events/:eventId" element={<EventDetail />} />
+          <Route path="events/:slug" element={<EventDetail />} />
           <Route path="gallery" element={<Gallery />} />
           <Route path="members" element={<Membership />} />
           <Route path="contact" element={<Contact />} />

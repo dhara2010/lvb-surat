@@ -5,6 +5,8 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvents } from '../../api/eventsApi';
+import { slugify } from '../../utils/slugify';
+import { sortEvents } from '../../utils/sortEvents';
 import PageHeader from '../../components/ui/PageHeader';
 import TypingHeading from '../../components/animations/TypingHeading';
 import FoldingImage from '../../components/effects/FoldingImage';
@@ -17,7 +19,7 @@ const inView = (delay = 0) => ({
   transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-const meetingDetails = [
+const defaultMeetingDetails = [
   { icon: Calendar, label: 'Every Wednesday', sub: '7:30 AM – 9:30 AM IST' },
   { icon: MapPin, label: 'Premium Venue, Surat', sub: '5-Star Hotel, Grand Ballroom' },
 ];
@@ -26,7 +28,13 @@ export default function Meeting() {
   const primaryTextClass = usePrimaryTextClass();
 
   const { data: eventsData, loading, error } = useFetch(getEvents);
-  const events = eventsData || [];
+  const events = eventsData ? sortEvents(eventsData) : [];
+  
+  const recentEvent = events.length > 0 ? events[0] : null;
+  const activeMeetingDetails = recentEvent ? [
+    { icon: Calendar, label: `${recentEvent.date || ''} ${recentEvent.month || ''} ${recentEvent.year || ''}`.trim() || 'Upcoming Event', sub: recentEvent.time || '7:30 AM – 9:30 AM IST' },
+    { icon: MapPin, label: 'Event Venue', sub: recentEvent.venue || '5-Star Hotel, Grand Ballroom' },
+  ] : defaultMeetingDetails;
 
   return (
     <div id="meeting" className="bg-white min-h-screen pb-16 md:pb-24 overflow-x-hidden">
@@ -76,9 +84,8 @@ export default function Meeting() {
               outcomes.
             </p>
 
-            {/* Detail cards */}
             <div className="flex flex-col gap-3 mt-2">
-              {meetingDetails.map((d, i) => {
+              {activeMeetingDetails.map((d, i) => {
                 const Icon = d.icon;
                 return (
                   <div
@@ -90,7 +97,6 @@ export default function Meeting() {
                     >
                       <Icon
                         className="w-5 h-5"
-
                         aria-hidden
                       />
                     </div>
@@ -159,7 +165,7 @@ export default function Meeting() {
                 </div>
 
                 <Link
-                  to={`/events/${ev.id || i}`}
+                  to={`/events/${slugify(ev.title || '')}`}
                   className="btn-secondary text-sm py-2.5 w-full text-center"
                   id={`event-cta-${i}`}
                 >

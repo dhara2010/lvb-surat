@@ -1,53 +1,27 @@
-import React, { useState } from 'react';
-import { Plus, Trash2, Edit2, Eye, EyeOff } from 'lucide-react';
+import React from 'react';
+import { Edit2, Trash2, Plus } from 'lucide-react';
 
 export const SectionHeader = ({ title, desc }) => (
-  <div className="mb-6">
-    <h1 className="text-2xl md:text-3xl font-extrabold mb-1 text-heading">{title}</h1>
-    <p className="text-muted text-sm font-medium">{desc}</p>
+  <div className="flex flex-col gap-1 pb-4 border-b border-border">
+    <h2 className="text-2xl font-black tracking-tight text-heading uppercase font-display">{title}</h2>
+    <p className="text-sm font-medium text-muted">{desc}</p>
   </div>
 );
 
-export const InputGroup = ({ label, placeholder, val, setVal, w="w-full", req=true, type="text" }) => (
+export const InputGroup = ({ label, placeholder, val, setVal, type="text", w="w-full", req=true }) => (
   <div className={`flex flex-col gap-1.5 ${w}`}>
     <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">{label}</label>
-    <input required={req} type={type} value={val || ''} onChange={e=>setVal(e.target.value)} placeholder={placeholder}
+    <input required={req} type={type} value={val || ''} onChange={e=>setVal(e.target.value)} placeholder={placeholder} 
       className="w-full bg-bg border border-border p-3 rounded-xl text-heading outline-none focus:border-cyan-500 focus:bg-bg-alt transition-all font-medium text-sm" 
     />
   </div>
 );
 
-export const PasswordInputGroup = ({ label, placeholder, val, setVal, w="w-full", req=true }) => {
-  const [show, setShow] = useState(false);
-  return (
-    <div className={`flex flex-col gap-1.5 ${w}`}>
-      <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">{label}</label>
-      <div className="relative flex items-center">
-        <input 
-          required={req} 
-          type={show ? "text" : "password"} 
-          value={val || ''} 
-          onChange={e=>setVal(e.target.value)} 
-          placeholder={placeholder}
-          className="w-full bg-bg border border-border p-3 pr-10 rounded-xl text-heading outline-none focus:border-cyan-500 focus:bg-bg-alt transition-all font-medium text-sm" 
-        />
-        <button 
-          type="button" 
-          onClick={() => setShow(!show)}
-          className="absolute right-3 text-muted hover:text-heading focus:outline-none flex items-center justify-center cursor-pointer"
-        >
-          {show ? <EyeOff size={16} /> : <Eye size={16} />}
-        </button>
-      </div>
-    </div>
-  );
-};
-
-export const TextareaGroup = ({ label, placeholder, val, setVal, w="w-full", req=false, rows=3 }) => (
+export const TextareaGroup = ({ label, placeholder, val, setVal, rows=3, w="w-full", req=true }) => (
   <div className={`flex flex-col gap-1.5 ${w}`}>
     <label className="text-xs font-bold uppercase tracking-wider pl-1 text-muted">{label}</label>
-    <textarea required={req} value={val || ''} onChange={e=>setVal(e.target.value)} placeholder={placeholder} rows={rows}
-      className="w-full bg-bg border border-border p-3 rounded-xl text-heading outline-none focus:border-cyan-500 focus:bg-bg-alt transition-all font-medium text-sm whitespace-pre-wrap" 
+    <textarea required={req} rows={rows} value={val || ''} onChange={e=>setVal(e.target.value)} placeholder={placeholder} 
+      className="w-full bg-bg border border-border p-3 rounded-xl text-heading outline-none focus:border-cyan-500 focus:bg-bg-alt transition-all font-medium text-sm resize-none" 
     />
   </div>
 );
