@@ -1,9 +1,11 @@
 const Member = require('../models/Member');
 
 const mapId = (doc) => {
-  const obj = doc.toObject();
-  obj.id = obj._id;
-  delete obj._id;
+  if (!doc) return null;
+  const obj = doc.toObject ? doc.toObject() : doc;
+  const idStr = String(obj._id || obj.id || '');
+  obj.id = idStr;
+  obj._id = idStr;
   delete obj.__v;
   return obj;
 };

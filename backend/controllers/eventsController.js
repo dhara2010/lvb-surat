@@ -121,13 +121,14 @@ const computeAttendanceStatus = (event) => {
 const mapId = (doc) => {
   if (!doc) return null;
   const obj = doc.toObject ? doc.toObject() : doc;
-  obj.id = obj._id;
+  const idStr = String(obj._id || obj.id || '');
+  obj.id = idStr;
+  obj._id = idStr;
   
   const attendanceInfo = computeAttendanceStatus(obj);
   obj.attendanceInfo = attendanceInfo;
   obj.attendanceStatus = attendanceInfo.status;
   
-  delete obj._id;
   delete obj.__v;
   return obj;
 };

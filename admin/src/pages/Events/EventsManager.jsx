@@ -72,7 +72,7 @@ export default function EventsManager({ token, showToast, scrollToTop }) {
   };
 
   const handleEdit = (d) => {
-    setEditingId(d.id);
+    setEditingId(d.id || d._id);
     const cleanForm = { ...d };
     delete cleanForm.id;
     delete cleanForm._id;
