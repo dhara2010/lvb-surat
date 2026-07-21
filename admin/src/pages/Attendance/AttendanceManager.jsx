@@ -235,8 +235,8 @@ export default function AttendanceManager({ token, showToast }) {
             >
               <option value="">All / Date-Based View</option>
               {events.map(ev => (
-                <option key={ev.id} value={ev.id}>
-                  {ev.title} ({ev.date} {ev.month})
+                <option key={ev.id || ev._id} value={ev.id || ev._id}>
+                  {ev.title || 'Untitled Event'} ({ev?.date || ''} {ev?.month || ''})
                 </option>
               ))}
             </select>
@@ -449,7 +449,7 @@ export default function AttendanceManager({ token, showToast }) {
                         <ExternalLink size={11} className="opacity-70" />
                       </a>
                     ) : (
-                      <span className="text-slate-500 font-medium">-</span>
+                      <span className="text-slate-500 font-medium font-semibold">-</span>
                     )}
                   </td>
 

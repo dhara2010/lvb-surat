@@ -1,4 +1,5 @@
 const Event = require('../models/Event');
+const Attendance = require('../models/Attendance');
 
 const monthMap = {
   jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
@@ -32,6 +33,7 @@ const getISTTimeInfo = () => {
 };
 
 const resolveEventDate = (event) => {
+  if (!event) return null;
   if (event.eventDate && String(event.eventDate).trim() !== '') return String(event.eventDate).trim();
   if (event.year && event.month && event.date) {
     const mStr = String(event.month).toLowerCase().trim().substring(0, 3);
@@ -46,6 +48,13 @@ const resolveEventDate = (event) => {
 };
 
 const computeAttendanceStatus = (event) => {
+  if (!event) {
+    return {
+      status: 'DISABLED',
+      message: 'Event does not exist or has been deleted.'
+    };
+  }
+
   if (event.attendanceEnabled === false) {
     return {
       status: 'DISABLED',
@@ -109,6 +118,7 @@ const computeAttendanceStatus = (event) => {
 };
 
 const mapId = (doc) => {
+  if (!doc) return null;
   const obj = doc.toObject ? doc.toObject() : doc;
   obj.id = obj._id;
   
@@ -122,6 +132,7 @@ const mapId = (doc) => {
 };
 
 const sanitizeEventPayload = (raw) => {
+  if (!raw) return {};
   const data = { ...raw };
   delete data.id;
   delete data._id;
@@ -159,7 +170,7 @@ const sanitizeEventPayload = (raw) => {
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find().sort({ createdAt: -1 });
-    res.json(events.map(mapId));
+    res.json(events.map(mapId).filter(Boolean));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -202,10 +213,19 @@ exports.updateEvent = async (req, res) => {
 
 exports.deleteEvent = async (req, res) => {
   try {
-    const deletedEvent = await Event.findByIdAndDelete(req.params.id);
+    const eventId = req.params.id;
+    const deletedEvent = await Event.findByIdAndDelete(eventId);
     if (!deletedEvent) {
       return res.status(404).json({ error: 'Event not found' });
     }
+
+    // Automatically clean up all attendance records for this deleted event
+    try {
+      await Attendance.deleteMany({ eventId });
+    } catch (attErr) {
+      console.error('Failed to clean up attendance records for deleted event:', attErr);
+    }
+
     res.json({ message: 'Deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
