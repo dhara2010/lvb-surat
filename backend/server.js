@@ -21,6 +21,7 @@ const chaptersRoutes = require("./routes/chaptersRoutes");
 const blogsRoutes = require("./routes/blogsRoutes");
 const notificationsRoutes = require("./routes/notificationsRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
+const eventAttendanceRoutes = require("./routes/eventAttendanceRoutes");
 
 /* =========================================================
    CREATE EXPRESS APP
@@ -270,6 +271,8 @@ app.use("/api/blogs", blogsRoutes);
 app.use("/api/notifications", notificationsRoutes);
 
 app.use("/api/attendance", attendanceRoutes);
+
+app.use("/api/event-attendance", eventAttendanceRoutes);
 
 /* =========================================================
    404 HANDLER

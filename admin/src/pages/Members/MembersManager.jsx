@@ -536,13 +536,21 @@ export default function MembersManager({ token }) {
     });
 
     /*
-      Scroll smoothly to form.
+      Scroll smoothly to form regardless of container constraints.
     */
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    const formElement = document.getElementById("members-form-top");
+    if (formElement) {
+      formElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
   };
 
   /* =======================================================
@@ -640,6 +648,8 @@ export default function MembersManager({ token }) {
       {/* ===================================================
           FORM
       ==================================================== */}
+
+      <div id="members-form-top" className="scroll-mt-6"></div>
 
       <div
         className="

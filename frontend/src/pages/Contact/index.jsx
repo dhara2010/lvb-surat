@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
+import { Plus, ArrowRight } from 'lucide-react';
 import { faqs } from '../../data';
 import { submitContactForm } from '../../api/contactApi';
 import PageHeader from '../../components/ui/PageHeader';
 import TypingHeading from '../../components/animations/TypingHeading';
+
+const Instagram = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+);
+
+const Linkedin = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+);
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 50 },
@@ -14,15 +22,8 @@ const inView = (delay = 0) => ({
   transition: { duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] },
 });
 
-const contactDetails = [
-  { icon: Clock, label: 'Every Wednesday', sub: '7:30 AM – 9:30 AM IST' },
-  { icon: MapPin, label: '5-Star Hotel, Surat', sub: 'Grand Ballroom, Gujarat' },
-  { icon: Mail, label: 'info@lvbsuratplatinum.com', sub: 'Membership inquiries' },
-];
-
 export default function Contact() {
   const primaryTextClass = usePrimaryTextClass();
-
   const [openFaq, setOpenFaq] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', company: '', category: '', referral: '', message: '' });
@@ -70,54 +71,53 @@ export default function Contact() {
         <div className="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 pl-1 pr-1">
 
           {/* Left Column: Info Panel */}
-          <motion.div {...inView(0)} className="lg:col-span-2 flex flex-col justify-between rounded-2xl bg-gray-50 p-10 md:p-14 border border-gray-100 shadow-md relative overflow-hidden">
-            {/* Decorative background shapes */}
+          <motion.div {...inView(0)} className="lg:col-span-2 h-full flex flex-col justify-center gap-16 rounded-[2rem] bg-gradient-to-b from-[#044765] to-[#022c40] p-10 md:p-14 border border-[#044765]/20 shadow-[0_20px_40px_rgba(4,71,101,0.2)] relative overflow-hidden group">
+            
+            {/* Glowing Orbs & Glass Effects */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-[#4FA3D1]/25 to-transparent rounded-full blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none transition-transform duration-1000 group-hover:scale-110 group-hover:opacity-70" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#021d2b]/80 to-transparent rounded-full blur-3xl translate-y-1/4 -translate-x-1/4 pointer-events-none" />
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent pointer-events-none" />
 
-
-
-            <div className="relative z-10 flex flex-col gap-6">
+            <div className="relative z-10 flex flex-col gap-8">
               <div>
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-10 h-[3px] bg-secondary rounded-full"></div>
-                  <span className="font-extrabold tracking-[0.25em] uppercase text-xs">Reach Out</span>
-                </div>
-                <h2 className={`text-4xl md:text-5xl lg:text-[2.75rem] font-black ${primaryTextClass} tracking-tight leading-[1.15]`}>
-                  Let's Start a <br /><span className="bg-clip-text bg-gradient-to-r from-secondary to-[#4FA3D1]">Conversation.</span>
+                <motion.div initial={{ width: 0 }} animate={{ width: "100%" }} transition={{ duration: 1, delay: 0.2 }} className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-[3px] bg-[#4FA3D1] rounded-full shadow-[0_0_12px_rgba(79,163,209,0.6)]"></div>
+                  <span className="font-extrabold tracking-[0.25em] uppercase text-xs text-[#4FA3D1]">Reach Out</span>
+                </motion.div>
+                <h2 className="text-4xl md:text-5xl lg:text-[2.75rem] font-black !text-white tracking-tight leading-[1.15]">
+                  Let's Start a <br /><span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">Conversation.</span>
                 </h2>
               </div>
 
-              <p className="text-[15px] leading-[1.8] font-medium mt-2">
+              <p className="text-[15px] leading-[1.8] font-medium text-blue-50/80 max-w-sm">
                 Interested in joining Surat's most exclusive business network? Contact our committee directly to arrange a guest pass or discuss membership criteria.
               </p>
-
-              <div className="flex flex-col gap-6 mt-8">
-                {contactDetails.map((d, i) => {
-                  const Icon = d.icon;
-                  return (
-                    <div key={i} className="flex items-start gap-4 group cursor-default">
-                      <div className="w-14 h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center shrink-0 shadow-sm group-hover:border-secondary/30 group-hover:shadow-lg hover-lift transition-all duration-400 group-hover:-translate-y-1">
-                        <Icon className="w-6 h-6" strokeWidth={1.5} aria-hidden />
-                      </div>
-                      <div className="flex flex-col justify-center pt-2">
-                        <p className={`text-[15px] font-extrabold ${primaryTextClass} mb-0.5 group-hover:text-secondary transition-colors`}>{d.label}</p>
-                        <p className="text-sm font-medium">{d.sub}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </div>
+            <div className="relative z-10 pt-8 border-t border-white/10 flex flex-wrap items-center gap-4 sm:gap-8">
+              <a
+                href="https://www.instagram.com/lvb_platinum_surat/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm font-bold text-white/70 hover:text-white transition-all duration-300 group/link"
+              >
+                <div className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-sm group-hover/link:bg-white/10 group-hover/link:border-white/20 group-hover/link:shadow-[0_8px_20px_rgba(0,0,0,0.2)] group-hover/link:-translate-y-1 transition-all duration-300">
+                  <Instagram size={18} />
+                </div>
+                <span>Instagram</span>
+              </a>
 
-            {/* Bottom Graphic / Social Proof */}
-            <div className="relative z-10 mt-14 pt-8 border-t border-gray-200">
-              <p className={`text-[11px] font-black ${primaryTextClass} uppercase tracking-[0.2em] mb-4`}>Connect with us</p>
-              <div className="flex gap-5">
-                {['LinkedIn', 'Twitter', 'Instagram'].map((social, i) => (
-                  <a key={i} href="#" className="text-sm font-bold  hover:text-secondary hover:-translate-y-0.5 transition-all">
-                    {social}
-                  </a>
-                ))}
-              </div>
+              <a
+                href="https://www.linkedin.com/in/lvb-surat-platinum-9b7367419/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm font-bold text-white/70 hover:text-white transition-all duration-300 group/link"
+              >
+                <div className="w-11 h-11 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-sm group-hover/link:bg-white/10 group-hover/link:border-white/20 group-hover/link:shadow-[0_8px_20px_rgba(0,0,0,0.2)] group-hover/link:-translate-y-1 transition-all duration-300">
+                  <Linkedin size={18} />
+                </div>
+                <span>LinkedIn</span>
+              </a>
             </div>
           </motion.div>
 

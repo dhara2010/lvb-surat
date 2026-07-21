@@ -11,6 +11,8 @@ const EventSchema = new mongoose.Schema({
   mapLink: String,
   organizer: String,
   image: String,
+  latitude: Number,
+  longitude: Number,
   
   descriptionPart1: String,
   descriptionPart2: String,

@@ -107,7 +107,7 @@ export default function TestimonialsSection() {
             </span>
           </ScrollReveal3D>
           <TypingHeading el="h2" className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#090E14] tracking-tight leading-[1.2] lg:leading-[1.1] mb-5">
-            Voices of our <span>happy customers</span>
+            What Member's Says?
           </TypingHeading>
           
           <TextReveal delay={0.2} splitBy="word" el="p" className="text-sm md:text-base lg:text-lg font-light leading-relaxed mb-10 max-w-lg lg:max-w-none mx-auto lg:mx-0">
@@ -119,7 +119,7 @@ export default function TestimonialsSection() {
             <div className="flex -space-x-4">
               {testimonials.slice(0,3).map((t, idx) => (
                 <div key={idx} className="relative w-12 h-12 md:w-14 md:h-14 rounded-full border-2 overflow-hidden shadow-sm z-10 border-white">
-                   <img src={resolveImageUrl(t.img)} alt={t.name} className="w-full h-full object-cover" loading="lazy" decoding="async"
+                   <img src={t.img} alt={t.name} className="w-full h-full object-cover" loading="lazy" decoding="async"
                     onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${t.name}&backgroundColor=090E14&textColor=fff`; }} />
                 </div>
               ))}
@@ -190,7 +190,7 @@ export default function TestimonialsSection() {
                       {/* Member Profile */}
                       <div className="flex items-center gap-3 sm:gap-4 mt-6 md:mt-8">
                         <div className={`relative overflow-hidden w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full border-2 transition-transform duration-300 ${isTop ?'group-hover:scale-110' :''}`} style={{ borderColor: isTop ?'#4FA3D1' :'transparent' }}>
-                          <img loading="lazy" decoding="async" src={resolveImageUrl(card.img)}
+                          <img loading="lazy" decoding="async" src={card.img}
                             alt={card.name}
                             className={`w-full h-full object-cover ${isTop ?'' :'grayscale opacity-70'}`}
                             onError={(e) => { e.target.src =`https://api.dicebear.com/7.x/initials/svg?seed=${card.name}&backgroundColor=ffffff&textColor=000`; }}

@@ -21,6 +21,7 @@ import NotificationsManager from './pages/Notifications/NotificationsManager';
 import SettingsManager from './pages/Settings/SettingsManager';
 import AdminsManager from './pages/Admins/AdminsManager';
 import AttendanceManager from './pages/Attendance/AttendanceManager';
+import EventAttendanceManager from './pages/EventAttendance/EventAttendanceManager';
 import Preloader from './components/Preloader';
 
 export default function App() {
@@ -196,7 +197,8 @@ export default function App() {
   const NAV_ITEMS = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'members', label: 'Members', icon: Users },
-    { id: 'attendance', label: 'Attendance', icon: UserCheck },
+    { id: 'attendance', label: 'Checkins', icon: UserCheck },
+    { id: 'event-attendance', label: 'Event Attend.', icon: Calendar },
     { id: 'events', label: 'Events', icon: Calendar },
     { id: 'gallery', label: 'Gallery', icon: ImageIcon },
     { id: 'leaders', label: 'Leaders', icon: Shield },
@@ -332,9 +334,10 @@ export default function App() {
                 className="w-full"
               >
                 {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} />}
-                {activeTab === 'members' && <MembersManager token={token} />}
-                {activeTab === 'attendance' && <AttendanceManager token={token} />}
-                {activeTab === 'events' && <EventsManager token={token} />}
+                { activeTab === 'members' && <MembersManager token={token} /> }
+                { activeTab === 'attendance' && <AttendanceManager token={token} /> }
+                { activeTab === 'event-attendance' && <EventAttendanceManager token={token} /> }
+                { activeTab === 'events' && <EventsManager token={token} /> }
                 {activeTab === 'gallery' && <GalleryManager token={token} />}
                 {activeTab === 'leaders' && <LeadersManager token={token} />}
                 {activeTab === 'contacts' && <ContactsManager token={token} />}

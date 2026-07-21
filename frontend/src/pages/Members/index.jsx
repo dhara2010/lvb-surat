@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { usePrimaryTextClass } from "../../hooks/useTheme";
 import { motion } from "framer-motion";
-import {Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight, } from "lucide-react";
+import { Users, TrendingUp, MessageSquare, Diamond, Building2, Stethoscope, CalendarDays, Plane, ArrowRight, Phone, Mail, MapPin, Globe, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useFetch } from "../../hooks/useFetch";
 import { getMembers } from "../../api/membersApi";
@@ -14,8 +14,8 @@ import TiltCard from '../../components/animations/TiltCard';
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
   whileInView: { opacity: 1, y: 0, },
-  viewport: {once: true,amount: 0.1,},
-  transition: {duration: 0.7,delay,ease: [0.16, 1, 0.3, 1],},
+  viewport: { once: true, amount: 0.1, },
+  transition: { duration: 0.7, delay, ease: [0.16, 1, 0.3, 1], },
 });
 
 const vacantCategories = [
@@ -347,9 +347,10 @@ export default function MembersDirectory() {
           md:py-24
 
           px-5
-          md:px-10
+          md:px-8
+          xl:px-12
 
-          max-w-7xl
+          max-w-[1600px]
           mx-auto
 
           w-full
@@ -418,11 +419,11 @@ export default function MembersDirectory() {
           className="
             grid
             grid-cols-1
-            sm:grid-cols-2
-            lg:grid-cols-3
+            2xl:grid-cols-2
 
-            gap-8
-            md:gap-10
+            gap-10
+            md:gap-14
+            xl:gap-16
 
             min-h-[300px]
           "
@@ -474,11 +475,9 @@ export default function MembersDirectory() {
               className="
                   col-span-full
                   py-20
-
                   flex
                   items-center
                   justify-center
-
                   font-bold
                   tracking-[0.2em]
                 "
@@ -493,593 +492,122 @@ export default function MembersDirectory() {
 
           {platinumMembers.map((m, i) => {
             const photoSrc =
-                m.photoUrl && m.photoUrl.trim() !== ""
-                    ? resolveImageUrl(m.photoUrl)
-                    : "/members/logo.png";
-
+              m.photoUrl && m.photoUrl.trim() !== ""
+                ? resolveImageUrl(m.photoUrl)
+                : "/members/logo.png";
             const logoSrc =
-                m.logoUrl && m.logoUrl.trim() !== ""
-                    ? resolveImageUrl(m.logoUrl)
-                    : "/members/logo.png";
-
+              m.logoUrl && m.logoUrl.trim() !== ""
+                ? resolveImageUrl(m.logoUrl)
+                : "/members/logo.png";
             console.log(`Final image URL for ${m.name}:`, { photoSrc, logoSrc });
             return (
-            <motion.div
-              key={m.id || m._id || i}
-              {...inView((i % 9) * 0.05)}
-              className="
-                bg-white
-
-                rounded-xl
-
-                p-6
-                md:p-8
-
-                border
-                border-gray-100
-
-                hover:border-secondary/20
-
-                shadow-md
-
-                hover:shadow-xl
-
-                transition-all
-                duration-500
-
-                group
-
-                flex
-                flex-col
-
-                hover:-translate-y-2
-
-                relative
-
-                overflow-hidden
-              "
-            >
-              {/* Top Accent */}
-
-              <div
-                className="
-                  absolute
-
-                  top-0
-                  left-0
-                  right-0
-
-                  h-1
-
-                  bg-gradient-to-r
-
-                  from-transparent
-                  via-secondary
-                  to-transparent
-
-                  opacity-0
-
-                  group-hover:opacity-100
-
-                  transition-opacity
-                  duration-500
-                "
-              />
-
-              {/* =============================================
-                  PHOTO + LOGO
-              ============================================== */}
-
-              <div
-                className="
-                  flex
-                  justify-between
-                  items-start
-
-                  gap-5
-
-                  mb-8
-
-                  relative
-                  z-10
-
-                  w-full
-                "
+              <motion.div
+                key={m.id || m._id || i}
+                {...inView((i % 2) * 0.1)}
+                className="relative group bg-white/80 backdrop-blur-3xl rounded-[28px] p-6 lg:p-7 border border-white/60 shadow-[0_8px_30px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(4,71,101,0.08),0_4px_12px_rgba(0,0,0,0.04)] hover:-translate-y-2 transition-all duration-[400ms] ease-out flex flex-col gap-6 sm:gap-8 items-center"
               >
-                {/* MEMBER PHOTO */}
+                {/* Background Glow */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#044765]/5 to-[#4FA3D1]/5 rounded-[28px] opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-[400ms] -z-10 pointer-events-none" />
+                
+                {/* Simulated Gradient Border */}
+                <div className="absolute inset-0 rounded-[28px] border-[1.5px] border-transparent bg-gradient-to-br from-[#044765]/40 to-[#4FA3D1]/40 [mask-image:linear-gradient(white,white),linear-gradient(white,white)] [mask-clip:padding-box,border-box] [mask-composite:exclude] opacity-0 group-hover:opacity-100 transition-opacity duration-[400ms] pointer-events-none" />
 
-                <div
-                  className="
-                    relative
+                {/* Top Side: Member Image + Logo Side-by-Side */}
+                <div className="flex flex-row items-center justify-center gap-4 sm:gap-6 w-full">
+                  
+                  {/* Member Image Wrapper */}
+                  <div className="flex-1 w-full max-w-[500px] aspect-square rounded-[24px] overflow-hidden bg-gray-50 shadow-[0_4px_20px_rgba(0,0,0,0.08)] group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.12)] transition-shadow duration-[400ms] relative z-10 isolate">
+                    <img
+                      src={photoSrc}
+                      alt={m.name || "Member"}
+                      width="500"
+                      height="500"
+                      loading="lazy"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/members/logo.png"; }}
+                      className="w-full h-full object-cover transition-transform duration-[400ms] group-hover:scale-[1.04] bg-white relative z-10"
+                    />
+                    {/* Skeleton pattern for loading */}
+                    <div className="absolute inset-0 bg-gray-200 -z-10 animate-pulse pointer-events-none" />
+                  </div>
 
-                    w-[125px]
-                    h-[145px]
-
-                    md:w-[145px]
-                    md:h-[165px]
-
-                    flex-shrink-0
-
-                    rounded-lg
-
-                    overflow-hidden
-
-                    bg-gray-100
-
-                    border
-                    border-gray-100
-
-                    shadow-sm
-                  "
-                >
-                  <img
-                    src={photoSrc}
-                    alt={m.name || "LVB Member"}
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = "/members/logo.png";
-                    }}
-                    className="
-                      block
-                      w-full
-                      h-full
-                      object-cover
-                      object-top
-                      opacity-100
-                      filter-none
-                      brightness-100
-                      contrast-100
-                      saturate-100
-                      transition-transform
-                      duration-700
-                      ease-out
-                      group-hover:scale-[1.04]
-                    "
-                  />
+                  {/* Company Logo Wrapper */}
+                  <div className="flex-1 w-full max-w-[500px] aspect-square bg-white backdrop-blur-2xl rounded-[24px] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.08)] flex items-center justify-center p-4 z-20 group-hover:rotate-[3deg] transition-all duration-[400ms] group-hover:shadow-[0_16px_32px_rgba(0,0,0,0.16)]">
+                    <img
+                      src={logoSrc}
+                      alt={`${m.businessName} Logo`}
+                      width="500"
+                      height="500"
+                      loading="lazy"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/members/logo.png"; }}
+                      className="w-full h-full object-contain filter group-hover:brightness-105 transition-all duration-[400ms]"
+                    />
+                  </div>
                 </div>
 
-                {/* COMPANY LOGO */}
+                {/* Bottom Side: Details */}
+                <div className="flex flex-col flex-grow items-center text-center w-full transition-transform duration-[400ms] group-hover:-translate-y-1 z-10">
+                  
+                  {/* Name and Position */}
+                  <div className="mb-4">
+                    <h3 className="text-[28px] sm:text-[34px] font-black text-gray-900 leading-[1.1] tracking-tight mb-2 flex items-center gap-3">
+                      {m.name}
+                    </h3>
+                    <p className="text-[13px] font-bold text-gray-400 uppercase tracking-[0.15em]">
+                      {m.position || "Member"}
+                    </p>
+                  </div>
 
-                <div
-                  className="
-                    w-[100px]
-                    h-[100px]
+                  {/* Business Name */}
+                  <div className="mb-6">
+                    <h4 className="text-xl sm:text-2xl font-bold text-gray-800 leading-snug">
+                      {m.businessName}
+                    </h4>
+                  </div>
 
-                    md:w-[115px]
-                    md:h-[115px]
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-3 mb-6">
 
-                    rounded-lg
+                    <span className="inline-flex items-center px-3.5 py-1.5 bg-gray-50 border border-gray-200 text-gray-700 text-[11px] font-bold uppercase tracking-[0.1em] rounded-full shadow-sm">
+                      {m.businessCategory}
+                    </span>
+                  </div>
 
-                    bg-white
+                  <div className="flex-grow" />
 
-                    border
-                    border-gray-200
-
-                    shadow-sm
-
-                    p-3
-
-                    flex
-                    items-center
-                    justify-center
-
-                    overflow-hidden
-
-                    flex-shrink-0
-                  "
-                >
-                  <img
-                    src={logoSrc}
-                    alt={`${m.businessName || "Company"} Logo`}
-                    loading="lazy"
-                    decoding="async"
-                    onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = "/members/logo.png";
-                    }}
-                    className="
-                      block
-                      w-full
-                      h-full
-                      object-contain
-                      opacity-100
-                      filter-none
-                      brightness-100
-                      contrast-100
-                      saturate-100
-                    "
-                  />
                 </div>
-              </div>
-
-              {/* =============================================
-                  MEMBER INFORMATION
-              ============================================== */}
-
-              <div
-                className="
-                  flex
-                  flex-col
-
-                  mt-auto
-
-                  pb-4
-
-                  border-b
-                  border-gray-100
-                "
-              >
-                {/* Member Name */}
-
-                <h3
-                  className={`
-                    text-2xl
-
-                    font-black
-
-                    ${primaryTextClass}
-
-                    leading-tight
-
-                    group-hover:text-secondary
-
-                    transition-colors
-                    duration-300
-                  `}
-                >
-                  {m.name}
-                </h3>
-
-                {/* Business */}
-
-                <div
-                  className="
-                    mt-3
-
-                    flex
-                    items-center
-
-                    gap-2
-                  "
-                >
-                  <div
-                    className="
-                      w-8
-                      h-[2px]
-
-                      shrink-0
-
-                      bg-secondary
-
-                      rounded-full
-                    "
-                  />
-
-                  <span
-                    className="
-                      uppercase
-
-                      text-[11px]
-
-                      font-black
-
-                      tracking-[0.15em]
-
-                      line-clamp-2
-                    "
-                  >
-                    {m.businessName}
-                  </span>
-                </div>
-              </div>
-
-              {/* =============================================
-                  BUSINESS CATEGORY
-              ============================================== */}
-
-              <div
-                className="
-                  pt-4
-
-                  flex
-
-                  justify-between
-                  items-center
-
-                  gap-3
-                "
-              >
-                <span
-                  className="
-                    inline-block
-
-                    text-[10px]
-
-                    font-bold
-
-                    uppercase
-
-                    tracking-[0.15em]
-
-                    line-clamp-2
-
-                    mr-2
-                  "
-                >
-                  {m.businessCategory}
-                </span>
-
-                <div
-                  className="
-                    w-9
-                    h-9
-
-                    rounded-full
-
-                    bg-gray-50
-
-                    flex
-                    items-center
-                    justify-center
-
-                    group-hover:bg-secondary
-                    group-hover:text-white
-
-                    transition-all
-                    duration-300
-
-                    flex-shrink-0
-                  "
-                >
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
             );
           })}
         </div>
       </section>
 
-      {/* =====================================================
-          VACANT CATEGORIES
-      ====================================================== */}
-
-      <section
-        className="
-          bg-gray-50
-
-          py-20
-          md:py-24
-
-          relative
-
-          overflow-hidden
-
-          border-t
-          border-gray-100
-        "
-      >
-        <div
-          className="
-            max-w-6xl
-
-            mx-auto
-
-            px-6
-            md:px-10
-
-            relative
-            z-10
-
-            flex
-            flex-col
-            items-center
-          "
-        >
-          {/* Heading */}
-
+      <section className=" bg-gray-50 py-20 md:py-24 relative overflow-hidden border-t border-gray-100 " >
+        <div className=" max-w-6xl mx-auto px-6 md:px-10 relative z-10 flex flex-col items-center " >
           <motion.div {...inView(0)} className="text-center mb-16">
-            <h2
-              className={`
-                text-4xl
-                md:text-5xl
-
-                font-black
-
-                ${primaryTextClass}
-
-                mb-6
-
-                tracking-tight
-
-                leading-[1.1]
-              `}
-            >
-              Top Vacant Categories
-            </h2>
-
-            <div
-              className="
-                w-16
-                h-1.5
-
-                bg-secondary
-
-                mx-auto
-
-                rounded-full
-              "
-            />
-
-            <p
-              className="
-                mt-8
-
-                max-w-lg
-
-                mx-auto
-
-                text-[15px]
-
-                leading-relaxed
-
-                font-medium
-              "
-            >
-              We exclusively allow one profession per category. Lock out your
-              competition by filling one of our vacant seats today.
-            </p>
+            <h2 className={`text-4xl md:text-5xl font-black ${primaryTextClass} mb-6 tracking-tight leading-[1.1] `} > Top Vacant Categories </h2>
+            <div className="w-16 h-1.5 bg-secondary mx-auto rounded-full " />
+            <p className="mt-8 max-w-lg mx-auto text-[15px] leading-relaxed font-medium " > We exclusively allow one profession per category. Lock out your competition by filling one of our vacant seats today. </p>
           </motion.div>
-
-          {/* Categories */}
-
-          <div
-            className="
-              w-full
-
-              grid
-
-              grid-cols-2
-              lg:grid-cols-5
-
-              gap-4
-              md:gap-6
-
-              max-w-5xl
-            "
-          >
+          <div className="w-full grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 max-w-5xl ">
             {vacantCategories.map((v, i) => {
               const Icon = v.icon;
-
               return (
-                <motion.div
-                  key={v.title}
-                  {...inView(i * 0.1)}
-                  className={`
-                    flex
-                    flex-col
-                    items-center
-
-                    group
-
-                    bg-white
-
-                    rounded-3xl
-
-                    p-6
-                    md:p-8
-
-                    border
-                    border-gray-100
-
-                    shadow-sm
-
-                    hover:shadow-xl
-
-                    hover:-translate-y-2
-
-                    transition-all
-                    duration-500
-
-                    ${i === 4 ? "col-span-2 lg:col-span-1" : ""}
-                  `}
-                >
-                  <div
-                    className="
-                      w-16
-                      h-16
-
-                      rounded-2xl
-
-                      bg-gray-50
-
-                      border
-                      border-gray-100
-
-                      flex
-                      items-center
-                      justify-center
-
-                      mb-6
-
-                      group-hover:bg-secondary
-                      group-hover:text-white
-
-                      transition-all
-                      duration-300
-                    "
-                  >
+                <motion.div key={v.title} {...inView(i * 0.1)} className={`flex flex-col items-center group bg-white  rounded-3xl p-6 md:p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 ${i === 4 ? "col-span-2 lg:col-span-1" : ""}`}>
+                  <div className=" w-16 h-16 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-6 group-hover:bg-secondary group-hover:text-white transition-all duration-300">
                     <Icon size={26} strokeWidth={1.5} />
                   </div>
-
-                  <h4
-                    className={`
-                      ${primaryTextClass}
-
-                      font-extrabold
-
-                      text-center
-
-                      text-[13px]
-                      md:text-[15px]
-
-                      leading-tight
-                    `}
-                  >
+                  <h4 className={` ${primaryTextClass} font-extrabold text-center text-[13px] md:text-[15px] leading-tight`}>
                     {v.title}
                   </h4>
                 </motion.div>
               );
             })}
           </div>
-
-          {/* Apply Button */}
-
           <motion.div {...inView(0.4)} className="mt-16">
-            <Link
-              to="/contact"
-              className="
-                group
-
-                relative
-
-                inline-flex
-                items-center
-
-                gap-3
-
-                overflow-hidden
-
-                rounded-2xl
-
-                px-10
-                py-5
-
-                font-bold
-
-                uppercase
-
-                tracking-[0.2em]
-
-                text-[12px]
-
-                bg-primary
-
-                transition-all
-                duration-300
-
-                hover:bg-secondary
-
-                hover:shadow-xl
-
-                hover:-translate-y-1
-              "
-            >
-              <span className="relative z-10">Apply For A Seat</span>
-
-              <ArrowRight className="w-4 h-4" />
+            <Link to="/contact">
+              <div className="inline-flex items-center justify-center rounded-md font-bold text-[13px] md:text-sm uppercase tracking-widest transition-all duration-300 text-white bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] shadow-sm hover:shadow-md hover:scale-105 xl:py-3.5 xl:px-10 py-3 px-8">
+                Apply for a seat
+              </div>
             </Link>
           </motion.div>
         </div>

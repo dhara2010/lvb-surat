@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -12,24 +12,8 @@ const footerLinks = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const socialLinks = [
-  {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>,
-    href: '#'
-  },
-  {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>,
-    href: '#'
-  },
-  {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>,
-    href: '#'
-  },
-];
-
 export default function Footer() {
   const location = useLocation();
- const [logoError, setLogoError] = useState(false);
   return (
     <footer className="relative z-10 w-full overflow-hidden bg-[#F8FAFC] text-[#1E293B] border-t border-[rgba(4,71,101,.06)]">
       {/* Animated Background Elements */}
@@ -68,42 +52,13 @@ export default function Footer() {
               className="flex items-center gap-2 shrink-0 group cursor-pointer"
               aria-label="LVB Surat Platinum — Homepage"
             >
-              {logoError ? (
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center text-[10px] md:text-xs font-extrabold tracking-wider"
-                    style={{
-                      background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-light))',
-                      border: '1px solid var(--color-border)',
-                    }}
-                  >
-                    LVB
-                  </div>
-                  <div className="flex flex-col leading-none">
-                    <span
-                      className="font-bold tracking-wider text-xs md:text-sm"
-                      style={{ fontFamily: 'var(--font-sans)' }}
-                    >
-                      LVB SURAT
-                    </span>
-                    <span
-                      className="text-[8px] md:text-[9px] tracking-[0.1em] md:tracking-[0.18em] uppercase mt-0.5"
-                      style={{ fontFamily: 'var(--font-sans)' }}
-                    >
-                      Platinum Chapter
-                    </span>
-                  </div>
-                </div>
-              ) : (
-                <img
-                  src="/LVB_Platinum.svg"
-                  alt="LVB Surat Platinum"
-                  className="h-8 md:h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                  onError={() => setLogoError(true)}
-                />
-              )}
+              <img
+                src="/LVB_Platinum.svg"
+                alt="LVB Surat Platinum"
+                className="h-10 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+              />
             </Link>
-                        <p className="text-sm md:text-base leading-relaxed text-[#64748B] max-w-sm">
+            <p className="text-sm md:text-base leading-relaxed text-[#64748B] max-w-sm">
               Surat's invite-only elite networking chapter for top entrepreneurs, manufacturers, and trade leaders.
             </p>
 
@@ -116,21 +71,7 @@ export default function Footer() {
               <span className="text-sm font-medium text-[#64748B]">Established 2024</span>
             </div>
 
-            <div className="flex items-center gap-3 mt-4">
-              {socialLinks.map((social, i) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={i}
-                    href={social.href}
-                    whileHover={{ y: -3, scale: 1.1 }}
-                    className="w-10 h-10 rounded-full bg-white border border-[rgba(4,71,101,.12)] shadow-[0_4px_10px_rgb(0,0,0,0.03)] flex items-center justify-center text-[#64748B] hover:text-[#044765] hover:border-[#0EA5E9]/30 transition-colors"
-                  >
-                    <Icon width={18} height={18} />
-                  </motion.a>
-                )
-              })}
-            </div>
+
           </motion.div>
 
           {/* CENTER: NAVIGATION */}
@@ -215,7 +156,7 @@ export default function Footer() {
           {/* Right */}
           <div className="flex items-center gap-1.5 text-[11px] md:text-xs font-bold text-[#64748B] tracking-[0.15em] uppercase">
             <span>Developed by</span>
-            <a href="#" className="font-black text-[#044765] hover:text-[#0EA5E9] transition-colors relative group">
+            <a href="https://kpgbit.kpglobalbusiness.com/" target="_blank" className="font-black text-[#044765] hover:text-[#0EA5E9] transition-colors relative group">
               KP Global Business
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0EA5E9] transition-all duration-300 group-hover:w-full"></span>
             </a>

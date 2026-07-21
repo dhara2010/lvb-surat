@@ -117,15 +117,24 @@ export const FileInputGroup = ({
           body: formData,
         },
       );
-      const data = await res.json();
-      if (data.imageUrl) {
+      
+      const responseText = await res.text();
+      let data = null;
+      
+      try {
+        data = responseText ? JSON.parse(responseText) : null;
+      } catch (parseError) {
+        data = { message: responseText || `HTTP ${res.status}` };
+      }
+
+      if (res.ok && data?.imageUrl) {
         setVal(data.imageUrl);
       } else {
-        alert("Upload failed: " + (data.message || "Unknown error"));
+        alert("Upload Server Error: " + (data?.message || data?.error || `Status ${res.status}`));
       }
     } catch (err) {
-      console.error(err);
-      alert("Upload failed.");
+      console.error("Upload network block:", err);
+      alert("Upload Connection Failed: " + err.message);
     }
   };
 
@@ -220,10 +229,6 @@ export const PremiumTable = ({ headers, rows, emptyText }) => (
   </div>
 );
 
-// Helper function to resolve dynamic image paths based on domain isolation
-e; // =========================================================
-// IMAGE URL RESOLVER
-// =========================================================
 
 export const resolveImageUrl = (url) => {
   if (!url) {

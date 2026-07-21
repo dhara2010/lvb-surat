@@ -10,6 +10,7 @@ import AnimatedLine from '../../../components/animations/AnimatedLine';
 import MotionWrapper from '../../../components/animations/MotionWrapper';
 import MagneticButton from '../../../components/animations/MagneticButton';
 import { ArrowRight } from 'lucide-react';
+import { Link } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger, Flip);
 
@@ -192,16 +193,16 @@ export default function HeroSequence() {
               <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-start flex-wrap">
                 <MagneticButton className="relative group overflow-hidden inline-flex items-center justify-center rounded-full bg-gradient-to-tr from-[#044765] to-[#0a5e85] px-8 py-4 sm:px-10 sm:py-[18px] text-sm sm:text-base font-bold text-white shadow-[0_4px_15px_rgba(4,71,101,0.2)] transition-all duration-300 hover:shadow-[0_8px_30px_rgba(4,71,101,0.3)] hover:scale-[1.02]">
                   <span className="absolute inset-0 w-full h-full bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:250%_100%] translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-out"></span>
-                  <span className="relative z-10 flex items-center gap-2">
-                    Apply Now
+                  <Link to='/about' className="relative z-10 flex items-center gap-2">
+                    About us
                     <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
+                  </Link>
                 </MagneticButton>
 
                 <MagneticButton className="relative group inline-flex items-center justify-center rounded-full bg-white/60 backdrop-blur-md px-8 py-4 sm:px-10 sm:py-[18px] text-sm sm:text-base font-bold text-[#044765] border border-[rgba(4,71,101,0.12)] shadow-sm transition-all duration-300 hover:bg-white hover:border-[#0EA5E9]/50 hover:shadow-[0_4px_25px_rgba(14,165,233,0.15)]">
-                  <span className="relative z-10 flex items-center gap-2">
+                  <Link to='/members' className="relative z-10 flex items-center gap-2">
                     Explore Members
-                  </span>
+                  </Link>
                 </MagneticButton>
               </div>
             </MotionWrapper>
