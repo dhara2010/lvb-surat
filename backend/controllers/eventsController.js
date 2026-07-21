@@ -1,5 +1,6 @@
 const Event = require('../models/Event');
 const Attendance = require('../models/Attendance');
+const mongoose = require('mongoose');
 
 const monthMap = {
   jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
@@ -178,7 +179,11 @@ exports.getEvents = async (req, res) => {
 
 exports.getEventById = async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id);
+    const { id } = req.params;
+    if (!id || id === 'undefined' || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(404).json({ error: 'Event not found' });
+    }
+    const event = await Event.findById(id);
     if (!event) return res.status(404).json({ error: 'Event not found' });
     res.json(mapId(event));
   } catch (err) {

@@ -54,7 +54,7 @@ export default function EventsSection() {
                   </div>
 
                   <div className="w-full lg:w-1/2 flex justify-center">
-                    <Link to={`/events/${slugify(e.title || '')}`} className="block w-full max-w-[600px] mx-auto">
+                    <Link to={`/events/${e.id || e._id || i}`} className="block w-full max-w-[600px] mx-auto">
                       <LuxuryCard className="h-full group p-6 sm:p-8">
                         
                         <div className="flex items-start justify-between mb-6">

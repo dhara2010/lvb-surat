@@ -165,7 +165,7 @@ export default function Meeting() {
                 </div>
 
                 <Link
-                  to={`/events/${slugify(ev.title || '')}`}
+                  to={`/events/${ev.id || ev._id || i}`}
                   className="btn-secondary text-sm py-2.5 w-full text-center"
                   id={`event-cta-${i}`}
                 >
