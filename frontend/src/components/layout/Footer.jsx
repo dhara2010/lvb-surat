@@ -1,11 +1,11 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-const footerLinks = [
+const quickLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
+  { label: 'About Us', href: '/about' },
   { label: 'Events', href: '/events' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Members', href: '/members' },
@@ -14,169 +14,130 @@ const footerLinks = [
 
 const socialLinks = [
   {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>,
-    href: 'https://www.linkedin.com/in/lvb-surat-platinum-9b7367419/'
+    label: 'Instagram',
+    href: 'https://www.instagram.com/lvb_platinum_surat/',
+    icon: (props) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <path d="M17.5 6.5h.01" />
+      </svg>
+    ),
   },
   {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>,
-    href: 'https://instagram.com'
-  },
-  {
-    icon: (props) => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>,
-    href: '#'
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/lvb-surat-platinum-9b7367419/',
+    icon: (props) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
+      </svg>
+    ),
   },
 ];
+
 export default function Footer() {
-  const location = useLocation();
   return (
-    <footer className="relative z-10 w-full overflow-hidden bg-[#F8FAFC] text-[#1E293B] border-t border-[rgba(4,71,101,.06)]">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Soft Radial Glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] md:w-[1000px] h-[300px] md:h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(14,165,233,0.08)_0%,transparent_70%)] opacity-80"></div>
-
-        {/* Floating circles */}
-        <motion.div
-          animate={{ y: [-20, 20, -20], x: [-10, 10, -10] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 -left-20 w-64 h-64 bg-[#044765]/[0.03] rounded-full blur-[80px]"
+    <footer className="relative z-10 bg-[#f6f7f9] px-0 pt-8 text-[#334155]">
+      <div className="relative mx-auto w-full overflow-hidden rounded-t-[54px] bg-white">
+        <div
+          className="absolute inset-0 pointer-events-none opacity-80"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle, rgba(14,165,233,0.55) 0 2.5px, transparent 3px),
+              linear-gradient(rgba(14,165,233,0.055) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(14,165,233,0.055) 1px, transparent 1px)
+            `,
+            backgroundSize: '100px 100px, 100px 100px, 100px 100px',
+            backgroundPosition: '62px 22px, 62px 22px, 62px 22px',
+          }}
         />
-        <motion.div
-          animate={{ y: [20, -20, 20], x: [10, -10, 10] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-20 -right-20 w-72 h-72 bg-[#0EA5E9]/[0.04] rounded-full blur-[80px]"
-        />
-        {/* Noise Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("/noise.png")', backgroundRepeat: 'repeat' }}></div>
-      </div>
 
-      <div className="max-w-7xl px-6 py-12 md:px-10 lg:py-20 relative z-10 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 w-full">
-
-          {/* LEFT: BRAND */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col items-center md:items-start text-center md:text-left gap-6"
-          >
-            <Link
-              to="/"
-              className="flex items-center gap-2 shrink-0 group cursor-pointer"
-              aria-label="LVB Surat Platinum — Homepage"
+        <div className="relative mx-auto max-w-[1500px] px-6 py-16 sm:px-10 md:py-20 lg:px-20">
+          <div className="grid grid-cols-1 gap-14 md:grid-cols-[minmax(0,1fr)_360px] md:gap-20 lg:gap-32">
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col items-start"
             >
-              <img
-                src="/LVB_Platinum.svg"
-                alt="LVB Surat Platinum"
-                className="h-10 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-              />
-            </Link>
-            <p className="text-sm md:text-base leading-relaxed text-[#64748B] max-w-sm">
-              Surat's invite-only elite networking chapter for top entrepreneurs, manufacturers, and trade leaders.
-            </p>
+              <Link to="/" aria-label="LVB Surat Platinum Homepage" className="cursor-click inline-flex">
+                <img
+                  src="/LVB_Platinum.svg"
+                  alt="LVB Surat Platinum"
+                  className="h-14 w-auto object-contain sm:h-16"
+                />
+              </Link>
 
-            <div className="flex flex-col items-center md:items-start gap-2.5 mt-2">
-              <span className="inline-flex items-center gap-2 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#044765] bg-[#044765]/5 px-3.5 py-1.5 rounded-full border border-[rgba(4,71,101,.12)] shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9] animate-pulse"></span>
-                Trusted Business Network
-              </span>
-              <span className="text-sm font-bold text-[#1E293B]">100+ Premium Members</span>
-              <span className="text-sm font-medium text-[#64748B]">Established 2024</span>
-            </div>
-
-
-          </motion.div>
-
-          {/* CENTER: NAVIGATION */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex flex-col items-center md:items-start text-center md:text-left"
-          >
-            <h3 className="text-sm font-black text-[#044765] tracking-[0.2em] uppercase mb-8">Navigation</h3>
-            <div className="flex flex-col gap-2 w-full max-w-[220px]">
-              {footerLinks.map((link, i) => {
-                const isActive = location.pathname === link.href;
-                return (
-                  <Link
-                    key={i}
-                    to={link.href}
-                    className={`group relative flex items-center justify-between w-full py-2.5 border-b transition-colors ${isActive ? 'border-[rgba(4,71,101,.2)] text-[#044765]' : 'border-[rgba(4,71,101,.06)] text-[#64748B] hover:border-[rgba(4,71,101,.2)] overflow-hidden'}`}
-                  >
-                    {/* Hover indicator line */}
-                    <span className="absolute bg-[#0EA5E9] w-0 h-0.5 bottom-[-1px] left-0 transition-all duration-300 group-hover:w-full"></span>
-
-                    <span className={`text-sm font-bold transition-all duration-300 group-hover:text-[#044765] group-hover:translate-x-2 ${isActive ? 'translate-x-2 text-[#044765]' : ''}`}>
-                      {link.label}
-                    </span>
-
-                    {/* Active/Hover Arrow */}
-                    <ArrowRight size={14} className={`transition-all duration-300 ${isActive ? 'text-[#0EA5E9] translate-x-0 opacity-100' : 'text-[#044765] -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0'}`} />
-                  </Link>
-                );
-              })}
-            </div>
-          </motion.div>
-
-          {/* RIGHT: CTA CARD */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="col-span-1 md:col-span-2 lg:col-span-1 flex flex-col justify-center w-full"
-          >
-            <div className="relative overflow-hidden w-full rounded-[2rem] bg-white/60 backdrop-blur-xl border border-[rgba(4,71,101,.10)] shadow-[0_8px_30px_rgb(0,0,0,0.03)] p-8 md:p-10 group hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_12px_40px_rgb(4,71,101,0.08)]">
-              {/* Card Glow */}
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-[radial-gradient(circle,rgba(14,165,233,0.15)_0%,transparent_70%)] rounded-full blur-[20px] transition-all duration-500 group-hover:scale-150 group-hover:bg-[radial-gradient(circle,rgba(14,165,233,0.2)_0%,transparent_70%)] pointer-events-none"></div>
-
-              <h4 className="text-xl md:text-2xl font-black text-[#044765] tracking-tight mb-3 relative z-10">Join LVB Surat</h4>
-              <p className="text-sm font-medium text-[#64748B] leading-relaxed mb-8 relative z-10">
-                Build valuable business relationships with Surat's leading entrepreneurs and professionals.
+              <p className="mt-10 max-w-[460px] text-[20px] leading-[1.58] text-[#475569] sm:text-[22px]">
+                Surat's invite-only elite networking chapter for top entrepreneurs, manufacturers, and trade leaders.
+                Empowering business growth through powerful connections.
               </p>
 
-              <Link to="/contact" className="relative group/btn inline-flex items-center justify-center w-full overflow-hidden rounded-full bg-gradient-to-r from-[#044765] to-[#0a5e85] px-6 py-4 md:py-4 text-sm md:text-base font-bold text-white shadow-[0_4px_15px_rgba(4,71,101,0.2)] transition-all hover:shadow-[0_6px_25px_rgba(4,71,101,0.35)] hover:scale-[1.02]">
-                {/* Sine Shine Animation */}
-                <span className="absolute inset-0 z-0 bg-[linear-gradient(110deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:250%_100%] translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-1000 ease-out"></span>
-                <span className="relative z-10 flex items-center gap-2">
-                  Become a Member
-                  <ArrowRight size={16} strokeWidth={2.5} className="transition-transform duration-300 group-hover/btn:translate-x-1.5" />
-                </span>
-              </Link>
+              <div className="mt-10 flex items-center gap-5">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="cursor-click flex h-14 w-14 items-center justify-center rounded-[14px] border border-[#dfe7ef] bg-white text-[#0b3f73] shadow-[0_3px_8px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-[#7dd3fc] hover:text-[#0ea5e9] hover:shadow-[0_12px_26px_rgba(14,165,233,0.22)]"
+                  >
+                    <Icon className="h-6 w-6" strokeWidth={2.2} />
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.nav
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              aria-label="Footer quick links"
+              className="md:justify-self-start"
+            >
+              <h2 className="text-[26px] font-extrabold uppercase tracking-wide text-[#0b3f73]">
+                Quick Links
+              </h2>
+              <div className="mt-4 h-[3px] w-12 bg-[#0ea5e9]" />
+
+              <ul className="mt-8 flex flex-col gap-6">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      to={link.href}
+                      className="cursor-click group inline-flex items-center gap-3 text-[22px] font-medium text-[#475569] transition-colors duration-300 hover:text-[#0b3f73]"
+                    >
+                      <ChevronRight className="h-5 w-5 text-[#0ea5e9] transition-transform duration-300 group-hover:translate-x-1" />
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>
+          </div>
+
+          <div className="mt-10 border-t border-[#d7dee8] pt-10 md:mt-12">
+            <div className="flex flex-col gap-5 text-[15px] font-medium text-[#64748b] md:flex-row md:items-center md:justify-between">
+              <p>© 2026 LVB Surat Platinum. All Rights Reserved.</p>
+              <p>
+                Design & Developed by{' '}
+                <a
+                  href="https://kpglobalbusiness.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cursor-click font-extrabold text-[#0ea5e9] transition-colors duration-300 hover:text-[#0b3f73]"
+                >
+                  KP Global Business
+                </a>
+              </p>
             </div>
-          </motion.div>
-
+          </div>
         </div>
-
-        {/* BOTTOM SECTION */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="w-full mt-16 md:mt-24 pt-8 border-t border-[rgba(4,71,101,.10)] flex flex-col md:flex-row justify-between items-center gap-6"
-        >
-          {/* Left */}
-          <div className="flex flex-col items-center md:items-start gap-1">
-            <p className="text-[11px] md:text-xs font-black text-[#1E293B] tracking-[0.2em] uppercase">
-              © {new Date().getFullYear()} LVB Surat Platinum
-            </p>
-            <p className="text-[11px] md:text-xs font-bold text-[#64748B]">Made with ❤️ in Surat</p>
-          </div>
-
-          {/* Right */}
-          <div className="flex items-center gap-1.5 text-[11px] md:text-xs font-bold text-[#64748B] tracking-[0.15em] uppercase">
-            <span>Developed by</span>
-            <a href="https://kpgbit.kpglobalbusiness.com/" target="_blank" className="font-black text-[#044765] hover:text-[#0EA5E9] transition-colors relative group">
-              KP Global Business
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-[#0EA5E9] transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          </div>
-        </motion.div>
-
       </div>
     </footer>
   );
