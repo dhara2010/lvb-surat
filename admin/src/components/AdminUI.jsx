@@ -59,7 +59,6 @@ export const FileInputGroup = ({ label, placeholder, val, setVal, token, showToa
     const formData = new FormData();
     formData.append('image', file);
     try {
-<<<<<<< HEAD
       const res = await fetch(
         (import.meta.env.VITE_API_URL || "http://localhost:5000") +
           "/api/upload",
@@ -80,33 +79,16 @@ export const FileInputGroup = ({ label, placeholder, val, setVal, token, showToa
       }
 
       if (res.ok && data?.imageUrl) {
-=======
-      const res = await fetch((import.meta.env.VITE_API_URL || 'http://localhost:5000') + '/api/upload', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
-        body: formData
-      });
-      const data = await res.json();
-      if(data.imageUrl) {
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
         setVal(data.imageUrl);
         if (showToast) showToast('File uploaded successfully.', 'success');
       } else {
-<<<<<<< HEAD
-        alert("Upload Server Error: " + (data?.message || data?.error || `Status ${res.status}`));
+        if (showToast) showToast("Upload Server Error: " + (data?.message || data?.error || `Status ${res.status}`), 'error');
+        else alert("Upload Server Error: " + (data?.message || data?.error || `Status ${res.status}`));
       }
     } catch (err) {
       console.error("Upload network block:", err);
-      alert("Upload Connection Failed: " + err.message);
-=======
-        if (showToast) showToast("Upload failed: " + (data.message || "Unknown error"), 'error');
-        else alert("Upload failed: " + (data.message || "Unknown error"));
-      }
-    } catch (err) {
-      console.error(err);
-      if (showToast) showToast("Upload failed.", 'error');
-      else alert("Upload failed.");
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
+      if (showToast) showToast("Upload Connection Failed: " + err.message, 'error');
+      else alert("Upload Connection Failed: " + err.message);
     }
   };
   
@@ -163,11 +145,8 @@ export const PremiumTable = ({ headers, rows, emptyText }) => (
   </div>
 );
 
-<<<<<<< HEAD
 
-=======
 // Helper function to resolve dynamic image paths
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
 export const resolveImageUrl = (url) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;

@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-import React, { useState } from'react';
-import { usePrimaryTextClass } from'../../hooks/useTheme';
-import { motion } from'framer-motion';
-import { Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle } from'lucide-react';
-import { Link, useParams } from'react-router-dom';
-import { useFetch } from'../../hooks/useFetch';
-import { getEvents, bookTicket } from '../../api/eventsApi';
-import { slugify } from '../../utils/slugify';
-import { sortEvents } from '../../utils/sortEvents';
-import NotFound from '../NotFound/index.jsx';
-import PageHeader from'../../components/ui/PageHeader';
-import { resolveImageUrl } from'../../utils/imageUrl';
-import TypingHeading from '../../components/animations/TypingHeading';
-
-=======
 import React, { useState, useEffect } from 'react';
 import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
@@ -23,10 +7,13 @@ import {
 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
-import { getEvent, checkAttendance, markEventAttendance } from '../../api/eventsApi';
+import { getEvents, bookTicket, checkAttendance, markEventAttendance } from '../../api/eventsApi';
 import { getMembers } from '../../api/membersApi';
+import { slugify } from '../../utils/slugify';
+import { sortEvents } from '../../utils/sortEvents';
+import NotFound from '../NotFound/index.jsx';
 import PageHeader from '../../components/ui/PageHeader';
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 const inView = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -36,14 +23,7 @@ const inView = (delay = 0) => ({
 
 export default function EventDetail() {
   const primaryTextClass = usePrimaryTextClass();
-<<<<<<< HEAD
-
   const { slug } = useParams();
-=======
-  const { eventId } = useParams();
-
-  // State
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [ticketModalOpen, setTicketModalOpen] = useState(false);
@@ -61,6 +41,16 @@ export default function EventDetail() {
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [memberSearch, setMemberSearch] = useState('');
   const { data: membersList } = useFetch(getMembers);
+
+  // Derive eventId from slug for attendance
+  const { data: eventsData, loading, error } = useFetch(getEvents);
+  const events = eventsData ? sortEvents(eventsData) : null;
+  const currentIndex = events ? events.findIndex(e => slugify(e.title) === slug) : -1;
+  const event = currentIndex >= 0 ? events[currentIndex] : null;
+  const eventId = event?.id || event?._id || null;
+  
+  const prevEvent = events && currentIndex > 0 ? events[currentIndex - 1] : null;
+  const nextEvent = events && currentIndex >= 0 && currentIndex < events.length - 1 ? events[currentIndex + 1] : null;
 
   // One-time Attendance States (persisted via localStorage and backend)
   const [attMarked, setAttMarked] = useState(() => {
@@ -85,15 +75,6 @@ export default function EventDetail() {
   const [attMessage, setAttMessage] = useState('');
   const [attMessageType, setAttMessageType] = useState('info'); // 'info' | 'success' | 'error'
 
-  // Fetch event data
-  const { data: eventsData, loading, error } = useFetch(getEvents);
-  const events = eventsData ? sortEvents(eventsData) : null;
-  
-  const currentIndex = events ? events.findIndex(e => slugify(e.title) === slug) : -1;
-  const event = currentIndex >= 0 ? events[currentIndex] : null;
-  
-  const prevEvent = events && currentIndex > 0 ? events[currentIndex - 1] : null;
-  const nextEvent = events && currentIndex >= 0 && currentIndex < events.length - 1 ? events[currentIndex + 1] : null;
 
   const [bookingStatus, setBookingStatus] = useState({ loading: false, error: null, success: false });
 

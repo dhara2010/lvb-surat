@@ -111,11 +111,9 @@ export default function TestimonialsSection() {
         <TypingHeading el="h2" className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#090E14] tracking-tight leading-[1.2] lg:leading-[1.1] mb-5">
           What Member's Says?
         </TypingHeading>
-
         <TextReveal delay={0.2} splitBy="word" el="p" className="text-sm md:text-base lg:text-lg font-light leading-relaxed mb-10 max-w-lg lg:max-w-none mx-auto lg:mx-0">
           Discover what our customers love about us through their real experiences, honest feedback.
         </TextReveal>
-
         <ScrollReveal3D delay={0.4} className="flex flex-col sm:flex-row items-center gap-6 mt-2">
           {/* Satisfy Client Images */}
           <div className="flex -space-x-4">

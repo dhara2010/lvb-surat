@@ -27,7 +27,8 @@ import Preloader from './components/Preloader';
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'members', label: 'Members', icon: Users },
-  { id: 'attendance', label: 'Attendance', icon: UserCheck },
+  { id: 'attendance', label: 'Checkins', icon: UserCheck },
+  { id: 'event-attendance', label: 'Event Attend.', icon: Calendar },
   { id: 'events', label: 'Events', icon: Calendar },
   { id: 'gallery', label: 'Gallery', icon: ImageIcon },
   { id: 'leaders', label: 'Leaders', icon: Shield },
@@ -278,25 +279,7 @@ export default function App() {
     );
   }
 
-<<<<<<< HEAD
-  const NAV_ITEMS = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'members', label: 'Members', icon: Users },
-    { id: 'attendance', label: 'Checkins', icon: UserCheck },
-    { id: 'event-attendance', label: 'Event Attend.', icon: Calendar },
-    { id: 'events', label: 'Events', icon: Calendar },
-    { id: 'gallery', label: 'Gallery', icon: ImageIcon },
-    { id: 'leaders', label: 'Leaders', icon: Shield },
-    { id: 'contacts', label: 'Visitor Inquiries', icon: MessageSquare },
-    { id: 'chapters', label: 'Chapters', icon: MapPin },
-    { id: 'blogs', label: 'Blogs', icon: BookOpen },
-    { id: 'notifications', label: 'Notifications', icon: Bell },
-    { id: 'admins', label: 'Admin Accounts', icon: Lock },
-    { id: 'settings', label: 'Settings', icon: Settings },
-  ];
 
-=======
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
   const handleNavClick = (id) => {
     setActiveTab(id);
     if (isMobile) setMobileMenuOpen(false);
@@ -427,24 +410,10 @@ export default function App() {
                 transition={{ duration: 0.2 }}
                 className="w-full"
               >
-<<<<<<< HEAD
-                {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} />}
-                { activeTab === 'members' && <MembersManager token={token} /> }
-                { activeTab === 'attendance' && <AttendanceManager token={token} /> }
-                { activeTab === 'event-attendance' && <EventAttendanceManager token={token} /> }
-                { activeTab === 'events' && <EventsManager token={token} /> }
-                {activeTab === 'gallery' && <GalleryManager token={token} />}
-                {activeTab === 'leaders' && <LeadersManager token={token} />}
-                {activeTab === 'contacts' && <ContactsManager token={token} />}
-                {activeTab === 'chapters' && <ChaptersManager token={token} />}
-                {activeTab === 'blogs' && <BlogsManager token={token} />}
-                {activeTab === 'notifications' && <NotificationsManager token={token} />}
-                {activeTab === 'admins' && <AdminsManager token={token} />}
-                {activeTab === 'settings' && <SettingsManager token={token} />}
-=======
                 {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} showToast={showToast} />}
                 {activeTab === 'members' && <MembersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'attendance' && <AttendanceManager token={token} showToast={showToast} />}
+                {activeTab === 'event-attendance' && <EventAttendanceManager token={token} showToast={showToast} />}
                 {activeTab === 'events' && <EventsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'gallery' && <GalleryManager token={token} showToast={showToast} />}
                 {activeTab === 'leaders' && <LeadersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
@@ -454,7 +423,6 @@ export default function App() {
                 {activeTab === 'notifications' && <NotificationsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'admins' && <AdminsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'settings' && <SettingsManager token={token} showToast={showToast} />}
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
               </motion.div>
             </AnimatePresence>
           </div>

@@ -417,7 +417,6 @@ export default function MembersManager({ token, showToast, scrollToTop }) {
       chapter: member.chapter || "",
     });
 
-<<<<<<< HEAD
     /*
       Scroll smoothly to form regardless of container constraints.
     */
@@ -428,15 +427,13 @@ export default function MembersManager({ token, showToast, scrollToTop }) {
         behavior: "smooth",
         block: "start",
       });
+    } else if (scrollToTop) {
+      scrollToTop();
     } else {
       window.scrollTo({
         top: 0,
         behavior: "smooth",
       });
-=======
-    if (scrollToTop) {
-      scrollToTop();
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
     }
   };
 

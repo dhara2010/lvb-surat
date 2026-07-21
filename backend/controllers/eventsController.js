@@ -170,15 +170,10 @@ const sanitizeEventPayload = (raw) => {
 exports.getEvents = async (req, res) => {
   try {
     const events = await Event.find().sort({ createdAt: -1 });
-<<<<<<< HEAD
-    res.json(events.map(mapId));
-  } catch (err) { res.status(500).json({ error: err.message }); }
-=======
     res.json(events.map(mapId).filter(Boolean));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
 };
 
 exports.getEventById = async (req, res) => {
@@ -237,7 +232,6 @@ exports.deleteEvent = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
 exports.bookTicket = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -261,9 +255,7 @@ exports.bookTicket = async (req, res) => {
   }
 };
 
-=======
 // Export timing and status utilities for attendance controller
 exports.getISTTimeInfo = getISTTimeInfo;
 exports.resolveEventDate = resolveEventDate;
 exports.computeAttendanceStatus = computeAttendanceStatus;
->>>>>>> 3357e0df5b435410dd8b44ec3274501dc391a6e5
