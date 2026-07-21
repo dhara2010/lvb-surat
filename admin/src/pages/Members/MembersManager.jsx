@@ -427,7 +427,6 @@ export default function MembersManager({ token, showToast, scrollToTop }) {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
-    }
   };
 
   /* =======================================================
