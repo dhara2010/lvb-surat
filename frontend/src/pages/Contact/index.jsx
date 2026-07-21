@@ -5,6 +5,7 @@ import { Plus, Clock, MapPin, Mail, ArrowRight } from 'lucide-react';
 import { faqs } from '../../data';
 import { submitContactForm } from '../../api/contactApi';
 import PageHeader from '../../components/ui/PageHeader';
+import TypewriterText from '../../components/animations/TypewriterText';
 import TypingHeading from '../../components/animations/TypingHeading';
 
 const inView = (delay = 0) => ({
@@ -278,7 +279,7 @@ export default function Contact() {
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                       >
                         <div className="px-6 pb-6 text-[14px] leading-relaxed  border-t border-gray-100 mx-6 pt-5">
-                          {faq.a}
+                          <TypewriterText text={faq.a} speed={16} />
                         </div>
                       </motion.div>
                     )}

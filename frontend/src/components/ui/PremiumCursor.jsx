@@ -1,40 +1,45 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useCursor } from '../../hooks/useCursor';
 
 export default function PremiumCursor() {
-  const { position, isTouchDevice, hoverState, magneticPosition } = useCursor();
-  
-  // Outer Ring
+  const { position, velocity, isTouchDevice, hoverState, magneticPosition } = useCursor();
+
+  // Motion values for coordinates
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  
-  // Inner Dot
+
   const dotX = useMotionValue(-100);
   const dotY = useMotionValue(-100);
 
-  // Smooth springs for outer ring
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  // 3D rotation tilts based on cursor velocity
+  const rotateXVal = useMotionValue(0);
+  const rotateYVal = useMotionValue(0);
+
+  // Springs for outer 3D orb
+  const springConfig = { damping: 24, stiffness: 350, mass: 0.5 };
   const smoothCursorX = useSpring(cursorX, springConfig);
   const smoothCursorY = useSpring(cursorY, springConfig);
 
-  // Smooth springs for inner dot (faster)
-  const dotSpringConfig = { damping: 30, stiffness: 800, mass: 0.1 };
+  // Springs for inner glowing core
+  const dotSpringConfig = { damping: 30, stiffness: 700, mass: 0.1 };
   const smoothDotX = useSpring(dotX, dotSpringConfig);
   const smoothDotY = useSpring(dotY, dotSpringConfig);
 
+  // Smooth springs for 3D tilt
+  const tiltSpringConfig = { damping: 15, stiffness: 200 };
+  const smoothRotateX = useSpring(rotateXVal, tiltSpringConfig);
+  const smoothRotateY = useSpring(rotateYVal, tiltSpringConfig);
+
   const requestRef = useRef(null);
-  
+
   useEffect(() => {
     if (isTouchDevice) return;
 
-    // Use absolute window mouse position
     const updateMotionValues = () => {
-      // The inner dot follows instantly (or with slight lerp if magnetic, but user requested standard dot follow)
       dotX.set(position.x);
       dotY.set(position.y);
-      
-      // Outer ring follows either magnetic center or exact mouse
+
       if (magneticPosition) {
         cursorX.set(magneticPosition.x);
         cursorY.set(magneticPosition.y);
@@ -42,78 +47,93 @@ export default function PremiumCursor() {
         cursorX.set(position.x);
         cursorY.set(position.y);
       }
-      
+
+      // Calculate 3D tilt from velocity
+      const clampVelocityX = Math.max(-15, Math.min(15, velocity.x * 4));
+      const clampVelocityY = Math.max(-15, Math.min(15, velocity.y * 4));
+      rotateXVal.set(-clampVelocityY);
+      rotateYVal.set(clampVelocityX);
+
       requestRef.current = requestAnimationFrame(updateMotionValues);
     };
 
     requestRef.current = requestAnimationFrame(updateMotionValues);
-    
+
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [position, isTouchDevice, cursorX, cursorY, dotX, dotY, magneticPosition]);
+  }, [position, velocity, isTouchDevice, cursorX, cursorY, dotX, dotY, magneticPosition, rotateXVal, rotateYVal]);
 
   if (isTouchDevice) return null;
 
   const isHovering = hoverState.state !== 'default';
-  
-  let ringSize = 40; // Default flying bubble size
-  const dotSize = 10; // Persistent simple blue dot
-  
-  if (hoverState.state === 'pointer') {
-    ringSize = 65;
-  } else if (hoverState.state === 'image') {
-    ringSize = 80;
-  } else if (hoverState.state === 'card') {
-    ringSize = 60;
-  }
+  let size = 36;
+  if (hoverState.state === 'pointer') size = 56;
+  if (hoverState.state === 'image') size = 74;
+  if (hoverState.state === 'card') size = 62;
 
   return (
-    <div className="premium-cursor-container pointer-events-none fixed inset-0 z-[9999] overflow-hidden hidden lg:block">
-      
-      {/* Background Spotlight */}
+    <div 
+      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden hidden lg:block"
+      style={{ perspective: '800px' }}
+    >
+      {/* Outer 3D Sphere Orb */}
       <motion.div
-        className="absolute left-0 top-0 rounded-full"
+        className="absolute left-0 top-0 flex items-center justify-center rounded-full shadow-[0_10px_30px_rgba(4,71,101,0.25)] backdrop-blur-[3px]"
         style={{
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(4,71,101,0.03) 0%, rgba(4,71,101,0) 70%)',
+          width: size,
+          height: size,
           x: smoothCursorX,
           y: smoothCursorY,
           translateX: '-50%',
           translateY: '-50%',
+          rotateX: smoothRotateX,
+          rotateY: smoothRotateY,
+          transformStyle: 'preserve-3d',
+          background: hoverState.state === 'image' 
+            ? 'radial-gradient(circle at 35% 35%, rgba(14,165,233,0.3) 0%, rgba(4,71,101,0.6) 100%)'
+            : 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 0%, rgba(14,165,233,0.2) 50%, rgba(4,71,101,0.35) 100%)',
+          border: '1.5px solid rgba(255,255,255,0.6)',
+          boxShadow: isHovering 
+            ? '0 12px 35px rgba(14,165,233,0.4), inset 0 2px 6px rgba(255,255,255,0.8)' 
+            : '0 8px 24px rgba(4,71,101,0.2), inset 0 2px 4px rgba(255,255,255,0.6)'
         }}
-      />
-
-      {/* Flying Bubble (Outer Ring) */}
-      <motion.div
-        className="absolute left-0 top-0 flex items-center justify-center rounded-full backdrop-blur-[2px] border border-[var(--color-secondary)]/30 bg-[var(--color-secondary)]/10 shadow-sm"
-        style={{
-          width: ringSize,
-          height: ringSize,
-          x: smoothCursorX,
-          y: smoothCursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, scale: isHovering ? 1.2 : 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: isHovering ? 1.15 : 1 }}
+        transition={{ duration: 0.3 }}
       >
+        {/* Specular 3D Highlight sheen */}
+        <div 
+          className="absolute top-1 left-2 w-3 h-2 rounded-full bg-white/70 blur-[0.5px]" 
+          style={{ transform: 'translateZ(10px)' }} 
+        />
+
+        {/* Hover Label */}
+        {hoverState.text && (
+          <motion.span 
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-[10px] font-black uppercase tracking-widest text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+            style={{ transform: 'translateZ(15px)' }}
+          >
+            {hoverState.text}
+          </motion.span>
+        )}
       </motion.div>
 
-      {/* Simple Blue Dot */}
+      {/* Inner Glowing 3D Core */}
       <motion.div
-        className="absolute left-0 top-0 rounded-full bg-[var(--color-primary)] shadow-[0_0_8px_rgba(0,47,108,0.5)] border border-white/50"
+        className="absolute left-0 top-0 rounded-full bg-gradient-to-tr from-[#044765] to-[#0EA5E9] border border-white/80 shadow-[0_0_12px_rgba(14,165,233,0.8)]"
         style={{
-          width: dotSize,
-          height: dotSize,
+          width: 10,
+          height: 10,
           x: smoothDotX,
           y: smoothDotY,
           translateX: '-50%',
           translateY: '-50%',
-          opacity: 1
         }}
+        animate={{ scale: isHovering ? 0 : 1 }}
+        transition={{ duration: 0.2 }}
       />
     </div>
   );

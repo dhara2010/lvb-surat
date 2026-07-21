@@ -1,49 +1,56 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export function useCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
+  const [velocity, setVelocity] = useState({ x: 0, y: 0 });
   const [magneticPosition, setMagneticPosition] = useState(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [hoverState, setHoverState] = useState({ state: 'default', text: '' }); // default, pointer, image, card
 
   useEffect(() => {
-    // Check if device supports hover
     const checkTouch = () => {
       setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
     };
     checkTouch();
     window.addEventListener('resize', checkTouch);
-
     return () => window.removeEventListener('resize', checkTouch);
   }, []);
 
   useEffect(() => {
     if (isTouchDevice) return;
 
-    let rafId;
-    let isTabActive = true;
+    let lastX = -100;
+    let lastY = -100;
+    let lastTime = performance.now();
     let currentMagneticTarget = null;
+    let isTabActive = true;
 
     const handleMouseMove = (e) => {
       if (!isTabActive) return;
-      
-      const nextPosition = { x: e.clientX, y: e.clientY };
-      setPosition(nextPosition);
+      const now = performance.now();
+      const dt = Math.max(1, now - lastTime);
+
+      const vx = (e.clientX - lastX) / dt;
+      const vy = (e.clientY - lastY) / dt;
+
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastTime = now;
+
+      setPosition({ x: e.clientX, y: e.clientY });
+      setVelocity({ x: vx, y: vy });
 
       if (currentMagneticTarget) {
         const rect = currentMagneticTarget.getBoundingClientRect();
-        // Snap to center of the element, gently pulling towards the mouse
-        // But the requirement is "magnetic attraction" so snapping to center with slight mouse influence
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
-        // Let's create a subtle pulling effect where it doesn't just lock to center, but pulls.
+
         const distanceX = e.clientX - centerX;
         const distanceY = e.clientY - centerY;
-        
+
         setMagneticPosition({
-          x: centerX + distanceX * 0.1, // 10% follow
-          y: centerY + distanceY * 0.1,
+          x: centerX + distanceX * 0.15,
+          y: centerY + distanceY * 0.15,
           width: rect.width,
           height: rect.height
         });
@@ -56,8 +63,6 @@ export function useCursor() {
 
     const handleMouseOver = (e) => {
       const target = e.target;
-      
-      // Determine what is being hovered over
       const closestLinkOrBtn = target.closest('a, button, .cursor-click, .btn-primary, .btn-secondary, nav');
       const closestImage = target.closest('img, .gallery-item, .cursor-view');
       const closestCard = target.closest('.cursor-explore, .member-card, .testimonial-card, article');
@@ -78,9 +83,9 @@ export function useCursor() {
         currentMagneticTarget = null;
         setMagneticPosition(null);
       }
-      
+
       setHoverState({ state: newState, text });
-      
+
       if (currentMagneticTarget) {
         const rect = currentMagneticTarget.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
@@ -105,9 +110,8 @@ export function useCursor() {
       document.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('mouseout', handleMouseOut);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      cancelAnimationFrame(rafId);
     };
   }, [isTouchDevice]);
 
-  return { position, isTouchDevice, hoverState, magneticPosition };
+  return { position, velocity, isTouchDevice, hoverState, magneticPosition };
 }

@@ -1,11 +1,12 @@
-import React, { useState } from'react';
-import { motion, AnimatePresence } from'framer-motion';
-import ScrollReveal3D from'../../../components/animations/ScrollReveal3D';
-import TextReveal from'../../../components/animations/TextReveal';
-import TypingHeading from'../../../components/animations/TypingHeading';
-import { Plus, Minus } from'lucide-react';
-import FoldingImage from'../../../components/effects/FoldingImage';
-import { faqs } from'../../../data';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import ScrollReveal3D from '../../../components/animations/ScrollReveal3D';
+import TextReveal from '../../../components/animations/TextReveal';
+import TypingHeading from '../../../components/animations/TypingHeading';
+import TypewriterText from '../../../components/animations/TypewriterText';
+import { Plus, Minus } from 'lucide-react';
+import FoldingImage from '../../../components/effects/FoldingImage';
+import { faqs } from '../../../data';
 
 const FAQAccordion = ({ faqs }) => {
   const [open, setOpen] = useState(null);
@@ -15,20 +16,22 @@ const FAQAccordion = ({ faqs }) => {
         <div key={i} className="border-b border-white/20 pb-3">
           <button
             onClick={() => setOpen(open === i ? null : i)}
-            className="w-full flex justify-between items-center text-left py-3 font-extrabold  text-base md:text-lg hover:text-[#4FA3D1] transition-colors"
+            className="w-full flex justify-between items-center text-left py-3 font-extrabold text-base md:text-lg hover:text-[#4FA3D1] transition-colors cursor-pointer"
           >
             {faq.q}
-            {open === i ? <Minus className="w-5 h-5 shrink-0"  /> : <Plus className="w-5 h-5 shrink-0" />}
+            {open === i ? <Minus className="w-5 h-5 shrink-0" /> : <Plus className="w-5 h-5 shrink-0" />}
           </button>
           <AnimatePresence>
             {open === i && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height:'auto', opacity: 1 }}
+                animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
-                <p className="pt-1 pb-4  text-sm leading-relaxed">{faq.a}</p>
+                <p className="pt-1 pb-4 text-sm leading-relaxed">
+                  <TypewriterText text={faq.a} speed={16} />
+                </p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -44,7 +47,6 @@ export default function FAQSection() {
       <div className="container-xl mx-auto">
         <div className="flex flex-col lg:flex-row gap-16 items-start lg:items-center">
           <ScrollReveal3D className="flex-1 w-full relative hidden lg:block">
-
             <FoldingImage 
               src="/faq.webp"
               alt="Networking"
