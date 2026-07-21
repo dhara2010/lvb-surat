@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Member = require('../models/Member');
 const Attendance = require('../models/Attendance');
 const Event = require('../models/Event');
@@ -8,7 +9,7 @@ exports.getAttendanceByDate = async (req, res) => {
     const { date, eventId } = req.query;
     
     let query = {};
-    if (eventId) {
+    if (eventId && mongoose.Types.ObjectId.isValid(eventId)) {
       query.eventId = eventId;
     } else if (date && date.trim() !== '' && date.trim() !== 'all') {
       query.date = date.trim();
@@ -69,6 +70,7 @@ exports.getAttendanceByDate = async (req, res) => {
 
     res.json(result);
   } catch (err) {
+    console.error('getAttendanceByDate error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -78,8 +80,8 @@ exports.markAttendance = async (req, res) => {
     const { memberId, eventId, latitude, longitude, accuracy } = req.body;
     let targetDate = req.body.date;
 
-    if (!memberId) {
-      return res.status(400).json({ error: 'memberId is required.' });
+    if (!memberId || !mongoose.Types.ObjectId.isValid(memberId)) {
+      return res.status(400).json({ error: 'Valid memberId is required.' });
     }
 
     // Verify member exists
@@ -90,8 +92,8 @@ exports.markAttendance = async (req, res) => {
 
     const { currentDateIST, checkInTimeIST } = getISTTimeInfo();
 
-    // If eventId is provided, perform strict server-side IST date/time validation
-    if (eventId) {
+    // If eventId is provided and valid, perform strict server-side IST date/time validation
+    if (eventId && mongoose.Types.ObjectId.isValid(eventId)) {
       const event = await Event.findById(eventId);
       if (!event) {
         return res.status(404).json({ error: 'Event not found.' });
@@ -127,7 +129,7 @@ exports.markAttendance = async (req, res) => {
     }
 
     const record = await Attendance.create({
-      eventId: eventId || null,
+      eventId: (eventId && mongoose.Types.ObjectId.isValid(eventId)) ? eventId : null,
       memberId,
       date: targetDate,
       checkInTime: checkInTimeIST,
@@ -157,6 +159,7 @@ exports.markAttendance = async (req, res) => {
     if (err.code === 11000) {
       return res.status(400).json({ error: 'Duplicate attendance record detected.' });
     }
+    console.error('markAttendance error:', err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -164,8 +167,8 @@ exports.markAttendance = async (req, res) => {
 exports.checkUserAttendance = async (req, res) => {
   try {
     const { eventId, memberId } = req.query;
-    if (!eventId || !memberId) {
-      return res.status(400).json({ error: 'Both eventId and memberId are required.' });
+    if (!eventId || !memberId || !mongoose.Types.ObjectId.isValid(eventId) || !mongoose.Types.ObjectId.isValid(memberId)) {
+      return res.json({ marked: false, record: null });
     }
 
     const record = await Attendance.findOne({ eventId, memberId });
@@ -186,32 +189,44 @@ exports.checkUserAttendance = async (req, res) => {
 exports.clearAttendance = async (req, res) => {
   try {
     const { id, memberId, date, eventId } = req.query;
-    const targetId = id || req.query.attendanceId || req.body.id || req.body.attendanceId;
-    const targetMemberId = memberId || req.body.memberId;
-    const targetDate = date || req.body.date;
-    const targetEventId = eventId || req.body.eventId;
+    const targetId = id || req.query.attendanceId || req.body?.id || req.body?.attendanceId;
+    const targetMemberId = memberId || req.body?.memberId;
+    const targetDate = date || req.body?.date;
+    const targetEventId = eventId || req.body?.eventId;
 
-    if (targetId) {
+    // 1. Try deleting by attendance record ID first if provided and valid
+    if (targetId && mongoose.Types.ObjectId.isValid(targetId)) {
       const deleted = await Attendance.findByIdAndDelete(targetId);
       if (deleted) {
         return res.json({ message: 'Attendance record cleared successfully.' });
       }
     }
 
-    if (!targetMemberId) {
-      return res.status(400).json({ error: 'id or memberId is required.' });
+    // 2. Build flexible filter for deletion
+    let filter = {};
+    if (targetMemberId && mongoose.Types.ObjectId.isValid(targetMemberId)) {
+      filter.memberId = targetMemberId;
     }
 
-    let filter = { memberId: targetMemberId };
-    if (targetEventId) {
+    if (targetEventId && mongoose.Types.ObjectId.isValid(targetEventId)) {
       filter.eventId = targetEventId;
-    } else if (targetDate) {
-      filter.date = targetDate;
+    } else if (targetDate && String(targetDate).trim() !== '') {
+      filter.date = String(targetDate).trim();
+    }
+
+    // If no valid filter conditions were met, handle gracefully instead of crashing
+    if (Object.keys(filter).length === 0) {
+      if (targetId) {
+        // ID was provided but record wasn't found (already deleted)
+        return res.json({ message: 'Attendance record already cleared or not found.' });
+      }
+      return res.status(400).json({ error: 'Valid id, memberId, eventId, or date is required.' });
     }
 
     const result = await Attendance.deleteMany(filter);
     res.json({ message: 'Attendance record cleared successfully.', count: result.deletedCount });
   } catch (err) {
+    console.error('clearAttendance error:', err);
     res.status(500).json({ error: err.message });
   }
 };
