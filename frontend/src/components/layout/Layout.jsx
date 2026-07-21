@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from'react';
-import { Outlet, useLocation } from'react-router-dom';
-import Navbar from'./Navbar';
-import Footer from'./Footer';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 function ScrollProgress() {
   const [progress, setProgress] = useState(0);
@@ -20,10 +20,10 @@ function ScrollProgress() {
     <div
       className="fixed top-0 left-0 z-[100] h-[2px]"
       style={{
-        width:`${progress}%`,
-        background:'linear-gradient(to right, var(--color-secondary), var(--color-accent))',
-        transition:'width 0.1s linear',
-        transformOrigin:'left',
+        width: `${progress}%`,
+        background: 'linear-gradient(to right, var(--color-secondary), var(--color-accent))',
+        transition: 'width 0.1s linear',
+        transformOrigin: 'left',
       }}
       role="progressbar"
       aria-valuenow={Math.round(progress)}
@@ -40,21 +40,22 @@ export default function Layout() {
   useEffect(() => {
     // Override browser history scroll lag with strict instant top navigation
     setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior:'instant' });
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       document.documentElement.scrollTop = 0;
     }, 0);
   }, [pathname]);
 
   return (
     <div
-      className="overflow-x-hidden flex flex-col min-h-screen bg-transparent"
+      className="overflow-x-hidden flex flex-col min-h-screen bg-[#f6f7f9]"
       style={{
-        fontFamily:'var(--font-sans)',
+        fontFamily: 'var(--font-sans)',
       }}
     >
       <ScrollProgress />
       <Navbar />
-      <main className="flex-grow pt-[72px]">
+      {/* Foreground Main Container sitting on z-10 above the curtain reveal footer */}
+      <main className="relative z-10 flex-grow pt-[72px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06)] border-b border-gray-100/60">
         <Outlet />
       </main>
       <Footer />
