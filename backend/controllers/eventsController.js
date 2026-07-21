@@ -32,13 +32,15 @@ const getISTTimeInfo = () => {
 };
 
 const resolveEventDate = (event) => {
-  if (event.eventDate) return event.eventDate;
+  if (event.eventDate && String(event.eventDate).trim() !== '') return String(event.eventDate).trim();
   if (event.year && event.month && event.date) {
     const mStr = String(event.month).toLowerCase().trim().substring(0, 3);
     const mNum = monthMap[mStr] || '01';
     const dNum = String(event.date).trim().padStart(2, '0');
     const yNum = String(event.year).trim();
-    return `${yNum}-${mNum}-${dNum}`;
+    if (yNum.length === 4) {
+      return `${yNum}-${mNum}-${dNum}`;
+    }
   }
   return null;
 };
@@ -51,15 +53,8 @@ const computeAttendanceStatus = (event) => {
     };
   }
 
-  const targetDate = resolveEventDate(event);
-  if (!targetDate) {
-    return {
-      status: 'DISABLED',
-      message: 'Event date not configured.'
-    };
-  }
-
   const { currentDateIST, currentTimeIST } = getISTTimeInfo();
+  const targetDate = resolveEventDate(event) || currentDateIST;
   const openTime = event.attendanceOpenTime !== undefined && event.attendanceOpenTime !== null && event.attendanceOpenTime !== '' ? event.attendanceOpenTime : '07:00';
   const closeTime = event.attendanceCloseTime !== undefined && event.attendanceCloseTime !== null && event.attendanceCloseTime !== '' ? event.attendanceCloseTime : '08:00';
 
