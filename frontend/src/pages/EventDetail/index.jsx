@@ -5,7 +5,7 @@ import {
   Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle,
   UserCheck, CheckCircle2, Search, X, Ticket, ExternalLink, ShieldCheck, Navigation
 } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvent, checkAttendance, markEventAttendance } from '../../api/eventsApi';
 import { getMembers } from '../../api/membersApi';
@@ -19,7 +19,8 @@ const inView = (delay = 0) => ({
 
 export default function EventDetail() {
   const primaryTextClass = usePrimaryTextClass();
-  const { eventId } = useParams();
+  const { slug, eventId: legacyEventId } = useParams();
+  const eventId = slug || legacyEventId;
 
   // State
   const [ticketQuantities, setTicketQuantities] = useState({});
@@ -65,6 +66,10 @@ export default function EventDetail() {
 
   // Fetch event data
   const { data: event, loading, error } = useFetch(getEvent, eventId);
+
+  if (!eventId || eventId === 'undefined') {
+    return <Navigate to="/events" replace />;
+  }
 
   // Check if current member has already marked attendance from API & localStorage
   useEffect(() => {
