@@ -55,6 +55,7 @@ exports.getAttendanceByDate = async (req, res) => {
           memberId: m.memberId || `MEM-${m._id.toString().substring(18).toUpperCase()}`,
           chapter: m.chapter || 'Surat Platinum'
         },
+        id: att.id || null,
         checkInTime: att.checkInTime,
         status: att.status,
         latitude: att.latitude,
@@ -184,13 +185,21 @@ exports.checkUserAttendance = async (req, res) => {
 
 exports.clearAttendance = async (req, res) => {
   try {
-    const { memberId, date, eventId } = req.query;
+    const { id, memberId, date, eventId } = req.query;
+    const targetId = id || req.query.attendanceId || req.body.id || req.body.attendanceId;
     const targetMemberId = memberId || req.body.memberId;
     const targetDate = date || req.body.date;
     const targetEventId = eventId || req.body.eventId;
 
+    if (targetId) {
+      const deleted = await Attendance.findByIdAndDelete(targetId);
+      if (deleted) {
+        return res.json({ message: 'Attendance record cleared successfully.' });
+      }
+    }
+
     if (!targetMemberId) {
-      return res.status(400).json({ error: 'memberId is required.' });
+      return res.status(400).json({ error: 'id or memberId is required.' });
     }
 
     let filter = { memberId: targetMemberId };
@@ -200,8 +209,8 @@ exports.clearAttendance = async (req, res) => {
       filter.date = targetDate;
     }
 
-    await Attendance.findOneAndDelete(filter);
-    res.json({ message: 'Attendance record cleared successfully.' });
+    const result = await Attendance.deleteMany(filter);
+    res.json({ message: 'Attendance record cleared successfully.', count: result.deletedCount });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

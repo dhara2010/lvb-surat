@@ -148,12 +148,19 @@ export default function AttendanceManager({ token, showToast }) {
   };
 
   // Undo check-in (clear record)
-  const handleUndoCheckIn = async (memberId) => {
-    if (!window.confirm('Are you sure you want to reset this check-in?')) return;
+  const handleUndoCheckIn = async (item) => {
+    const memberName = item.member.name;
+    const memberId = item.member.id;
+    if (!window.confirm(`Are you sure you want to reset check-in for ${memberName}?`)) return;
     try {
       let delUrl = `${apiUrl}/api/attendance?memberId=${memberId}`;
+      if (item.id) {
+        delUrl += `&id=${item.id}`;
+      }
       if (selectedEventId) {
         delUrl += `&eventId=${selectedEventId}`;
+      } else if (item.eventId) {
+        delUrl += `&eventId=${item.eventId}`;
       } else if (date) {
         delUrl += `&date=${date}`;
       }
@@ -165,15 +172,19 @@ export default function AttendanceManager({ token, showToast }) {
         }
       });
 
-      if (!res.ok) throw new Error('Failed to undo check-in.');
+      if (!res.ok) {
+        const errJson = await res.json().catch(() => ({}));
+        throw new Error(errJson.error || errJson.message || 'Failed to undo check-in.');
+      }
       
-      setData(prev => prev.map(item => {
-        if (item.member.id === memberId) {
-          return { ...item, checkInTime: '-', status: 'Not Arrived', latitude: null, longitude: null };
+      setData(prev => prev.map(i => {
+        if (i.member.id === memberId) {
+          return { ...i, checkInTime: '-', status: 'Not Arrived', latitude: null, longitude: null, id: null };
         }
-        return item;
+        return i;
       }));
       showToast('Check-in reset successfully', 'success');
+      loadAttendance();
     } catch (err) {
       showToast(err.message, 'error');
     }
@@ -460,7 +471,7 @@ export default function AttendanceManager({ token, showToast }) {
                   <td className="p-4 text-right">
                     {item.status === 'Present' ? (
                       <button 
-                        onClick={() => handleUndoCheckIn(item.member.id)}
+                        onClick={() => handleUndoCheckIn(item)}
                         className="text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 p-2 rounded-xl transition-all cursor-pointer inline-flex items-center justify-center gap-1"
                         title="Reset Check-in"
                       >
