@@ -27,7 +27,8 @@ import Preloader from './components/Preloader';
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'members', label: 'Members', icon: Users },
-  { id: 'attendance', label: 'Attendance', icon: UserCheck },
+  { id: 'attendance', label: 'Checkins', icon: UserCheck },
+  { id: 'event-attendance', label: 'Event Attend.', icon: Calendar },
   { id: 'events', label: 'Events', icon: Calendar },
   { id: 'gallery', label: 'Gallery', icon: ImageIcon },
   { id: 'leaders', label: 'Leaders', icon: Shield },
@@ -425,6 +426,7 @@ export default function App() {
                 {activeTab === 'dashboard' && <DashboardHome setTab={handleNavClick} showToast={showToast} />}
                 {activeTab === 'members' && <MembersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'attendance' && <AttendanceManager token={token} showToast={showToast} />}
+                {activeTab === 'event-attendance' && <EventAttendanceManager token={token} showToast={showToast} />}
                 {activeTab === 'events' && <EventsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'gallery' && <GalleryManager token={token} showToast={showToast} />}
                 {activeTab === 'leaders' && <LeadersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
