@@ -74,7 +74,7 @@ export default function PremiumCursor() {
 
   return (
     <div 
-      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden hidden lg:block"
+      className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden block"
       style={{ perspective: '800px' }}
     >
       {/* Outer 3D Sphere Orb */}

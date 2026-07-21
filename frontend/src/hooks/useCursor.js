@@ -9,7 +9,9 @@ export function useCursor() {
 
   useEffect(() => {
     const checkTouch = () => {
-      setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window);
+      const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      const hasHover = window.matchMedia('(hover: hover)').matches;
+      setIsTouchDevice(hasCoarsePointer && !hasHover);
     };
     checkTouch();
     window.addEventListener('resize', checkTouch);

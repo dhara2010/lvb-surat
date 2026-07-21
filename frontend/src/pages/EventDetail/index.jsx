@@ -5,7 +5,7 @@ import {
   Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle,
   UserCheck, CheckCircle2, Search, X, Ticket, ExternalLink, ShieldCheck, Navigation
 } from 'lucide-react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvent, checkAttendance, markEventAttendance } from '../../api/eventsApi';
 import { getMembers } from '../../api/membersApi';
@@ -19,8 +19,7 @@ const inView = (delay = 0) => ({
 
 export default function EventDetail() {
   const primaryTextClass = usePrimaryTextClass();
-  const { slug, eventId: legacyEventId } = useParams();
-  const eventId = slug || legacyEventId;
+  const { eventId } = useParams();
 
   // State
   const [ticketQuantities, setTicketQuantities] = useState({});
@@ -67,13 +66,9 @@ export default function EventDetail() {
   // Fetch event data
   const { data: event, loading, error } = useFetch(getEvent, eventId);
 
-  if (!eventId || eventId === 'undefined') {
-    return <Navigate to="/events" replace />;
-  }
-
   // Check if current member has already marked attendance from API & localStorage
   useEffect(() => {
-    if (eventId) {
+    if (eventId && eventId !== 'undefined') {
       try {
         const localSaved = localStorage.getItem(`lvb_marked_attendance_${eventId}`);
         if (localSaved) {
@@ -202,6 +197,10 @@ export default function EventDetail() {
       default: return <Users className="w-7 h-7" />;
     }
   };
+
+  if (!eventId || eventId === 'undefined') {
+    return <Navigate to="/events" replace />;
+  }
 
   if (loading) {
     return (
