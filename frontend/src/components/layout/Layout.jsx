@@ -38,7 +38,20 @@ function ScrollProgress() {
 
 export default function Layout() {
   const { pathname } = useLocation();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem('lvb_initial_preloader_done');
+    } catch {
+      return true;
+    }
+  });
+
+  const handlePreloaderComplete = () => {
+    setLoading(false);
+    try {
+      sessionStorage.setItem('lvb_initial_preloader_done', 'true');
+    } catch (e) {}
+  };
 
   useEffect(() => {
     // Override browser history scroll lag with strict instant top navigation
@@ -56,11 +69,11 @@ export default function Layout() {
       }}
     >
       <AnimatePresence mode="wait">
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
+        {loading && <Preloader onComplete={handlePreloaderComplete} />}
       </AnimatePresence>
 
       {!loading && (
-        <>
+        <div className="flex flex-col min-h-screen">
           <ScrollProgress />
           <Navbar />
           {/* Foreground Main Container sitting on z-10 above the curtain reveal footer */}
@@ -68,7 +81,7 @@ export default function Layout() {
             <Outlet />
           </main>
           <Footer />
-        </>
+        </div>
       )}
     </div>
   );
