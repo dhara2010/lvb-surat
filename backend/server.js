@@ -22,6 +22,8 @@ const blogsRoutes = require("./routes/blogsRoutes");
 const notificationsRoutes = require("./routes/notificationsRoutes");
 const attendanceRoutes = require("./routes/attendanceRoutes");
 const eventAttendanceRoutes = require("./routes/eventAttendanceRoutes");
+const paymentQRRoutes = require("./routes/paymentQRRoutes");
+const paymentProofRoutes = require("./routes/paymentProofRoutes");
 
 /* =========================================================
    CREATE EXPRESS APP
@@ -71,6 +73,12 @@ if (!fs.existsSync(galleryUploadsPath)) {
     recursive: true,
   });
 }
+
+// Create /uploads/qr & /uploads/proofs if not exist
+const qrPath = path.join(uploadsPath, "qr");
+const proofPath = path.join(uploadsPath, "proofs");
+if (!fs.existsSync(qrPath)) fs.mkdirSync(qrPath, { recursive: true });
+if (!fs.existsSync(proofPath)) fs.mkdirSync(proofPath, { recursive: true });
 
 console.log("======================================");
 console.log("Uploads Path:", uploadsPath);
@@ -273,6 +281,10 @@ app.use("/api/notifications", notificationsRoutes);
 app.use("/api/attendance", attendanceRoutes);
 
 app.use("/api/event-attendance", eventAttendanceRoutes);
+
+app.use("/api/payment-qr", paymentQRRoutes);
+
+app.use("/api/payment-proofs", paymentProofRoutes);
 
 /* =========================================================
    404 HANDLER

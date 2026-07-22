@@ -1,32 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
-    const duration = 2000; // 2 seconds loading
-    const steps = 100;
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  useEffect(() => {
+    const duration = 1800; // 1.8 seconds loading
+    const steps = 60;
     const interval = duration / steps;
     let current = 0;
 
     const timer = setInterval(() => {
-      if (current < 100) {
-        current += Math.random() > 0.5 ? 2 : 1;
-        if (current > 100) current = 100;
-        setProgress(current);
-      } else {
+      current += Math.floor(Math.random() * 4) + 2;
+      if (current >= 100) {
+        current = 100;
+        setProgress(100);
         clearInterval(timer);
-        setTimeout(onComplete, 500);
+        setTimeout(() => {
+          if (onCompleteRef.current) {
+            onCompleteRef.current();
+          }
+        }, 400);
+      } else {
+        setProgress(current);
       }
     }, interval);
 
     return () => clearInterval(timer);
-  }, [onComplete]);
+  }, []);
 
-  return (
+  return createPortal(
     <motion.div 
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-black"
+      className="fixed inset-0 z-[999999] flex flex-col items-center justify-center bg-black pointer-events-auto"
       initial={{ y: 0 }}
       exit={{ y: "-100%", transition: { duration: 1.1, ease: [0.76, 0, 0.24, 1] } }}
     >
@@ -60,6 +71,7 @@ export default function Preloader({ onComplete }) {
           transition={{ ease: "linear", duration: 0.1 }}
         />
       </div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }

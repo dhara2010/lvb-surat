@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import Preloader from '../ui/Preloader';
+import { AnimatePresence } from 'framer-motion';
 
 function ScrollProgress() {
   const [progress, setProgress] = useState(0);
@@ -36,6 +38,7 @@ function ScrollProgress() {
 
 export default function Layout() {
   const { pathname } = useLocation();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Override browser history scroll lag with strict instant top navigation
@@ -52,13 +55,21 @@ export default function Layout() {
         fontFamily: 'var(--font-sans)',
       }}
     >
-      <ScrollProgress />
-      <Navbar />
-      {/* Foreground Main Container sitting on z-10 above the curtain reveal footer */}
-      <main className="relative z-10 flex-grow pt-[72px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06)] border-b border-gray-100/60">
-        <Outlet />
-      </main>
-      <Footer />
+      <AnimatePresence mode="wait">
+        {loading && <Preloader onComplete={() => setLoading(false)} />}
+      </AnimatePresence>
+
+      {!loading && (
+        <>
+          <ScrollProgress />
+          <Navbar />
+          {/* Foreground Main Container sitting on z-10 above the curtain reveal footer */}
+          <main className="relative z-10 flex-grow pt-[72px] bg-white shadow-[0_20px_50px_rgba(0,0,0,0.06)] border-b border-gray-100/60">
+            <Outlet />
+          </main>
+          <Footer />
+        </>
+      )}
     </div>
   );
 }

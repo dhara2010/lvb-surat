@@ -3,12 +3,14 @@ import { usePrimaryTextClass } from '../../hooks/useTheme';
 import { motion } from 'framer-motion';
 import { 
   Calendar, Clock, MapPin, Mic, Briefcase, Users, ChevronDown, AlertCircle,
-  UserCheck, CheckCircle2, Search, X, Ticket, ExternalLink, ShieldCheck, Navigation
+  UserCheck, CheckCircle2, Search, X, Ticket, ExternalLink, ShieldCheck, Navigation,
+  Upload, QrCode, Image as ImageIcon, Loader2, CheckCircle
 } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { getEvent, checkAttendance, markEventAttendance } from '../../api/eventsApi';
 import { getMembers } from '../../api/membersApi';
+import { getPaymentQR, submitPaymentProof, checkUserSubmission } from '../../api/paymentApi';
 import PageHeader from '../../components/ui/PageHeader';
 
 const inView = (delay = 0) => ({
@@ -62,6 +64,155 @@ export default function EventDetail() {
   const [attSubmitting, setAttSubmitting] = useState(false);
   const [attMessage, setAttMessage] = useState('');
   const [attMessageType, setAttMessageType] = useState('info'); // 'info' | 'success' | 'error'
+
+  // Payment QR & Proof States
+  const [paymentQrUrl, setPaymentQrUrl] = useState(null);
+  const [loadingQr, setLoadingQr] = useState(false);
+  const [proofFile, setProofFile] = useState(null);
+  const [proofPreviewUrl, setProofPreviewUrl] = useState(null);
+  const [uploadingProof, setUploadingProof] = useState(false);
+  const [proofSuccess, setProofSuccess] = useState(false);
+  const [proofError, setProofError] = useState('');
+  const [userName, setUserName] = useState(selectedMember?.name || '');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPhone, setUserPhone] = useState('');
+  const [existingSubmission, setExistingSubmission] = useState(null);
+
+  useEffect(() => {
+    if (selectedMember && selectedMember.name && !userName) {
+      setUserName(selectedMember.name);
+    }
+  }, [selectedMember]);
+
+  // Lock background body & html scroll when payment modal is open
+  useEffect(() => {
+    if (ticketModalOpen) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [ticketModalOpen]);
+
+  // Load QR code & check submission when ticket modal opens
+  useEffect(() => {
+    if (ticketModalOpen && eventId) {
+      setLoadingQr(true);
+      getPaymentQR()
+        .then(res => {
+          if (res && res.qrCodeUrl) {
+            const fullUrl = res.qrCodeUrl.startsWith('http') 
+              ? res.qrCodeUrl 
+              : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${res.qrCodeUrl}`;
+            setPaymentQrUrl(fullUrl);
+          } else {
+            setPaymentQrUrl(null);
+          }
+        })
+        .catch(err => {
+          console.error('Failed to fetch payment QR:', err);
+          setPaymentQrUrl(null);
+        })
+        .finally(() => setLoadingQr(false));
+
+      // Check existing submission locally or backend
+      try {
+        const localSaved = localStorage.getItem(`lvb_payment_proof_${eventId}`);
+        if (localSaved) {
+          setExistingSubmission(JSON.parse(localSaved));
+        }
+      } catch (e) {}
+
+      if (selectedMember) {
+        checkUserSubmission(eventId, selectedMember.id || selectedMember._id, selectedMember.name)
+          .then(res => {
+            if (res && res.submission) {
+              setExistingSubmission(res.submission);
+            }
+          })
+          .catch(() => {});
+      }
+    }
+  }, [ticketModalOpen, eventId, selectedMember]);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type.toLowerCase())) {
+      setProofError('Please upload a valid image file (JPG, JPEG, PNG, or WEBP).');
+      setProofFile(null);
+      setProofPreviewUrl(null);
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setProofError('File size exceeds 10 MB. Please upload a smaller image.');
+      setProofFile(null);
+      setProofPreviewUrl(null);
+      return;
+    }
+
+    setProofError('');
+    setProofFile(file);
+    setProofPreviewUrl(URL.createObjectURL(file));
+  };
+
+  const handleSubmitPaymentProof = async () => {
+    if (!proofFile) {
+      setProofError('Please upload your payment screenshot proof before submitting.');
+      return;
+    }
+
+    if (!userName.trim()) {
+      setProofError('Please enter your name.');
+      return;
+    }
+
+    setUploadingProof(true);
+    setProofError('');
+
+    try {
+      const selectedTickets = tickets
+        .map((t, idx) => ({ ...t, qty: ticketQuantities[idx] || 0 }))
+        .filter(t => t.qty > 0);
+
+      const categoryText = selectedTickets.map(t => `${t.category} (x${t.qty})`).join(', ') || 'General Ticket';
+      const singlePrice = selectedTickets.length === 1 ? parseFloat(selectedTickets[0].price) || 0 : 0;
+
+      const formData = new FormData();
+      formData.append('proofImage', proofFile);
+      formData.append('eventId', eventId);
+      formData.append('eventTitle', event?.title || 'Event Ticket');
+      formData.append('ticketCategory', categoryText);
+      formData.append('ticketPrice', singlePrice);
+      formData.append('quantity', selectedTicketCount);
+      formData.append('totalAmount', totalTicketCost);
+      formData.append('memberId', selectedMember?.id || selectedMember?._id || '');
+      formData.append('userName', userName.trim());
+      formData.append('userEmail', userEmail.trim());
+      formData.append('userPhone', userPhone.trim());
+
+      const res = await submitPaymentProof(formData);
+      setProofSuccess(true);
+      const submissionData = res.data || { status: 'Pending', submissionDate: new Date() };
+      setExistingSubmission(submissionData);
+      try {
+        localStorage.setItem(`lvb_payment_proof_${eventId}`, JSON.stringify(submissionData));
+      } catch (e) {}
+    } catch (err) {
+      console.error('Payment proof submission error:', err);
+      setProofError(err.message || 'Failed to submit payment proof. Please try again.');
+    } finally {
+      setUploadingProof(false);
+    }
+  };
 
   // Fetch event data
   const { data: event, loading, error } = useFetch(getEvent, eventId);
@@ -742,69 +893,284 @@ export default function EventDetail() {
         </div>
       )}
 
-      {/* ─── TICKET CHECKOUT / CONFIRMATION MODAL ─────────── */}
+      {/* ─── TICKET CHECKOUT & PAYMENT MODAL ─────────── */}
       {ticketModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200">
-            <div className="flex justify-between items-center p-6 border-b border-gray-100 bg-gray-50">
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
+          <div className="w-full max-w-4xl max-h-[88vh] flex flex-col bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 my-auto relative">
+            
+            {/* Modal Header (Fixed at top of modal box) */}
+            <div className="shrink-0 flex justify-between items-center px-6 py-4.5 border-b border-gray-100 bg-gray-50/90">
               <div className="flex items-center gap-3">
-                <Ticket className="w-6 h-6 text-secondary" />
+                <div className="w-10 h-10 rounded-2xl bg-cyan-100 border border-cyan-200 flex items-center justify-center text-cyan-700 shadow-sm shrink-0">
+                  <Ticket className="w-5 h-5" />
+                </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-800">Ticket Registration</h3>
-                  <p className="text-xs text-slate-500">{event.title}</p>
+                  <h3 className="text-lg sm:text-xl font-black text-slate-800 tracking-tight">Ticket Checkout & Payment</h3>
+                  <p className="text-xs font-medium text-slate-500 line-clamp-1">{event.title}</p>
                 </div>
               </div>
               <button 
-                onClick={() => setTicketModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 p-2 rounded-xl hover:bg-gray-200 transition-colors"
+                onClick={() => {
+                  setTicketModalOpen(false);
+                  setProofSuccess(false);
+                  setProofError('');
+                }}
+                className="text-gray-400 hover:text-gray-700 p-2 rounded-xl hover:bg-gray-200 transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 flex flex-col gap-4">
-              <div className="bg-gray-50 border border-gray-100 rounded-2xl p-4 flex flex-col gap-3">
-                <h4 className="font-bold text-slate-700 text-xs uppercase tracking-wider border-b border-gray-200 pb-2">Selected Tickets</h4>
-                {tickets.map((t, idx) => {
-                  const qty = ticketQuantities[idx] || 0;
-                  if (!qty) return null;
-                  const itemTotal = (parseFloat(t.price) || 0) * qty;
-                  return (
-                    <div key={idx} className="flex justify-between items-center text-sm">
-                      <div className="font-medium text-slate-800">{t.category} x {qty}</div>
-                      <div className="font-bold text-slate-900">₹ {itemTotal.toFixed(2)}</div>
-                    </div>
-                  );
-                })}
-                <div className="flex justify-between items-center text-base font-extrabold border-t border-gray-200 pt-3 text-secondary">
-                  <span>Grand Total</span>
-                  <span>₹ {totalTicketCost.toFixed(2)}</span>
+            {/* Modal Inner Content Body (Internal Box Scrolling) */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
+
+              {/* ── SUCCESS STATE CARD ── */}
+              {proofSuccess ? (
+                <div className="flex flex-col items-center text-center p-6 sm:p-8 bg-emerald-50 border border-emerald-200 rounded-3xl gap-5 max-w-lg mx-auto">
+                  <div className="w-16 h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center text-3xl shadow-lg animate-bounce">
+                    ✓
+                  </div>
+                  <div>
+                    <h4 className="text-xl sm:text-2xl font-black text-emerald-900">
+                      Payment Proof Uploaded Successfully! ✓
+                    </h4>
+                    <p className="text-sm font-semibold text-emerald-800 mt-2">
+                      Thank you. Your payment is under verification.
+                    </p>
+                    <p className="text-xs text-emerald-700 mt-1">
+                      Our HR/Admin team will contact you within 15–30 minutes.
+                    </p>
+                  </div>
+                  <button 
+                    onClick={() => {
+                      setTicketModalOpen(false);
+                      setProofSuccess(false);
+                      setTicketQuantities({});
+                    }}
+                    className="mt-2 w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl transition-all shadow-md text-sm"
+                  >
+                    Done & Close
+                  </button>
                 </div>
-              </div>
+              ) : existingSubmission && existingSubmission.status === 'Pending' ? (
+                /* ── PENDING VERIFICATION STATE CARD ── */
+                <div className="flex flex-col items-center text-center p-6 sm:p-8 bg-amber-50 border border-amber-200 rounded-3xl gap-5 max-w-lg mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-amber-100 border border-amber-300 text-amber-600 flex items-center justify-center text-2xl">
+                    ⏳
+                  </div>
+                  <div>
+                    <span className="inline-block px-3 py-1 bg-amber-200 text-amber-900 text-xs font-bold rounded-full mb-2">
+                      Status: Under Verification
+                    </span>
+                    <h4 className="text-lg sm:text-xl font-bold text-amber-900">
+                      Payment Submission Received
+                    </h4>
+                    <p className="text-xs text-amber-800 mt-1 leading-relaxed">
+                      You have already submitted a payment proof for this event. Our HR/Admin team is currently reviewing your submission and will contact you within 15–30 minutes.
+                    </p>
+                  </div>
+                  <div className="w-full bg-white p-4 rounded-2xl border border-amber-200 text-xs text-left flex flex-col gap-1.5 shadow-sm">
+                    <div><strong className="text-slate-700">Ticket:</strong> {existingSubmission.ticketCategory}</div>
+                    <div><strong className="text-slate-700">Total Amount:</strong> ₹ {existingSubmission.totalAmount}</div>
+                    <div><strong className="text-slate-700">Submitted Name:</strong> {existingSubmission.userName}</div>
+                  </div>
+                  <button 
+                    onClick={() => setTicketModalOpen(false)}
+                    className="w-full py-3.5 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-2xl transition-all shadow-md text-sm"
+                  >
+                    Close Modal
+                  </button>
+                </div>
+              ) : (
+                /* ── 2-COLUMN PROFESSIONAL RESPONSIVE PAYMENT SCREEN ── */
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 items-start">
+                  
+                  {/* ── LEFT COLUMN: TICKET DETAILS + USER INFO + PROOF UPLOAD ── */}
+                  <div className="flex flex-col gap-5">
+                    
+                    {/* Selected Tickets Summary */}
+                    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col gap-2.5 shadow-sm">
+                      <h4 className="font-extrabold text-slate-700 text-xs uppercase tracking-wider border-b border-slate-200 pb-2">
+                        Selected Ticket Summary
+                      </h4>
+                      {tickets.map((t, idx) => {
+                        const qty = ticketQuantities[idx] || 0;
+                        if (!qty) return null;
+                        const itemTotal = (parseFloat(t.price) || 0) * qty;
+                        return (
+                          <div key={idx} className="flex justify-between items-center text-xs sm:text-sm font-semibold text-slate-800">
+                            <span>{t.category} x {qty}</span>
+                            <span className="font-extrabold text-slate-900">₹ {itemTotal.toFixed(2)}</span>
+                          </div>
+                        );
+                      })}
+                      <div className="flex justify-between items-center text-sm sm:text-base font-black border-t border-slate-200 pt-2.5 text-secondary">
+                        <span>Total Amount Payable</span>
+                        <span className="text-base sm:text-lg font-black text-cyan-700">₹ {totalTicketCost.toFixed(2)}</span>
+                      </div>
+                    </div>
 
-              <div className="p-4 bg-cyan-50 border border-cyan-100 rounded-2xl text-xs text-cyan-900 leading-relaxed">
-                <p className="font-bold mb-1">Registration Instructions:</p>
-                Please contact the event organizer or chapter leadership to finalize payment and receive your official pass.
-              </div>
+                    {/* Contact Details Form */}
+                    <div className="flex flex-col gap-3">
+                      <h4 className="font-extrabold text-slate-800 text-xs uppercase tracking-wider">
+                        Contact Details for Pass Verification
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="sm:col-span-2">
+                          <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wide block mb-1">Full Name *</label>
+                          <input 
+                            type="text" 
+                            required
+                            placeholder="Enter your full name"
+                            value={userName}
+                            onChange={e => setUserName(e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-200 p-2.5 sm:p-3 rounded-xl text-slate-800 text-xs sm:text-sm font-medium outline-none focus:border-cyan-500 transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wide block mb-1">Phone Number</label>
+                          <input 
+                            type="tel" 
+                            placeholder="Phone / WhatsApp"
+                            value={userPhone}
+                            onChange={e => setUserPhone(e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-200 p-2.5 sm:p-3 rounded-xl text-slate-800 text-xs sm:text-sm font-medium outline-none focus:border-cyan-500 transition-colors"
+                          />
+                        </div>
+                        <div>
+                          <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wide block mb-1">Email Address</label>
+                          <input 
+                            type="email" 
+                            placeholder="email@example.com"
+                            value={userEmail}
+                            onChange={e => setUserEmail(e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-200 p-2.5 sm:p-3 rounded-xl text-slate-800 text-xs sm:text-sm font-medium outline-none focus:border-cyan-500 transition-colors"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-              <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-                <button 
-                  onClick={() => setTicketModalOpen(false)} 
-                  className="px-5 py-2.5 text-sm font-semibold text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
-                >
-                  Close
-                </button>
-                <button 
-                  onClick={() => {
-                    alert('Thank you! Your ticket reservation request has been received.');
-                    setTicketModalOpen(false);
-                    setTicketQuantities({});
-                  }}
-                  className="btn-primary py-2.5 px-6 text-sm"
-                >
-                  Confirm Registration
-                </button>
-              </div>
+                    {/* Upload Payment Screenshot Section */}
+                    {paymentQrUrl && (
+                      <div className="flex flex-col gap-3 pt-2 border-t border-slate-200">
+                        <label className="font-extrabold text-slate-800 text-xs uppercase tracking-wider block">
+                          Upload Payment Screenshot *
+                        </label>
+
+                        <div className="relative border-2 border-dashed border-slate-300 hover:border-cyan-500 rounded-2xl p-3.5 bg-slate-50 transition-colors text-center cursor-pointer flex flex-col items-center gap-2">
+                          <input 
+                            type="file" 
+                            accept="image/jpeg,image/jpg,image/png,image/webp"
+                            onChange={handleFileChange}
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                          />
+
+                          {proofPreviewUrl ? (
+                            <div className="flex flex-col items-center gap-2">
+                              <div className="relative max-h-32 rounded-xl overflow-hidden border border-slate-300 shadow-sm">
+                                <img src={proofPreviewUrl} alt="Screenshot Preview" className="max-h-32 object-contain" />
+                              </div>
+                              <span className="text-xs font-bold text-emerald-600 flex items-center gap-1">
+                                <CheckCircle className="w-4 h-4" /> Screenshot attached: {proofFile?.name}
+                              </span>
+                              <span className="text-[10px] text-slate-400">Click or drag to replace screenshot</span>
+                            </div>
+                          ) : (
+                            <div className="flex flex-col items-center gap-1.5 text-slate-500 py-1">
+                              <Upload className="w-6 h-6 text-cyan-600 mb-0.5" />
+                              <span className="text-xs font-bold text-slate-700">Click to choose image or drag screenshot here</span>
+                              <span className="text-[10px] text-slate-400">Supported formats: JPG, JPEG, PNG, WEBP (Max 10 MB)</span>
+                            </div>
+                          )}
+                        </div>
+
+                        {proofError && (
+                          <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-xl flex items-center gap-2">
+                            <AlertCircle className="w-4 h-4 shrink-0" />
+                            {proofError}
+                          </div>
+                        )}
+
+                        {/* Submit Button */}
+                        <button 
+                          onClick={handleSubmitPaymentProof}
+                          disabled={uploadingProof || !proofFile}
+                          className="mt-1 w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold py-3 sm:py-3.5 px-6 rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-xs sm:text-sm tracking-wide"
+                        >
+                          {uploadingProof ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              Uploading Payment Proof...
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-4 h-4" />
+                              Submit Payment Proof
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* ── RIGHT COLUMN: PAYMENT QR CODE CARD ── */}
+                  <div className="flex flex-col gap-4 h-full">
+                    <div className="bg-slate-950 text-white p-5 sm:p-6 rounded-3xl border border-slate-800 shadow-xl flex flex-col items-center text-center gap-3.5 relative overflow-hidden">
+                      {/* Glow effects */}
+                      <div className="absolute -top-10 -right-10 w-40 h-40 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 w-full justify-center">
+                        <QrCode className="w-4 h-4 text-cyan-400" />
+                        <h4 className="font-extrabold text-cyan-300 text-xs sm:text-sm tracking-wider uppercase">
+                          Official Payment QR Code
+                        </h4>
+                      </div>
+
+                      {loadingQr ? (
+                        <div className="flex items-center justify-center p-10 text-xs text-slate-400 font-bold gap-2">
+                          <Loader2 className="w-6 h-6 animate-spin text-cyan-400" /> Loading payment QR code...
+                        </div>
+                      ) : paymentQrUrl ? (
+                        <>
+                          <div className="bg-white p-3.5 rounded-2xl shadow-2xl border border-slate-200 max-w-[210px] sm:max-w-[230px] transition-transform duration-300 hover:scale-[1.02]">
+                            <img 
+                              src={paymentQrUrl} 
+                              alt="Payment QR Code" 
+                              className="w-full h-auto object-contain rounded-lg"
+                            />
+                          </div>
+
+                          <div className="flex flex-col gap-1">
+                            <p className="text-xs sm:text-sm font-extrabold text-white tracking-wide">
+                              Scan QR code & complete payment
+                            </p>
+                            <p className="text-[11px] text-slate-400">
+                              Supported via Google Pay, PhonePe, Paytm, or BHIM UPI
+                            </p>
+                          </div>
+
+                          <div className="w-full bg-slate-900/80 border border-slate-800 p-2.5 sm:p-3 rounded-2xl flex items-center justify-between text-xs mt-1">
+                            <span className="text-slate-400 font-medium">Grand Total</span>
+                            <span className="text-sm sm:text-base font-black text-emerald-400">₹ {totalTicketCost.toFixed(2)}</span>
+                          </div>
+                        </>
+                      ) : (
+                        /* If Admin has not uploaded a QR code */
+                        <div className="p-5 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-xs text-amber-200 flex flex-col items-center gap-3 text-center my-3">
+                          <AlertCircle className="w-7 h-7 text-amber-400" />
+                          <div>
+                            <strong className="font-bold text-amber-300 text-sm block mb-1">Payment Option Unavailable</strong>
+                            No payment QR code has been configured by Admin yet. Please contact leadership to process your ticket.
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                </div>
+              )}
+
             </div>
           </div>
         </div>

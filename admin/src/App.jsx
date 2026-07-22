@@ -4,7 +4,7 @@ import {
   Users, Calendar, Image as ImageIcon, MessageSquare, 
   MapPin, BookOpen, Bell, Settings, LogOut, ShieldCheck, 
   Shield, LayoutDashboard, Menu, X, Sun, Moon, Lock,
-  Eye, EyeOff, UserCheck, CheckCircle2, AlertCircle, Info
+  Eye, EyeOff, UserCheck, CheckCircle2, AlertCircle, Info, QrCode, CreditCard
 } from 'lucide-react';
 
 import logoImg from './assets/LVB_Platinum-removebg-preview.png';
@@ -22,6 +22,8 @@ import SettingsManager from './pages/Settings/SettingsManager';
 import AdminsManager from './pages/Admins/AdminsManager';
 import AttendanceManager from './pages/Attendance/AttendanceManager';
 import EventAttendanceManager from './pages/EventAttendance/EventAttendanceManager';
+import PaymentQRManager from './pages/PaymentQR/PaymentQRManager';
+import PaymentProofsManager from './pages/PaymentProofs/PaymentProofsManager';
 import Preloader from './components/Preloader';
 
 const NAV_ITEMS = [
@@ -36,6 +38,8 @@ const NAV_ITEMS = [
   { id: 'chapters', label: 'Chapters', icon: MapPin },
   { id: 'blogs', label: 'Blogs', icon: BookOpen },
   { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'payment-qr', label: 'Payment QR Code', icon: QrCode },
+  { id: 'payment-proofs', label: 'Ticket Payments', icon: CreditCard },
   { id: 'admins', label: 'Admin Accounts', icon: Lock },
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
@@ -290,6 +294,8 @@ export default function App() {
     { id: 'chapters', label: 'Chapters', icon: MapPin },
     { id: 'blogs', label: 'Blogs', icon: BookOpen },
     { id: 'notifications', label: 'Notifications', icon: Bell },
+    { id: 'payment-qr', label: 'Payment QR Code', icon: QrCode },
+    { id: 'payment-proofs', label: 'Ticket Payments', icon: CreditCard },
     { id: 'admins', label: 'Admin Accounts', icon: Lock },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
@@ -434,6 +440,8 @@ export default function App() {
                 {activeTab === 'chapters' && <ChaptersManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'blogs' && <BlogsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'notifications' && <NotificationsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
+                {activeTab === 'payment-qr' && <PaymentQRManager token={token} showToast={showToast} />}
+                {activeTab === 'payment-proofs' && <PaymentProofsManager token={token} showToast={showToast} />}
                 {activeTab === 'admins' && <AdminsManager token={token} showToast={showToast} scrollToTop={scrollToTop} />}
                 {activeTab === 'settings' && <SettingsManager token={token} showToast={showToast} />}
               </motion.div>

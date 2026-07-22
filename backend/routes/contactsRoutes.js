@@ -5,5 +5,6 @@ const authenticateToken = require('../middleware/auth');
 
 router.get('/', authenticateToken, contactsController.getContacts);
 router.post('/', contactsController.createContact);
+router.delete('/:id', authenticateToken, contactsController.deleteContact);
 
 module.exports = router;
